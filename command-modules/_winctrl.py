@@ -1,25 +1,34 @@
 ﻿#
-# This file is part of Dragonfly.
-# (c) Copyright 2007, 2008 by Christo Butcher
-# Licensed under the LGPL.
-#
-#   Dragonfly is free software: you can redistribute it and/or modify it 
-#   under the terms of the GNU Lesser General Public License as published 
-#   by the Free Software Foundation, either version 3 of the License, or 
-#   (at your option) any later version.
-#
-#   Dragonfly is distributed in the hope that it will be useful, but 
-#   WITHOUT ANY WARRANTY; without even the implied warranty of 
-#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
-#   Lesser General Public License for more details.
-#
-#   You should have received a copy of the GNU Lesser General Public 
-#   License along with Dragonfly.  If not, see 
-#   <http://www.gnu.org/licenses/>.
+# This file is a command-module for the Dragonfly library.
+#    (c) Copyright 2008 by Christo
+# Licensed under the LGPL, see <http://www.gnu.org/licenses/> for more info.
 #
 
+"""
+    This module offers control of application windows.  This includes
+    naming windows, bringing named windows to the foreground, and
+    resizing and positioning windows.
 
-#---------------------------------------------------------------------------
+    The following voice commands are available:
+
+    -- "name window <dictation>"
+    Assigns the given name to the current foreground window.
+
+    -- "focus <window name>" or "bring <window name> to the foreground"
+    Brings the named window to the foreground.
+
+    -- "place <window> <position> [on <monitor>]"
+    Relocates the target window to the given position.
+    Example: "place window left" -> relocates the foreground window
+             to the left side of the monitor it's on.
+    Example: "place Firefox top right on monitor 2" -> relocates
+             the window which was previously named "Firefox" to the top right
+             corner of the second display monitor.
+
+    -- "stretch <window> <position>"
+    Stretches the target window to the given position.
+"""
+
 
 from dragonfly.grammar.grammar      import Grammar
 from dragonfly.grammar.elements     import Alternative, RuleRef, \
@@ -39,15 +48,15 @@ from dragonfly.config               import Config, Section, Item
 
 config = Config("Window control")
 config.lang                = Section("Language section")
-config.lang.name_win       = Item("new name (window | win) <name>",
+config.lang.name_win       = Item("name (window | win) <name>",
                                   doc="Command to give the foreground window a name; must contain the <name> extra.")
 config.lang.focus_win      = Item("focus <win_names> | bring <win_names> to [the] (top | foreground)",
                                   doc="Command to bring a named window to the foreground.")
-config.lang.translate_win  = Item("stellar place <win_selector> <position> [on <mon_selector>]",
+config.lang.translate_win  = Item("place <win_selector> <position> [on <mon_selector>]",
                                   doc="Command to translate a window.")
-config.lang.resize_win     = Item("stellar place <win_selector> [from] <position> [to] <position> [on <mon_selector>]",
+config.lang.resize_win     = Item("place <win_selector> [from] <position> [to] <position> [on <mon_selector>]",
                                   doc="Command to move and resize a window.")
-config.lang.stretch_win    = Item("stellar stretch <win_selector> [to] <position>",
+config.lang.stretch_win    = Item("stretch <win_selector> [to] <position>",
                                   doc="Command to stretch a window.")
 config.lang.win_selector   = Item("window | win | [window] <win_names>",
                                   doc="Partial command for specifying a window; must contain the <win_names> extra.")

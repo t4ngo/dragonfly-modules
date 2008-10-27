@@ -1,0 +1,167 @@
+#
+# Dragonfly config for Audacity control
+#
+
+
+#--- Language section ------------------------------------------------------
+
+# Spec starts a new project.
+# Default: '[start] new project'
+lang.new_project = '[start] nieuw project'
+
+# Spec opens an existing project.
+# Default: 'open project'
+lang.open_project = 'open project'
+
+# Spec closes currently open project.
+# Default: 'close [this] project'
+lang.close_project = 'sluit [dit] project'
+
+# Spec saves currently open project.
+# Default: 'save [this] project'
+lang.save_project = 'bewaar [dit] project'
+
+# Spec opens the selection tool.
+# Default: '[open] selection tool'
+lang.save_project = '[open] selectie tool'
+
+# Spec opens the envelope tool.
+# Default: '[open] envelope tool'
+lang.envelope_tool = '[open] envelope tool'
+
+# Spec opens the edit tool.
+# Default: '[open] edit tool'
+lang.edit_tool = '[open] edit tool'
+
+# Spec opens the zoom tool.
+# Default: '[open] zoom tool'
+lang.zoom_tool = '[open] zoom tool'
+
+# Spec opens the timeshift tool.
+# Default: '[open] timeshift tool'
+lang.timeshift_tool = '[open] timeshift tool'
+
+# Spec opens the multitool.
+# Default: '[open] multi tool'
+lang.multi_tool = '[open] multi tool'
+
+# Spec move to the next tool in toolbar.
+# Default: '[move to | go to] next tool'
+lang.next_toolbar_tool = '[ga naar] volgende tool'
+
+# Spec move to the previous tool in toolbar.
+# Default: '[move to | go to] previous tool'
+lang.previous_toolbar_tool = '[ga naar] vorige tool'
+
+# Spec insert silence at current position.
+# Default: '[insert | create] silence'
+lang.silence = '[maak] stilte'
+
+# Spec makes duplicate.
+# Default: '[make] duplicate'
+lang.duplicate = '[maak] duplicaat'
+
+# Spec finds zero crossings.
+# Default: '[find | search] zero crossings'
+lang.find_zero_crossings = '[vind | zoek] zero kruisingen'
+
+# Spec starts or stops playback.
+# Default: '[start | stop] playing'
+lang.play_stop = '[start | stop] afspelen'
+
+# Spec starts a loop.
+# Default: '[start] loop'
+lang.loop = '[start] loop'
+
+# Spec pauses current playback or recording.
+# Default: 'pause [playback | recording]'
+lang.pause = 'pauzeer [afspelen | opname]'
+
+# Spec starts recording.
+# Default: '[start | begin] recording'
+lang.record = '[start | begin] opname'
+
+# Spec plays one second at cursor position.
+# Default: '[play] cursor selection'
+lang.play_cursor_selection = '[speel] cursor punt'
+
+# Spec zooms in on current view.
+# Default: 'zoom in'
+lang.zoom_in = 'zoom in'
+
+# Spec zoom in or out to standard zoom level.
+# Default: '[return to] standard zoom level'
+lang.zoom_normal = '[ga terug] naar standaard zoom'
+
+# Spec zooms out on current view.
+# Default: 'zoom out'
+lang.zoom_out = 'zoom uit'
+
+# Spec fits the track in current window size.
+# Default: 'fit [track] to window'
+lang.fit_window = '[maak] passend in venster'
+
+# Spec makes all tracks visible in current window size.
+# Default: 'fit all tracks [to window]'
+lang.fit_vertically = 'laat alle tracks [in venster] zien'
+
+# Spec zooms in on your current selection.
+# Default: 'zoom [in] selection'
+lang.zoom_selection = 'zoom [in] op selectie'
+
+# Spec imports audio from your PC.
+# Default: 'import audio'
+lang.import_audio = 'importeer audio'
+
+# Spec creates a label.
+# Default: '[create | make] label'
+lang.create_label = '[create | make] label'
+
+# Spec repeats the last effect.
+# Default: 'repeat last effect'
+lang.repeat_last_effect = 'repeat last effect'
+
+# Spec deletes current selection and removes empty space.
+# Default: 'ripple delete selection'
+lang.ripple_delete = 'ripple delete selection'
+
+# Spec deletes current selection while leaving space empty.
+# Default:'split delete selection'
+lang.split_delete = 'split delete selection'
+
+# Spec splits new.
+# Default: 'split new'
+lang.split_new = 'split new'
+
+# Spec removes all empty spaces from track.
+# Default: 'join track'
+lang.join = 'join track'
+
+# Spec brings back empty spaces in track.
+# Default:  'disjoin track'
+lang.disjoin = 'disjoin track'
+
+# Spec mutes all tracks in file.
+# Default: 'mute all [tracks]'
+lang.mute_all_tracks= 'mute all [tracks]'
+
+# Spec unmutes all tracks in file.
+# Default: 'mute all [tracks]'
+lang.unmute_all_tracks = 'mute all [tracks]'
+
+# Spec collapses all tracks in file.
+# Default: 'collapse all [tracks]' 
+lang.collapse_all_tracks = 'collapse all [tracks]'
+
+# Spec expands all tracks in file.
+# Default: 'expand all [tracks]'
+lang.expand_all_tracks = 'expand_all_tracks'
+
+# Spec exports track to preferred file format.
+# Default : 'export track'
+lang.expand_all_tracks = 'export track'
+
+# Spec exports selection to preferred file format.
+# Default : 'export selection'
+lang.export_track = 'export selection'
+

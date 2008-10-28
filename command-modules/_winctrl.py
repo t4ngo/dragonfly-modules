@@ -5,28 +5,29 @@
 #
 
 """
-    This module offers control of application windows.  This includes
-    naming windows, bringing named windows to the foreground, and
-    resizing and positioning windows.
+This module offers control of application windows.  This includes
+naming windows, bringing named windows to the foreground, and
+resizing and positioning windows.
 
-    The following voice commands are available:
+The following voice commands are available:
 
-    -- "name window <dictation>"
-    Assigns the given name to the current foreground window.
+-- "name window <dictation>"
+Assigns the given name to the current foreground window.
 
-    -- "focus <window name>" or "bring <window name> to the foreground"
-    Brings the named window to the foreground.
+-- "focus <window name>" or "bring <window name> to the foreground"
+Brings the named window to the foreground.
 
-    -- "place <window> <position> [on <monitor>]"
-    Relocates the target window to the given position.
-    Example: "place window left" -> relocates the foreground window
-             to the left side of the monitor it's on.
-    Example: "place Firefox top right on monitor 2" -> relocates
-             the window which was previously named "Firefox" to the top right
-             corner of the second display monitor.
+-- "place <window> <position> [on <monitor>]"
+Relocates the target window to the given position.
+Example: "place window left" -> relocates the foreground window
+to the left side of the monitor it's on.
+Example: "place Firefox top right on monitor 2" -> relocates
+the window which was previously named "Firefox" to the top right
+   corner of the second display monitor.
 
-    -- "stretch <window> <position>"
-    Stretches the target window to the given position.
+ - "stretch <window> <position>"
+
+   Stretches the target window to the given position.
 """
 
 
@@ -119,7 +120,13 @@ class FocusWinRule(CompoundRule):
 
     def _process_recognition(self, node, extras):
         window = extras["win_names"]
-        window.set_foreground()
+        for attempt in range(4):
+            try:
+                window.set_foreground()
+            except Exception, e:
+                print "failed to set foreground:", e
+            else:
+                break
         self._log.debug("%s: bringing window '%s' to the foreground."
                         % (self, window))
 

@@ -1,3 +1,7 @@
+#
+# Script to generate documentation for Dragonfly command-modules.
+#
+
 import sys
 import os
 import os.path
@@ -23,6 +27,20 @@ class Formatter(object):
         text = textwrap.wrap(text, initial_indent="   ", subsequent_indent="   ")
         self.lines.extend([name, text, ""])
 
+    def add_textblock(self, text):
+        self.lines.extend(text.splitlines())
+        self.lines.append("")
+
+    def add_codeblock(self, text):
+        self.lines.extend([
+            ".. code-block:: python",
+            "   :linenos:",
+            "",
+            ])
+        prefix = "   "
+        lines = (prefix + l for l in text.splitlines())
+        self.lines.extend(lines)
+
 
 # Extract docscrings from command-modules.
 def extract_docstring(src_path, dst_path):
@@ -40,17 +58,10 @@ def extract_docstring(src_path, dst_path):
     if "__doc__" in namespace:
         module_doc = namespace["__doc__"]
         module_doc = textwrap.dedent(module_doc)
-        formatter.lines.extend(module_doc.splitlines())
-        formatter.lines.append("")
+        formatter.add_textblock(module_doc)
 
     formatter.add_subsection("Module source code")
-    formatter.lines.extend([
-        ".. code-block:: python",
-        "   :linenos:",
-        "",
-        ])
-    prefix = "   "
-    formatter.lines.extend([prefix + line[:-1] for line in open(src_path)])
+    formatter.add_codeblock(open(src_path).read())
 
     f = open(dst_path, "w")
     output = "\n".join(formatter.lines)

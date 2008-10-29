@@ -4,8 +4,9 @@ Dragonfly-modules documentation
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :glob:
 
+   mod-*
 
 
 Indices and tables

@@ -1,0 +1,435 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Command-module _word_styles.py &mdash; Dragonfly-modules v0.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+          URL_ROOT:    '',
+          VERSION:     '0.0',
+          COLLAPSE_MODINDEX: false,
+          FILE_SUFFIX: '.html'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="contents" title="Global table of contents" href="contents.html" />
+    <link rel="index" title="Global index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Dragonfly-modules v0.0 documentation" href="index.html" />
+    <link rel="next" title="Command-module notepad_example.py" href="mod-notepad_example.html" />
+    <link rel="prev" title="Command-module _winctrl.py" href="mod-_winctrl.html" />
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="mod-notepad_example.html" title="Command-module notepad_example.py"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="mod-_winctrl.html" title="Command-module _winctrl.py"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Dragonfly-modules v0.0 documentation</a> &raquo;</li>
+      </ul>
+    </div>
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  
+  <div class="section" id="command-module-word-styles-py">
+<h1>Command-module _word_styles.py<a class="headerlink" href="#command-module-word-styles-py" title="Permalink to this headline">¶</a></h1>
+<p>This command module controls styles in Microsoft Word.</p>
+<p>The following commands are available:</p>
+<p>&#8220;set style &lt;style&gt;&#8221; -&gt; format the current selection with
+the given style.  The &lt;style&gt; extra is a literal name of
+the style as is visible within Word.</p>
+<p>&#8220;(update | synchronize) styles&#8221; -&gt; refresh the list of
+styles known to this grammar.  This refresh action is also
+done automatically every time the Word application comes
+to the foreground.</p>
+<p>This command module makes use of various features of the
+Dragonfly library.  It uses the ConnectionGrammar to
+maintain a COM connection with Word when a Word window in
+the foreground.  Every time this connection is set up, the
+list of styles available in the current document is
+retrieved and made available to the &#8220;set style &lt;style&gt;&#8221;
+command.</p>
+<p>This command module uses Dragonfly&#8217;s configuration
+framework to allow multi-language support.</p>
+<div class="section" id="module-source-code">
+<h2>Module source code<a class="headerlink" href="#module-source-code" title="Permalink to this headline">¶</a></h2>
+<table class="highlighttable"><tr><td class="linenos"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+<span class="c"># This file is part of Dragonfly.</span>
+<span class="c"># (c) Copyright 2007, 2008 by Christo Butcher</span>
+<span class="c"># Licensed under the LGPL.</span>
+<span class="c">#</span>
+<span class="c">#   Dragonfly is free software: you can redistribute it and/or modify it</span>
+<span class="c">#   under the terms of the GNU Lesser General Public License as published</span>
+<span class="c">#   by the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c">#   (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c">#   Dragonfly is distributed in the hope that it will be useful, but</span>
+<span class="c">#   WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU</span>
+<span class="c">#   Lesser General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c">#   You should have received a copy of the GNU Lesser General Public</span>
+<span class="c">#   License along with Dragonfly.  If not, see</span>
+<span class="c">#   &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c">#</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This command module controls styles in Microsoft Word.</span>
+
+<span class="sd">    The following commands are available:</span>
+
+<span class="sd">    &quot;set style &lt;style&gt;&quot; -&gt; format the current selection with</span>
+<span class="sd">    the given style.  The &lt;style&gt; extra is a literal name of</span>
+<span class="sd">    the style as is visible within Word.</span>
+
+<span class="sd">    &quot;(update | synchronize) styles&quot; -&gt; refresh the list of</span>
+<span class="sd">    styles known to this grammar.  This refresh action is also</span>
+<span class="sd">    done automatically every time the Word application comes</span>
+<span class="sd">    to the foreground.</span>
+
+<span class="sd">    This command module makes use of various features of the</span>
+<span class="sd">    Dragonfly library.  It uses the ConnectionGrammar to</span>
+<span class="sd">    maintain a COM connection with Word when a Word window in</span>
+<span class="sd">    the foreground.  Every time this connection is set up, the</span>
+<span class="sd">    list of styles available in the current document is</span>
+<span class="sd">    retrieved and made available to the &quot;set style &lt;style&gt;&quot;</span>
+<span class="sd">    command.</span>
+
+<span class="sd">    This command module uses Dragonfly&#39;s configuration</span>
+<span class="sd">    framework to allow multi-language support.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+
+<span class="kn">import</span> <span class="nn">os.path</span>
+<span class="kn">from</span> <span class="nn">win32com.client</span>                <span class="kn">import</span> <span class="n">Dispatch</span>
+<span class="kn">from</span> <span class="nn">pywintypes</span>                     <span class="kn">import</span> <span class="n">com_error</span>
+
+<span class="kn">from</span> <span class="nn">dragonfly.grammar.grammar</span>      <span class="kn">import</span> <span class="n">ConnectionGrammar</span>
+<span class="kn">from</span> <span class="nn">dragonfly.grammar.context</span>      <span class="kn">import</span> <span class="n">AppContext</span>
+<span class="kn">from</span> <span class="nn">dragonfly.grammar.elements</span>     <span class="kn">import</span> <span class="n">DictListRef</span>
+<span class="kn">from</span> <span class="nn">dragonfly.grammar.compoundrule</span> <span class="kn">import</span> <span class="n">CompoundRule</span>
+<span class="kn">from</span> <span class="nn">dragonfly.grammar.list</span>         <span class="kn">import</span> <span class="n">DictList</span>
+<span class="kn">from</span> <span class="nn">dragonfly.config</span>               <span class="kn">import</span> <span class="n">Config</span><span class="p">,</span> <span class="n">Section</span><span class="p">,</span> <span class="n">Item</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+<span class="c"># Set up this module&#39;s configuration.</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="s">&quot;Microsoft Word styles control&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span>                <span class="o">=</span> <span class="n">Section</span><span class="p">(</span><span class="s">&quot;Language section&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">set_style</span>      <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;set style &lt;style&gt;&quot;</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Spec for setting a style; must contain the &lt;style&gt; extra.&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">update_styles</span>  <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;(update | synchronize) styles&quot;</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Spec for updating style list.&quot;</span><span class="p">)</span>
+<span class="c">#config.generate_config_file()</span>
+<span class="n">config</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+<span class="c"># StyleRule which keeps track of and can set available styles.</span>
+
+<span class="k">class</span> <span class="nc">StyleRule</span><span class="p">(</span><span class="n">CompoundRule</span><span class="p">):</span>
+
+    <span class="n">spec</span>   <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">set_style</span>
+    <span class="n">styles</span> <span class="o">=</span> <span class="n">DictList</span><span class="p">(</span><span class="s">&quot;styles&quot;</span><span class="p">)</span>
+    <span class="n">extras</span> <span class="o">=</span> <span class="p">[</span><span class="n">DictListRef</span><span class="p">(</span><span class="s">&quot;style&quot;</span><span class="p">,</span> <span class="n">styles</span><span class="p">)]</span>
+
+    <span class="k">def</span> <span class="nf">_process_recognition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">extras</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">document</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grammar</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">ActiveDocument</span>
+            <span class="n">document</span><span class="o">.</span><span class="n">ActiveWindow</span><span class="o">.</span><span class="n">Selection</span><span class="o">.</span><span class="n">Style</span> <span class="o">=</span> <span class="n">extras</span><span class="p">[</span><span class="s">&quot;style&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="n">com_error</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_proc</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_proc</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;Rule </span><span class="si">%s</span><span class="s">:&quot;</span>
+                    <span class="s">&quot; failed to set style: </span><span class="si">%s</span><span class="s">.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">reset_styles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="o">.</span><span class="n">set</span><span class="p">({})</span>
+
+    <span class="k">def</span> <span class="nf">update_styles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># Retrieve available styles.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">document</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grammar</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">ActiveDocument</span>
+            <span class="n">style_map</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span>  <span class="n">document</span><span class="o">.</span><span class="n">Styles</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">style_map</span><span class="p">))</span>
+        <span class="k">except</span> <span class="n">com_error</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_begin</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_begin</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;Rule </span><span class="si">%s</span><span class="s">:&quot;</span>
+                    <span class="s">&quot; failed to retrieve styles: </span><span class="si">%s</span><span class="s">.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="o">.</span><span class="n">set</span><span class="p">({})</span>
+
+<span class="n">style_rule</span> <span class="o">=</span> <span class="n">StyleRule</span><span class="p">()</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+<span class="c"># Synchronize styles rule for explicitly updating style list.</span>
+
+<span class="k">class</span> <span class="nc">SynchronizeStylesRule</span><span class="p">(</span><span class="n">CompoundRule</span><span class="p">):</span>
+
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">update_styles</span>
+
+    <span class="k">def</span> <span class="nf">_process_recognition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">extras</span><span class="p">):</span>
+        <span class="n">style_rule</span><span class="o">.</span><span class="n">update_styles</span><span class="p">()</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+<span class="c"># This module&#39;s main grammar.</span>
+
+<span class="k">class</span> <span class="nc">WordStylesGrammar</span><span class="p">(</span><span class="n">ConnectionGrammar</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="n">AppContext</span><span class="p">(</span><span class="n">executable</span><span class="o">=</span><span class="s">&quot;winword&quot;</span><span class="p">)</span>
+        <span class="n">app_name</span> <span class="o">=</span> <span class="s">&quot;Word.Application&quot;</span>
+        <span class="n">ConnectionGrammar</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span> <span class="n">app_name</span><span class="o">=</span><span class="n">app_name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">connection_up</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># Made connection with word -&gt; retrieve available styles.</span>
+        <span class="n">style_rule</span><span class="o">.</span><span class="n">update_styles</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">connection_down</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># Lost connection with word -&gt; empty style list.</span>
+        <span class="n">style_rule</span><span class="o">.</span><span class="n">reset_styles</span><span class="p">()</span>
+
+<span class="n">grammar</span> <span class="o">=</span> <span class="n">WordStylesGrammar</span><span class="p">()</span>
+<span class="n">grammar</span><span class="o">.</span><span class="n">add_rule</span><span class="p">(</span><span class="n">style_rule</span><span class="p">)</span>
+<span class="n">grammar</span><span class="o">.</span><span class="n">add_rule</span><span class="p">(</span><span class="n">SynchronizeStylesRule</span><span class="p">())</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+<span class="c"># Load the grammar instance and define how to unload it.</span>
+
+<span class="n">grammar</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="c"># Unload function which will be called by natlink at unload time.</span>
+<span class="k">def</span> <span class="nf">unload</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">grammar</span>
+    <span class="k">if</span> <span class="n">grammar</span><span class="p">:</span> <span class="n">grammar</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
+    <span class="n">grammar</span> <span class="o">=</span> <span class="bp">None</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3>Table Of Contents</h3>
+            <ul>
+<li><a class="reference external" href="">Command-module _word_styles.py</a><ul>
+<li><a class="reference external" href="#module-source-code">Module source code</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="mod-_winctrl.html" title="previous chapter">Command-module _winctrl.py</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="mod-notepad_example.html" title="next chapter">Command-module notepad_example.py</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/mod-_word_styles.txt">Show Source</a></li>
+            </ul>
+            <h3>Quick search</h3>
+            <form class="search" action="search.html" method="get">
+              <input type="text" name="q" size="18" /> <input type="submit" value="Go" />
+              <input type="hidden" name="check_keywords" value="yes" />
+              <input type="hidden" name="area" value="default" />
+            </form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="mod-notepad_example.html" title="Command-module notepad_example.py"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="mod-_winctrl.html" title="Command-module _winctrl.py"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Dragonfly-modules v0.0 documentation</a> &raquo;</li>
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2008, Christo Butcher.
+      Last updated on Oct 30, 2008.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

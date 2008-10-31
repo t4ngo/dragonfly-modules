@@ -20,6 +20,9 @@
 
 """
 
+Command-module for direct opening of user-defined targets
+=========================================================
+
 This module offers very easy and direct opening of user-defined 
 targets.
 

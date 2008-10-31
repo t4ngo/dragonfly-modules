@@ -1,6 +1,3 @@
-Command-module notepad_example.py
-=================================
-
 
 This module is a simple example of Dragonfly use.
 

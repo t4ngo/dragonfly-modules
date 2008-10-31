@@ -53,7 +53,7 @@ def extract_docstring(src_path, dst_path):
     formatter = Formatter()
 
     basename = os.path.basename(src_path)
-    formatter.add_section("Command-module %s" % basename)
+#    formatter.add_section("Command-module %s" % basename)
 
     if "__doc__" in namespace:
         module_doc = namespace["__doc__"]
@@ -84,7 +84,7 @@ python_binary = sys.executable
 build_binary = r"c:\python25\scripts\sphinx-build-script.py"
 build_type = "html"
 src_dir = os.path.abspath(os.path.join(directory, "doc-src"))
-dst_dir = os.path.abspath(os.path.join(directory, "documentation"))
+dst_dir = os.path.abspath(os.path.join(directory, "command-modules", "documentation"))
 
 arguments = [python_binary, build_binary, "-a", "-b", build_type, src_dir, dst_dir]
 print "Executing:", arguments

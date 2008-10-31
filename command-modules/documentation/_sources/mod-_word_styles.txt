@@ -1,6 +1,3 @@
-Command-module _word_styles.py
-==============================
-
 
 This command module controls styles in Microsoft Word.
 

@@ -1,6 +1,3 @@
-Command-module _taskbar.py
-==========================
-
 
 
 This file implements commands for controlling tasks on the 

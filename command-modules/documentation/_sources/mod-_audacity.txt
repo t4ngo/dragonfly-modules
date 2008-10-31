@@ -1,6 +1,3 @@
-Command-module _audacity.py
-===========================
-
 
 This module offers keystroke-based control of the Audacity
 audio-editing application.

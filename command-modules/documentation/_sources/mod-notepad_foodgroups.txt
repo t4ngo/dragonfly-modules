@@ -1,6 +1,3 @@
-Command-module notepad_foodgroups.py
-====================================
-
 
 This module demonstrates the use of Dragonfly's CompoundRule class.
 

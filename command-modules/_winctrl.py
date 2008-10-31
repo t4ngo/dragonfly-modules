@@ -5,29 +5,38 @@
 #
 
 """
-This module offers control of application windows.  This includes
-naming windows, bringing named windows to the foreground, and
-resizing and positioning windows.
+Command-module for moving and controlling windows
+=================================================
+
+This command-module offers commands for naming windows, bringing 
+named windows to the foreground, and positioning and resizing
+windows.
+
+Commands
+--------
 
 The following voice commands are available:
 
--- "name window <dictation>"
-Assigns the given name to the current foreground window.
+Command: **"name window <dictation>"**
+    Assigns the given name to the current foreground window.
 
--- "focus <window name>" or "bring <window name> to the foreground"
-Brings the named window to the foreground.
+Command: **"focus <window name>"** or **"bring <window name> to the foreground"**
+    Brings the named window to the foreground.
 
--- "place <window> <position> [on <monitor>]"
-Relocates the target window to the given position.
-Example: "place window left" -> relocates the foreground window
-to the left side of the monitor it's on.
-Example: "place Firefox top right on monitor 2" -> relocates
-the window which was previously named "Firefox" to the top right
+Command: **"place <window> <position> [on <monitor>]"**
+    Relocates the target window to the given position.
+
+Command: **"stretch <window> <position>"**
+    Stretches the target window to the given position.
+
+Usage examples
+--------------
+
+ - Say **"place window left"** to relocate the foreground window
+   to the left side of the monitor it's on.
+ - Say **"place Firefox top right on monitor 2"** to relocate
+   the window which was previously named "Firefox" to the top right
    corner of the second display monitor.
-
- - "stretch <window> <position>"
-
-   Stretches the target window to the given position.
 """
 
 
@@ -69,7 +78,7 @@ config.lang.top            = Item("top", doc="Word for top side of monitor.")
 config.lang.bottom         = Item("bottom", doc="Word for bottom side of monitor.")
 config.settings            = Section("Settings section")
 config.settings.grid       = Item(10, doc="The number of grid divisions a monitor is divided up into when placing windows.")
-config.generate_config_file()
+#config.generate_config_file()
 config.load()
 
 

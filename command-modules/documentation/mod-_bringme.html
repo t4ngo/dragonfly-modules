@@ -2,13 +2,13 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Command-module for direct opening of user-defined targets &mdash; Dragonfly-modules v0.0 documentation</title>
+    <title>Command-module for direct opening of user-defined targets &mdash; Dragonfly-modules v0.1 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
           URL_ROOT:    '',
-          VERSION:     '0.0',
+          VERSION:     '0.1',
           COLLAPSE_MODINDEX: false,
           FILE_SUFFIX: '.html'
       };
@@ -18,9 +18,9 @@
     <link rel="contents" title="Global table of contents" href="contents.html" />
     <link rel="index" title="Global index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="top" title="Dragonfly-modules v0.0 documentation" href="index.html" />
-    <link rel="next" title="Commands" href="mod-_taskbar.html" />
-    <link rel="prev" title="Module source code" href="mod-_audacity.html" />
+    <link rel="top" title="Dragonfly-modules v0.1 documentation" href="index.html" />
+    <link rel="next" title="Command-module for styles in Microsoft Word" href="mod-_word_styles.html" />
+    <link rel="prev" title="Command-module for taskbar and icon tray access" href="mod-_taskbar.html" />
   </head>
   <body>
     <div class="related">
@@ -33,12 +33,12 @@
           <a href="modindex.html" title="Global Module Index"
              accesskey="M">modules</a> |</li>
         <li class="right" >
-          <a href="mod-_taskbar.html" title="Commands"
+          <a href="mod-_word_styles.html" title="Command-module for styles in Microsoft Word"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="mod-_audacity.html" title="Module source code"
+          <a href="mod-_taskbar.html" title="Command-module for taskbar and icon tray access"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Dragonfly-modules v0.0 documentation</a> &raquo;</li>
+        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li>
       </ul>
     </div>
     <div class="document">
@@ -48,14 +48,21 @@
             
   
   <div class="section" id="command-module-for-direct-opening-of-user-defined-targets">
-<h1>Command-module for direct opening of user-defined targets<a class="headerlink" href="#command-module-for-direct-opening-of-user-defined-targets" title="Permalink to this headline">¶</a></h1>
-<p>This module offers very easy and direct opening of user-defined
-targets.</p>
-<p>Command: <strong>&#8220;bring me &lt;target&gt;&#8221;</strong></p>
-<blockquote>
-Open the specified target.
+<h1>Command-module for direct opening of <strong>user-defined targets</strong><a class="headerlink" href="#command-module-for-direct-opening-of-user-defined-targets" title="Permalink to this headline">¶</a></h1>
+<p>This module offers very easy and direct opening of user-
+defined targets.  User define their own targets in the
+configuration file, and then have instant access to them
+by saying &#8220;bring me &lt;target&gt;&#8221;.  The configuration file
+format is described below.</p>
+<div class="section" id="commands">
+<h2>Commands<a class="headerlink" href="#commands" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>Command: <strong>&#8220;bring me &lt;target&gt;&#8221;</strong></dt>
+<dd>Open the specified target.
 The <em>&lt;target&gt;</em> extra in this rule can be any one
-of the targets defined in this module&#8217;s configuration file.</blockquote>
+of the targets defined in this module&#8217;s configuration file.</dd>
+</dl>
+</div>
 <div class="section" id="customization">
 <h2>Customization<a class="headerlink" href="#customization" title="Permalink to this headline">¶</a></h2>
 <p>Users should customize this module by editing its configuration
@@ -68,12 +75,19 @@ you say</em> to <em>which target to open</em>.</p>
     <span class="s">&quot;my local folder&quot;</span><span class="p">:</span>       <span class="n">folder</span><span class="p">(</span><span class="s">r&quot;C:&quot;</span><span class="p">),</span>
    <span class="p">}</span>
 </pre></div>
-<p>Using the configuration above would allow the user to say</p>
+<p>(Note the format of each target: <tt class="docutils literal"><span class="pre">&quot;...&quot;:</span> <span class="pre">type(&quot;...&quot;),</span></tt>
+And note the use of <tt class="docutils literal"><span class="pre">r&quot;...&quot;</span></tt> when specifying a path
+containing backslash characters; the <em>r</em> in front of the
+open-quote means that backslashes can be given literally
+and <em>don&#8217;t</em> need to be doubled.)</p>
+<p>Using the configuration above would allow the user to say:</p>
 <blockquote>
-<p><strong>&#8220;bring me my favorite website&#8221;</strong> and the Dragonfly homepage
-will be opened.</p>
-<p><strong>&#8220;bring me my local folder&#8221;</strong> and a Windows Explorer
-will be opened showing the local <tt class="docutils literal"><span class="pre">C:\</span></tt> folder.</p>
+<ul class="simple">
+<li><strong>&#8220;bring me my favorite website&#8221;</strong> and the Dragonfly homepage
+will be opened.</li>
+<li><strong>&#8220;bring me my local folder&#8221;</strong> and a Windows Explorer
+will be opened showing the local <tt class="docutils literal"><span class="pre">C:\</span></tt> folder.</li>
+</ul>
 </blockquote>
 </div>
 <div class="section" id="module-source-code">
@@ -211,50 +225,31 @@ will be opened showing the local <tt class="docutils literal"><span class="pre">
 131
 132
 133
-134
-135
-136
-137
-138
-139
-140
-141</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
-<span class="c"># This file is part of Dragonfly.</span>
-<span class="c"># (c) Copyright 2007, 2008 by Christo Butcher</span>
-<span class="c"># Licensed under the LGPL.</span>
-<span class="c">#</span>
-<span class="c">#   Dragonfly is free software: you can redistribute it and/or modify it</span>
-<span class="c">#   under the terms of the GNU Lesser General Public License as published</span>
-<span class="c">#   by the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c">#   (at your option) any later version.</span>
-<span class="c">#</span>
-<span class="c">#   Dragonfly is distributed in the hope that it will be useful, but</span>
-<span class="c">#   WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c">#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU</span>
-<span class="c">#   Lesser General Public License for more details.</span>
-<span class="c">#</span>
-<span class="c">#   You should have received a copy of the GNU Lesser General Public</span>
-<span class="c">#   License along with Dragonfly.  If not, see</span>
-<span class="c">#   &lt;http://www.gnu.org/licenses/&gt;.</span>
+134</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+<span class="c"># This file is a command-module for Dragonfly.</span>
+<span class="c"># (c) Copyright 2008 by Christo Butcher</span>
+<span class="c"># Licensed under the LGPL, see &lt;http://www.gnu.org/licenses/&gt;</span>
 <span class="c">#</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Command-module for direct opening of **user-defined targets**</span>
+<span class="sd">=============================================================</span>
 
-<span class="sd">Command-module for direct opening of user-defined targets</span>
-<span class="sd">=========================================================</span>
+<span class="sd">This module offers very easy and direct opening of user-</span>
+<span class="sd">defined targets.  User define their own targets in the</span>
+<span class="sd">configuration file, and then have instant access to them</span>
+<span class="sd">by saying &quot;bring me &lt;target&gt;&quot;.  The configuration file</span>
+<span class="sd">format is described below.</span>
 
-<span class="sd">This module offers very easy and direct opening of user-defined</span>
-<span class="sd">targets.</span>
-
+<span class="sd">Commands</span>
+<span class="sd">--------</span>
 <span class="sd">Command: **&quot;bring me &lt;target&gt;&quot;**</span>
-
 <span class="sd">    Open the specified target.</span>
 <span class="sd">    The *&lt;target&gt;* extra in this rule can be any one</span>
 <span class="sd">    of the targets defined in this module&#39;s configuration file.</span>
 
 <span class="sd">Customization</span>
 <span class="sd">-------------</span>
-
 <span class="sd">Users should customize this module by editing its configuration</span>
 <span class="sd">file.  In this file they should fill the ``targets.mapping``</span>
 <span class="sd">with their own personal targets.  This target mapping maps *what</span>
@@ -269,13 +264,18 @@ will be opened showing the local <tt class="docutils literal"><span class="pre">
 <span class="sd">       &quot;my local folder&quot;:       folder(r&quot;C:\&quot;),</span>
 <span class="sd">      }</span>
 
-<span class="sd">Using the configuration above would allow the user to say</span>
+<span class="sd">(Note the format of each target: ``&quot;...&quot;: type(&quot;...&quot;),``</span>
+<span class="sd">And note the use of ``r&quot;...&quot;`` when specifying a path</span>
+<span class="sd">containing backslash characters; the *r* in front of the</span>
+<span class="sd">open-quote means that backslashes can be given literally</span>
+<span class="sd">and *don&#39;t* need to be doubled.)</span>
 
-<span class="sd">    **&quot;bring me my favorite website&quot;** and the Dragonfly homepage</span>
-<span class="sd">    will be opened.</span>
+<span class="sd">Using the configuration above would allow the user to say:</span>
 
-<span class="sd">    **&quot;bring me my local folder&quot;** and a Windows Explorer</span>
-<span class="sd">    will be opened showing the local ``C:\`` folder.</span>
+<span class="sd"> - **&quot;bring me my favorite website&quot;** and the Dragonfly homepage</span>
+<span class="sd">   will be opened.</span>
+<span class="sd"> - **&quot;bring me my local folder&quot;** and a Windows Explorer</span>
+<span class="sd">   will be opened showing the local ``C:\`` folder.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -371,7 +371,8 @@ will be opened showing the local <tt class="docutils literal"><span class="pre">
         <div class="sphinxsidebarwrapper">
             <h3>Table Of Contents</h3>
             <ul>
-<li><a class="reference external" href="">Command-module for direct opening of user-defined targets</a><ul>
+<li><a class="reference external" href="">Command-module for direct opening of <strong>user-defined targets</strong></a><ul>
+<li><a class="reference external" href="#commands">Commands</a></li>
 <li><a class="reference external" href="#customization">Customization</a></li>
 <li><a class="reference external" href="#module-source-code">Module source code</a></li>
 </ul>
@@ -379,9 +380,9 @@ will be opened showing the local <tt class="docutils literal"><span class="pre">
 </ul>
 
             <h4>Previous topic</h4>
-            <p class="topless"><a href="mod-_audacity.html" title="previous chapter">Module source code</a></p>
+            <p class="topless"><a href="mod-_taskbar.html" title="previous chapter">Command-module for <strong>taskbar</strong> and icon tray access</a></p>
             <h4>Next topic</h4>
-            <p class="topless"><a href="mod-_taskbar.html" title="next chapter">Commands</a></p>
+            <p class="topless"><a href="mod-_word_styles.html" title="next chapter">Command-module for styles in <strong>Microsoft Word</strong></a></p>
             <h3>This Page</h3>
             <ul class="this-page-menu">
               <li><a href="_sources/mod-_bringme.txt">Show Source</a></li>
@@ -406,17 +407,17 @@ will be opened showing the local <tt class="docutils literal"><span class="pre">
           <a href="modindex.html" title="Global Module Index"
              accesskey="M">modules</a> |</li>
         <li class="right" >
-          <a href="mod-_taskbar.html" title="Commands"
+          <a href="mod-_word_styles.html" title="Command-module for styles in Microsoft Word"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="mod-_audacity.html" title="Module source code"
+          <a href="mod-_taskbar.html" title="Command-module for taskbar and icon tray access"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Dragonfly-modules v0.0 documentation</a> &raquo;</li>
+        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li>
       </ul>
     </div>
     <div class="footer">
       &copy; Copyright 2008, Christo Butcher.
-      Last updated on Oct 31, 2008.
+      Last updated on Nov 01, 2008.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
   </body>

@@ -1,6 +1,6 @@
 
-Command-module for moving and controlling windows
-=================================================
+Command-module for moving and controlling **windows**
+=====================================================
 
 This command-module offers commands for naming windows, bringing 
 named windows to the foreground, and positioning and resizing
@@ -39,14 +39,14 @@ Module source code
    :linenos:
 
    ﻿#
-   # This file is a command-module for the Dragonfly library.
-   #    (c) Copyright 2008 by Christo
-   # Licensed under the LGPL, see <http://www.gnu.org/licenses/> for more info.
+   # This file is a command-module for Dragonfly.
+   # (c) Copyright 2008 by Christo Butcher
+   # Licensed under the LGPL, see <http://www.gnu.org/licenses/>
    #
    
    """
-   Command-module for moving and controlling windows
-   =================================================
+   Command-module for moving and controlling **windows**
+   =====================================================
    
    This command-module offers commands for naming windows, bringing 
    named windows to the foreground, and positioning and resizing

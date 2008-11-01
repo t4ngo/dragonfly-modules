@@ -1,40 +1,28 @@
 #
-# This file is part of Dragonfly.
-# (c) Copyright 2007, 2008 by Christo Butcher
-# Licensed under the LGPL.
-#
-#   Dragonfly is free software: you can redistribute it and/or modify it 
-#   under the terms of the GNU Lesser General Public License as published 
-#   by the Free Software Foundation, either version 3 of the License, or 
-#   (at your option) any later version.
-#
-#   Dragonfly is distributed in the hope that it will be useful, but 
-#   WITHOUT ANY WARRANTY; without even the implied warranty of 
-#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
-#   Lesser General Public License for more details.
-#
-#   You should have received a copy of the GNU Lesser General Public 
-#   License along with Dragonfly.  If not, see 
-#   <http://www.gnu.org/licenses/>.
+# This file is a command-module for Dragonfly.
+# (c) Copyright 2008 by Christo Butcher
+# Licensed under the LGPL, see <http://www.gnu.org/licenses/>
 #
 
 """
+Command-module for direct opening of **user-defined targets**
+=============================================================
 
-Command-module for direct opening of user-defined targets
-=========================================================
+This module offers very easy and direct opening of user-
+defined targets.  User define their own targets in the 
+configuration file, and then have instant access to them 
+by saying "bring me <target>".  The configuration file 
+format is described below.
 
-This module offers very easy and direct opening of user-defined 
-targets.
-
+Commands
+--------
 Command: **"bring me <target>"**
-
     Open the specified target.
     The *<target>* extra in this rule can be any one
     of the targets defined in this module's configuration file.
 
 Customization
 -------------
-
 Users should customize this module by editing its configuration 
 file.  In this file they should fill the ``targets.mapping`` 
 with their own personal targets.  This target mapping maps *what 
@@ -49,13 +37,18 @@ For example:
        "my local folder":       folder(r"C:\"),
       }
 
-Using the configuration above would allow the user to say
+(Note the format of each target: ``"...": type("..."),`` 
+And note the use of ``r"..."`` when specifying a path 
+containing backslash characters; the *r* in front of the 
+open-quote means that backslashes can be given literally 
+and *don't* need to be doubled.)
 
-    **"bring me my favorite website"** and the Dragonfly homepage
-    will be opened.
+Using the configuration above would allow the user to say:
 
-    **"bring me my local folder"** and a Windows Explorer
-    will be opened showing the local ``C:\`` folder.
+ - **"bring me my favorite website"** and the Dragonfly homepage
+   will be opened.
+ - **"bring me my local folder"** and a Windows Explorer
+   will be opened showing the local ``C:\`` folder.
 
 """
 

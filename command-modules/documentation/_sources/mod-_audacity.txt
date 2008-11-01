@@ -1,6 +1,16 @@
 
-This module offers keystroke-based control of the Audacity
-audio-editing application.
+Command-module for **Audacity**, an audio-editing application
+=============================================================
+This module offers voice-commands to control 
+`Audacity <http://audacity.sourceforge.net/>`_, an open 
+source application for recording and editing sounds.
+
+Customization
+-------------
+Users can edit the spoken-form of this module's commands
+in its configuration file.  This is useful for
+translations, for example.
+
 
 Module source code
 ------------------
@@ -9,14 +19,24 @@ Module source code
    :linenos:
 
    #
-   # This file is a command-module for the Dragonfly library.
-   #    (c) Copyright 2008 by Biddy
-   # Licensed under the LGPL, see <http://www.gnu.org/licenses/> for more info.
+   # This file is a command-module for Dragonfly.
+   # (c) Copyright 2008 by Biddy
+   # Licensed under the LGPL, see <http://www.gnu.org/licenses/>
    #
    
    """
-       This module offers keystroke-based control of the Audacity
-       audio-editing application.
+   Command-module for **Audacity**, an audio-editing application
+   =============================================================
+   This module offers voice-commands to control 
+   `Audacity <http://audacity.sourceforge.net/>`_, an open 
+   source application for recording and editing sounds.
+   
+   Customization
+   -------------
+   Users can edit the spoken-form of this module's commands
+   in its configuration file.  This is useful for
+   translations, for example.
+   
    """
    
    

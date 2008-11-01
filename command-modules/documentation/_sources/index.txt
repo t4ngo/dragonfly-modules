@@ -1,18 +1,42 @@
 Dragonfly-modules documentation
 ===============================
 
-Contents:
+Welcome to the Dragonfly-modules documentation.  Here you 
+will find information about the command-modules stored in 
+the official Dragonfly module repository.
+
+The currently available modules cover areas of usage such 
+as general desktop activities, application-specific 
+control, and demonstrations of how to use the Dragonfly 
+library.
+
+Below you will find a list of the command-modules 
+currently available and their documentation.
+
+Command-modules
+---------------
+
+General desktop activities
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. toctree::
-   :glob:
 
-   mod-*
+   mod-_winctrl
+   mod-_taskbar
+   mod-_bringme
 
+Application-specific control
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Indices and tables
-==================
+.. toctree::
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   mod-_word_styles
+   mod-_audacity
 
+Demonstration modules
+^^^^^^^^^^^^^^^^^^^^^
+
+.. toctree::
+
+   mod-notepad_foodgroups
+   mod-notepad_example

@@ -35,6 +35,7 @@ Application-specific control
 .. toctree::
    :maxdepth: 1
 
+   mod-_firefox
    mod-_word_styles
    mod-_audacity
 

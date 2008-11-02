@@ -1,0 +1,64 @@
+#
+# Dragonfly config for Firefox control
+#
+
+#--- Search-related section ------------------------------------------------
+
+search.keywords = {'wikipedia': 'wikipedia'}
+                    # Mapping of spoken-forms to Firefox search-
+                    #  keywords.
+
+search.searchbar = ['google', 'yahoo', 'amazon', 'answers', 'creative commons', 'eBay', 'wikipedia', 'thai']
+                    # Spoken-forms of search engines in the Firefox
+                    #  search-bar; they must be given in the same
+                    #  order here as they are available in Firefox.
+
+
+#--- Language section ------------------------------------------------------
+
+lang.new_win               = 'new (window | win)'
+lang.new_tab               = 'new (tab | sub)'
+lang.close_tab             = 'close (tab | sub)'
+lang.address_bar           = 'address [bar]'
+lang.copy_address          = 'copy address'
+lang.paste_address         = 'paste address'
+lang.search_bar            = 'search bar'
+lang.go_home               = 'go home'
+lang.stop_loading          = 'stop loading'
+lang.toggle_tags           = 'toggle tags'
+lang.fresh_tags            = 'fresh tags'
+lang.caret_browsing        = '(caret | carrot) browsing'
+lang.bookmark_page         = 'bookmark [this] page'
+lang.save_page_as          = 'save [page | file] as'
+lang.print_page            = 'print [page | file]'
+lang.show_tab_n            = 'show tab <n>'
+lang.back_n                = 'back <n>'
+lang.forward_n             = 'forward <n>'
+lang.next_tab              = 'next tab'
+lang.next_tab_n            = 'next tab <n>'
+lang.prev_tab              = '(previous | preev) tab'
+lang.prev_tab_n            = '(previous | preev) tab <n>'
+lang.normal_size           = 'normal text size'
+lang.smaller_size          = 'smaller text size'
+lang.smaller_size_n        = 'smaller text size <n>'
+lang.bigger_size           = 'bigger text size'
+lang.bigger_size_n         = 'bigger text size <n>'
+lang.submit                = 'submit'
+lang.submit_text           = 'submit <text>'
+lang.find                  = 'find'
+lang.find_text             = 'find <text>'
+lang.find_next             = 'find next'
+lang.find_next_n           = 'find next <n>'
+lang.link_open             = '[link] <link> [open]'
+lang.link_select           = '[link] <link> select'
+lang.link_force            = '[link] <link> force'
+lang.link_window           = '[link] <link> window'
+lang.link_tab              = '[link] <link> tab'
+lang.link_copy             = '[link] <link> copy'
+lang.link_copy_into_tab    = '[link] <link> copy into tab'
+lang.link_list             = '[link] <link> list'
+lang.link_submit           = '[link] <link> submit'
+lang.link_submit_text      = '[link] <link> submit <text>'
+lang.search_text           = '[power] search [for] <text>'
+lang.search_keyword_text   = '[power] search <keyword> [for] <text>'
+lang.search_searchbar_text = '[power] search <searchbar> [for] <text>'

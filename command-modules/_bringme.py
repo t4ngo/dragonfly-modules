@@ -80,7 +80,8 @@ class BringableBase(object):
 
 class website(BringableBase):
     def bring_it(self):
-        webbrowser.open(self.target)
+        subprocess.Popen([r"C:\Program Files\Mozilla Firefox\firefox.exe", self.target])
+#        webbrowser.open(self.target)
 
 class folder(BringableBase):
     def bring_it(self):

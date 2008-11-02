@@ -110,7 +110,7 @@ lang.fit_vertically = 'fit all tracks [to window]'
 lang.zoom_selection = 'zoom [in] selection'
 
 # Spec imports audio from your PC.
-# Default: 'import audio´
+# Default: 'import audio'
 lang.import_audio = 'import audio'
 
 # Spec creates a label.
@@ -161,8 +161,6 @@ lang.expand_all_tracks = 'expand_all_tracks'
 # Default : 'export track'
 lang.expand_all_tracks = 'export track'
 
-
 # Spec exports selection to preferred file format.
 # Default : 'export selection'
 lang.export_track = 'export selection'
-

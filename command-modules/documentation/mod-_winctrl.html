@@ -78,6 +78,142 @@ corner of the second display monitor.</li>
 </ul>
 </blockquote>
 </div>
+<div class="section" id="configuration-examples">
+<h2>Configuration examples<a class="headerlink" href="#configuration-examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="configuration-winctrl-en-txt">
+<h3>Configuration &#8220;_winctrl-en.txt&#8221;<a class="headerlink" href="#configuration-winctrl-en-txt" title="Permalink to this headline">¶</a></h3>
+<table class="highlighttable"><tr><td class="linenos"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+<span class="c"># Dragonfly config for Window control</span>
+<span class="c">#</span>
+
+<span class="c">#--- Language section ------------------------------------------------------</span>
+
+<span class="n">lang</span><span class="o">.</span><span class="n">name_win</span> <span class="o">=</span> <span class="s">&#39;name (window | win) &lt;name&gt;&#39;</span>
+                    <span class="c"># Command to give the foreground window a name;</span>
+                    <span class="c">#  must contain the &lt;name&gt; extra.</span>
+                    <span class="c"># Default: &#39;name (window | win) &lt;name&gt;&#39;</span>
+
+<span class="n">lang</span><span class="o">.</span><span class="n">focus_win</span> <span class="o">=</span> <span class="s">&#39;focus &lt;win_names&gt; | bring &lt;win_names&gt; to [the] (top | foreground)&#39;</span>
+                    <span class="c"># Command to bring a named window to the</span>
+                    <span class="c">#  foreground.</span>
+                    <span class="c"># Default: &#39;focus &lt;win_names&gt; | bring &lt;win_names&gt;</span>
+                    <span class="c">#  to [the] (top | foreground)&#39;</span>
+
+<span class="n">lang</span><span class="o">.</span><span class="n">translate_win</span> <span class="o">=</span> <span class="s">&#39;place &lt;win_selector&gt; &lt;position&gt; [on &lt;mon_selector&gt;]&#39;</span>
+                    <span class="c"># Command to translate a window.</span>
+                    <span class="c"># Default: &#39;place &lt;win_selector&gt; &lt;position&gt; [on</span>
+                    <span class="c">#  &lt;mon_selector&gt;]&#39;</span>
+
+<span class="n">lang</span><span class="o">.</span><span class="n">resize_win</span> <span class="o">=</span> <span class="s">&#39;place &lt;win_selector&gt; [from] &lt;position&gt; [to] &lt;position&gt; [on &lt;mon_selector&gt;]&#39;</span>
+                    <span class="c"># Command to move and resize a window.</span>
+                    <span class="c"># Default: &#39;place &lt;win_selector&gt; [from] &lt;position&gt;</span>
+                    <span class="c">#  [to] &lt;position&gt; [on &lt;mon_selector&gt;]&#39;</span>
+
+<span class="n">lang</span><span class="o">.</span><span class="n">stretch_win</span> <span class="o">=</span> <span class="s">&#39;stretch &lt;win_selector&gt; [to] &lt;position&gt;&#39;</span>
+                    <span class="c"># Command to stretch a window.</span>
+                    <span class="c"># Default: &#39;stretch &lt;win_selector&gt; [to]</span>
+                    <span class="c">#  &lt;position&gt;&#39;</span>
+
+<span class="n">lang</span><span class="o">.</span><span class="n">win_selector</span> <span class="o">=</span> <span class="s">&#39;window | win | [window] &lt;win_names&gt;&#39;</span>
+                    <span class="c"># Partial command for specifying a window; must</span>
+                    <span class="c">#  contain the &lt;win_names&gt; extra.</span>
+                    <span class="c"># Default: &#39;window | win | [window] &lt;win_names&gt;&#39;</span>
+
+<span class="n">lang</span><span class="o">.</span><span class="n">mon_selector</span> <span class="o">=</span> <span class="s">&#39;(this | current) monitor | [monitor] &lt;mon_names&gt;&#39;</span>
+                    <span class="c"># Partial command for specifying a monitor; must</span>
+                    <span class="c">#  contain the &lt;mon_names&gt; extra.</span>
+                    <span class="c"># Default: &#39;(this | current) monitor | [monitor]</span>
+                    <span class="c">#  &lt;mon_names&gt;&#39;</span>
+
+<span class="n">lang</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="s">&#39;left&#39;</span>
+                    <span class="c"># Word for left side of monitor.</span>
+                    <span class="c"># Default: &#39;left&#39;</span>
+
+<span class="n">lang</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="s">&#39;right&#39;</span>
+                    <span class="c"># Word for right side of monitor.</span>
+                    <span class="c"># Default: &#39;right&#39;</span>
+
+<span class="n">lang</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="s">&#39;top&#39;</span>
+                    <span class="c"># Word for top side of monitor.</span>
+                    <span class="c"># Default: &#39;top&#39;</span>
+
+<span class="n">lang</span><span class="o">.</span><span class="n">bottom</span> <span class="o">=</span> <span class="s">&#39;bottom&#39;</span>
+                    <span class="c"># Word for bottom side of monitor.</span>
+                    <span class="c"># Default: &#39;bottom&#39;</span>
+
+<span class="c">#--- Settings section ------------------------------------------------------</span>
+
+<span class="n">settings</span><span class="o">.</span><span class="n">grid</span> <span class="o">=</span> <span class="mf">10</span>
+                    <span class="c"># The number of grid divisions a monitor is</span>
+                    <span class="c">#  divided up into when placing windows.</span>
+                    <span class="c"># Default: 10</span>
+</pre></div>
+</td></tr></table></div>
+</div>
 <div class="section" id="module-source-code">
 <h2>Module source code<a class="headerlink" href="#module-source-code" title="Permalink to this headline">¶</a></h2>
 <table class="highlighttable"><tr><td class="linenos"><pre>  1
@@ -822,6 +958,10 @@ corner of the second display monitor.</li>
 <li><a class="reference external" href="">Command-module for moving and controlling <strong>windows</strong></a><ul>
 <li><a class="reference external" href="#commands">Commands</a></li>
 <li><a class="reference external" href="#usage-examples">Usage examples</a></li>
+<li><a class="reference external" href="#configuration-examples">Configuration examples</a><ul>
+<li><a class="reference external" href="#configuration-winctrl-en-txt">Configuration &#8220;_winctrl-en.txt&#8221;</a></li>
+</ul>
+</li>
 <li><a class="reference external" href="#module-source-code">Module source code</a></li>
 </ul>
 </li>
@@ -865,7 +1005,7 @@ corner of the second display monitor.</li>
     </div>
     <div class="footer">
       &copy; Copyright 2008, Christo Butcher.
-      Last updated on Nov 01, 2008.
+      Last updated on Nov 02, 2008.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
   </body>

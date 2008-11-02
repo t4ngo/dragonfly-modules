@@ -80,7 +80,7 @@ class BringableBase(object):
 
 class website(BringableBase):
     def bring_it(self):
-        webbrowser.open_new_tab(self.target)
+        webbrowser.open(self.target)
 
 class folder(BringableBase):
     def bring_it(self):

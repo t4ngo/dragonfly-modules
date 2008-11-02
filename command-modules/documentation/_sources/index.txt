@@ -16,10 +16,14 @@ currently available and their documentation.
 Command-modules
 ---------------
 
+This section lists the command-modules presently hosted by 
+Dragonfly module repository, sorted by category.
+
 General desktop activities
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. toctree::
+   :maxdepth: 1
 
    mod-_winctrl
    mod-_taskbar
@@ -29,6 +33,7 @@ Application-specific control
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. toctree::
+   :maxdepth: 1
 
    mod-_word_styles
    mod-_audacity
@@ -37,6 +42,7 @@ Demonstration modules
 ^^^^^^^^^^^^^^^^^^^^^
 
 .. toctree::
+   :maxdepth: 1
 
    mod-notepad_foodgroups
    mod-notepad_example

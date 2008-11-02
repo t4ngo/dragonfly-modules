@@ -58,6 +58,679 @@ source application for recording and editing sounds.</p>
 in its configuration file.  This is useful for
 translations, for example.</p>
 </div>
+<div class="section" id="configuration-examples">
+<h2>Configuration examples<a class="headerlink" href="#configuration-examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="configuration-audacity-en-txt">
+<h3>Configuration &#8220;_audacity-en.txt&#8221;<a class="headerlink" href="#configuration-audacity-en-txt" title="Permalink to this headline">¶</a></h3>
+<table class="highlighttable"><tr><td class="linenos"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+<span class="c"># Dragonfly config for Audacity control</span>
+<span class="c">#</span>
+
+
+<span class="c">#--- Language section ------------------------------------------------------</span>
+
+<span class="c"># Spec starts a new project.</span>
+<span class="c"># Default: &#39;[start] new project&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">new_project</span> <span class="o">=</span> <span class="s">&#39;[start] new project&#39;</span>
+
+<span class="c"># Spec opens an existing project.</span>
+<span class="c"># Default: &#39;open project&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">open_project</span> <span class="o">=</span> <span class="s">&#39;open project&#39;</span>
+
+<span class="c"># Spec closes currently open project.</span>
+<span class="c"># Default: &#39;close [this] project&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">close_project</span> <span class="o">=</span> <span class="s">&#39;close [this] project&#39;</span>
+
+<span class="c"># Spec saves currently open project.</span>
+<span class="c"># Default: &#39;save [this] project&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">save_project</span> <span class="o">=</span> <span class="s">&#39;save [this] project&#39;</span>
+
+<span class="c"># Spec opens the selection tool.</span>
+<span class="c"># Default: &#39;[open] selection tool&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">save_project</span> <span class="o">=</span> <span class="s">&#39;[open] selection tool&#39;</span>
+
+<span class="c"># Spec opens the envelope tool.</span>
+<span class="c"># Default: &#39;[open] envelope tool&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">envelope_tool</span> <span class="o">=</span> <span class="s">&#39;[open] envelope tool&#39;</span>
+
+<span class="c"># Spec opens the edit tool.</span>
+<span class="c"># Default: &#39;[open] edit tool&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">edit_tool</span> <span class="o">=</span> <span class="s">&#39;[open] edit tool&#39;</span>
+
+<span class="c"># Spec opens the zoom tool.</span>
+<span class="c"># Default: &#39;[open] zoom tool&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">zoom_tool</span> <span class="o">=</span> <span class="s">&#39;[open] zoom tool&#39;</span>
+
+<span class="c"># Spec opens the timeshift tool.</span>
+<span class="c"># Default: &#39;[open] timeshift tool&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">timeshift_tool</span> <span class="o">=</span> <span class="s">&#39;[open] timeshift tool&#39;</span>
+
+<span class="c"># Spec opens the multitool.</span>
+<span class="c"># Default: &#39;[open] multi tool&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">multi_tool</span> <span class="o">=</span> <span class="s">&#39;[open] multi tool&#39;</span>
+
+<span class="c"># Spec move to the next tool in toolbar.</span>
+<span class="c"># Default: &#39;[move to | go to] next tool&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">next_toolbar_tool</span> <span class="o">=</span> <span class="s">&#39;[move to | go to] next tool&#39;</span>
+
+<span class="c"># Spec move to the previous tool in toolbar.</span>
+<span class="c"># Default: &#39;[move to | go to] previous tool&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">previous_toolbar_tool</span> <span class="o">=</span> <span class="s">&#39;[move to | go to] previous tool&#39;</span>
+
+<span class="c"># Spec insert silence at current position.</span>
+<span class="c"># Default: &#39;[insert | create] silence&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">silence</span> <span class="o">=</span> <span class="s">&#39;[insert | create] silence&#39;</span>
+
+<span class="c"># Spec makes duplicate.</span>
+<span class="c"># Default: &#39;[make] duplicate&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">duplicate</span> <span class="o">=</span> <span class="s">&#39;[make] duplicate&#39;</span>
+
+<span class="c"># Spec finds zero crossings.</span>
+<span class="c"># Default: &#39;[find | search] zero crossings&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">find_zero_crossings</span> <span class="o">=</span> <span class="s">&#39;[find | search] zero crossings&#39;</span>
+
+<span class="c"># Spec starts or stops playback.</span>
+<span class="c"># Default: &#39;[start | stop] playing&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">play_stop</span> <span class="o">=</span> <span class="s">&#39;[start | stop] playing&#39;</span>
+
+<span class="c"># Spec starts a loop.</span>
+<span class="c"># Default: &#39;[start] loop&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">loop</span> <span class="o">=</span> <span class="s">&#39;[start] loop&#39;</span>
+
+<span class="c"># Spec pauses current playback or recording.</span>
+<span class="c"># Default: &#39;pause [playback | recording]&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">pause</span> <span class="o">=</span> <span class="s">&#39;pause [playback | recording]&#39;</span>
+
+<span class="c"># Spec starts recording.</span>
+<span class="c"># Default: &#39;[start | begin] recording&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">record</span> <span class="o">=</span> <span class="s">&#39;[start | begin] recording&#39;</span>
+
+<span class="c"># Spec plays one second at cursor position.</span>
+<span class="c"># Default: &#39;[play] cursor selection&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">play_cursor_selection</span> <span class="o">=</span> <span class="s">&#39;[play] cursor selection&#39;</span>
+
+<span class="c"># Spec zooms in on current view.</span>
+<span class="c"># Default: &#39;zoom in&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">zoom_in</span> <span class="o">=</span> <span class="s">&#39;zoom in&#39;</span>
+
+<span class="c"># Spec zoom in or out to standard zoom level.</span>
+<span class="c"># Default: &#39;[return to] standard zoom level&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">zoom_normal</span> <span class="o">=</span> <span class="s">&#39;[return to] standard zoom level&#39;</span>
+
+<span class="c"># Spec zooms out on current view.</span>
+<span class="c"># Default: &#39;zoom out&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">zoom_out</span> <span class="o">=</span> <span class="s">&#39;zoom out&#39;</span>
+
+<span class="c"># Spec fits the track in current window size.</span>
+<span class="c"># Default: &#39;fit [track] to window&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">fit_window</span> <span class="o">=</span> <span class="s">&#39;fit [track] to window&#39;</span>
+
+<span class="c"># Spec makes all tracks visible in current window size.</span>
+<span class="c"># Default: &#39;fit all tracks [to window]&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">fit_vertically</span> <span class="o">=</span> <span class="s">&#39;fit all tracks [to window]&#39;</span>
+
+<span class="c"># Spec zooms in on your current selection.</span>
+<span class="c"># Default: &#39;zoom [in] selection&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">zoom_selection</span> <span class="o">=</span> <span class="s">&#39;zoom [in] selection&#39;</span>
+
+<span class="c"># Spec imports audio from your PC.</span>
+<span class="c"># Default: &#39;import audio&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">import_audio</span> <span class="o">=</span> <span class="s">&#39;import audio&#39;</span>
+
+<span class="c"># Spec creates a label.</span>
+<span class="c"># Default: &#39;[create | make] label&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">create_label</span> <span class="o">=</span> <span class="s">&#39;[create | make] label&#39;</span>
+
+<span class="c"># Spec repeats the last effect.</span>
+<span class="c"># Default: &#39;repeat last effect&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">repeat_last_effect</span> <span class="o">=</span> <span class="s">&#39;repeat last effect&#39;</span>
+
+<span class="c"># Spec deletes current selection and removes empty space.</span>
+<span class="c"># Default: &#39;ripple delete selection&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">ripple_delete</span> <span class="o">=</span> <span class="s">&#39;ripple delete selection&#39;</span>
+
+<span class="c"># Spec deletes current selection while leaving space empty.</span>
+<span class="c"># Default:&#39;split delete selection&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">split_delete</span> <span class="o">=</span> <span class="s">&#39;split delete selection&#39;</span>
+
+<span class="c"># Spec splits new.</span>
+<span class="c"># Default: &#39;split new&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">split_new</span> <span class="o">=</span> <span class="s">&#39;split new&#39;</span>
+
+<span class="c"># Spec removes all empty spaces from track.</span>
+<span class="c"># Default: &#39;join track&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">join</span> <span class="o">=</span> <span class="s">&#39;join track&#39;</span>
+
+<span class="c"># Spec brings back empty spaces in track.</span>
+<span class="c"># Default:  &#39;disjoin track&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">disjoin</span> <span class="o">=</span> <span class="s">&#39;disjoin track&#39;</span>
+
+<span class="c"># Spec mutes all tracks in file.</span>
+<span class="c"># Default: &#39;mute all [tracks]&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">mute_all_tracks</span><span class="o">=</span> <span class="s">&#39;lang.mute_all_tracks&#39;</span>
+
+<span class="c"># Spec unmutes all tracks in file.</span>
+<span class="c"># Default: &#39;mute all [tracks]&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">unmute_all_tracks</span> <span class="o">=</span> <span class="s">&#39;mute all [tracks]&#39;</span>
+
+<span class="c"># Spec collapses all tracks in file.</span>
+<span class="c"># Default: &#39;collapse all [tracks]&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">collapse_all_tracks</span> <span class="o">=</span> <span class="n">lang</span><span class="o">.</span><span class="n">collapse_all_tracks</span>
+
+<span class="c"># Spec expands all tracks in file.</span>
+<span class="c"># Default: &#39;expand all [tracks]&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">expand_all_tracks</span> <span class="o">=</span> <span class="s">&#39;expand_all_tracks&#39;</span>
+
+<span class="c"># Spec exports track to preferred file format.</span>
+<span class="c"># Default : &#39;export track&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">expand_all_tracks</span> <span class="o">=</span> <span class="s">&#39;export track&#39;</span>
+
+<span class="c"># Spec exports selection to preferred file format.</span>
+<span class="c"># Default : &#39;export selection&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">export_track</span> <span class="o">=</span> <span class="s">&#39;export selection&#39;</span>
+</pre></div>
+</td></tr></table></div>
+<div class="section" id="configuration-audacity-nl-txt">
+<h3>Configuration &#8220;_audacity-nl.txt&#8221;<a class="headerlink" href="#configuration-audacity-nl-txt" title="Permalink to this headline">¶</a></h3>
+<table class="highlighttable"><tr><td class="linenos"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+<span class="c"># Dragonfly config for Audacity control</span>
+<span class="c">#</span>
+
+
+<span class="c">#--- Language section ------------------------------------------------------</span>
+
+<span class="c"># Spec starts a new project.</span>
+<span class="c"># Default: &#39;[start] new project&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">new_project</span> <span class="o">=</span> <span class="s">&#39;[start] nieuw project&#39;</span>
+
+<span class="c"># Spec opens an existing project.</span>
+<span class="c"># Default: &#39;open project&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">open_project</span> <span class="o">=</span> <span class="s">&#39;open project&#39;</span>
+
+<span class="c"># Spec closes currently open project.</span>
+<span class="c"># Default: &#39;close [this] project&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">close_project</span> <span class="o">=</span> <span class="s">&#39;sluit [dit] project&#39;</span>
+
+<span class="c"># Spec saves currently open project.</span>
+<span class="c"># Default: &#39;save [this] project&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">save_project</span> <span class="o">=</span> <span class="s">&#39;bewaar [dit] project&#39;</span>
+
+<span class="c"># Spec opens the selection tool.</span>
+<span class="c"># Default: &#39;[open] selection tool&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">save_project</span> <span class="o">=</span> <span class="s">&#39;[open] selectie tool&#39;</span>
+
+<span class="c"># Spec opens the envelope tool.</span>
+<span class="c"># Default: &#39;[open] envelope tool&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">envelope_tool</span> <span class="o">=</span> <span class="s">&#39;[open] envelope tool&#39;</span>
+
+<span class="c"># Spec opens the edit tool.</span>
+<span class="c"># Default: &#39;[open] edit tool&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">edit_tool</span> <span class="o">=</span> <span class="s">&#39;[open] edit tool&#39;</span>
+
+<span class="c"># Spec opens the zoom tool.</span>
+<span class="c"># Default: &#39;[open] zoom tool&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">zoom_tool</span> <span class="o">=</span> <span class="s">&#39;[open] zoom tool&#39;</span>
+
+<span class="c"># Spec opens the timeshift tool.</span>
+<span class="c"># Default: &#39;[open] timeshift tool&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">timeshift_tool</span> <span class="o">=</span> <span class="s">&#39;[open] timeshift tool&#39;</span>
+
+<span class="c"># Spec opens the multitool.</span>
+<span class="c"># Default: &#39;[open] multi tool&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">multi_tool</span> <span class="o">=</span> <span class="s">&#39;[open] multi tool&#39;</span>
+
+<span class="c"># Spec move to the next tool in toolbar.</span>
+<span class="c"># Default: &#39;[move to | go to] next tool&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">next_toolbar_tool</span> <span class="o">=</span> <span class="s">&#39;[ga naar] volgende tool&#39;</span>
+
+<span class="c"># Spec move to the previous tool in toolbar.</span>
+<span class="c"># Default: &#39;[move to | go to] previous tool&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">previous_toolbar_tool</span> <span class="o">=</span> <span class="s">&#39;[ga naar] vorige tool&#39;</span>
+
+<span class="c"># Spec insert silence at current position.</span>
+<span class="c"># Default: &#39;[insert | create] silence&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">silence</span> <span class="o">=</span> <span class="s">&#39;[maak] stilte&#39;</span>
+
+<span class="c"># Spec makes duplicate.</span>
+<span class="c"># Default: &#39;[make] duplicate&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">duplicate</span> <span class="o">=</span> <span class="s">&#39;[maak] duplicaat&#39;</span>
+
+<span class="c"># Spec finds zero crossings.</span>
+<span class="c"># Default: &#39;[find | search] zero crossings&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">find_zero_crossings</span> <span class="o">=</span> <span class="s">&#39;[vind | zoek] zero kruisingen&#39;</span>
+
+<span class="c"># Spec starts or stops playback.</span>
+<span class="c"># Default: &#39;[start | stop] playing&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">play_stop</span> <span class="o">=</span> <span class="s">&#39;[start | stop] afspelen&#39;</span>
+
+<span class="c"># Spec starts a loop.</span>
+<span class="c"># Default: &#39;[start] loop&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">loop</span> <span class="o">=</span> <span class="s">&#39;[start] loop&#39;</span>
+
+<span class="c"># Spec pauses current playback or recording.</span>
+<span class="c"># Default: &#39;pause [playback | recording]&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">pause</span> <span class="o">=</span> <span class="s">&#39;pauzeer [afspelen | opname]&#39;</span>
+
+<span class="c"># Spec starts recording.</span>
+<span class="c"># Default: &#39;[start | begin] recording&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">record</span> <span class="o">=</span> <span class="s">&#39;[start | begin] opname&#39;</span>
+
+<span class="c"># Spec plays one second at cursor position.</span>
+<span class="c"># Default: &#39;[play] cursor selection&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">play_cursor_selection</span> <span class="o">=</span> <span class="s">&#39;[speel] cursor punt&#39;</span>
+
+<span class="c"># Spec zooms in on current view.</span>
+<span class="c"># Default: &#39;zoom in&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">zoom_in</span> <span class="o">=</span> <span class="s">&#39;zoom in&#39;</span>
+
+<span class="c"># Spec zoom in or out to standard zoom level.</span>
+<span class="c"># Default: &#39;[return to] standard zoom level&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">zoom_normal</span> <span class="o">=</span> <span class="s">&#39;[ga terug] naar standaard zoom&#39;</span>
+
+<span class="c"># Spec zooms out on current view.</span>
+<span class="c"># Default: &#39;zoom out&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">zoom_out</span> <span class="o">=</span> <span class="s">&#39;zoom uit&#39;</span>
+
+<span class="c"># Spec fits the track in current window size.</span>
+<span class="c"># Default: &#39;fit [track] to window&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">fit_window</span> <span class="o">=</span> <span class="s">&#39;[maak] passend in venster&#39;</span>
+
+<span class="c"># Spec makes all tracks visible in current window size.</span>
+<span class="c"># Default: &#39;fit all tracks [to window]&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">fit_vertically</span> <span class="o">=</span> <span class="s">&#39;laat alle tracks [in venster] zien&#39;</span>
+
+<span class="c"># Spec zooms in on your current selection.</span>
+<span class="c"># Default: &#39;zoom [in] selection&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">zoom_selection</span> <span class="o">=</span> <span class="s">&#39;zoom [in] op selectie&#39;</span>
+
+<span class="c"># Spec imports audio from your PC.</span>
+<span class="c"># Default: &#39;import audio&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">import_audio</span> <span class="o">=</span> <span class="s">&#39;importeer audio&#39;</span>
+
+<span class="c"># Spec creates a label.</span>
+<span class="c"># Default: &#39;[create | make] label&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">create_label</span> <span class="o">=</span> <span class="s">&#39;[create | make] label&#39;</span>
+
+<span class="c"># Spec repeats the last effect.</span>
+<span class="c"># Default: &#39;repeat last effect&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">repeat_last_effect</span> <span class="o">=</span> <span class="s">&#39;repeat last effect&#39;</span>
+
+<span class="c"># Spec deletes current selection and removes empty space.</span>
+<span class="c"># Default: &#39;ripple delete selection&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">ripple_delete</span> <span class="o">=</span> <span class="s">&#39;ripple delete selection&#39;</span>
+
+<span class="c"># Spec deletes current selection while leaving space empty.</span>
+<span class="c"># Default:&#39;split delete selection&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">split_delete</span> <span class="o">=</span> <span class="s">&#39;split delete selection&#39;</span>
+
+<span class="c"># Spec splits new.</span>
+<span class="c"># Default: &#39;split new&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">split_new</span> <span class="o">=</span> <span class="s">&#39;split new&#39;</span>
+
+<span class="c"># Spec removes all empty spaces from track.</span>
+<span class="c"># Default: &#39;join track&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">join</span> <span class="o">=</span> <span class="s">&#39;join track&#39;</span>
+
+<span class="c"># Spec brings back empty spaces in track.</span>
+<span class="c"># Default:  &#39;disjoin track&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">disjoin</span> <span class="o">=</span> <span class="s">&#39;disjoin track&#39;</span>
+
+<span class="c"># Spec mutes all tracks in file.</span>
+<span class="c"># Default: &#39;mute all [tracks]&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">mute_all_tracks</span><span class="o">=</span> <span class="s">&#39;mute all [tracks]&#39;</span>
+
+<span class="c"># Spec unmutes all tracks in file.</span>
+<span class="c"># Default: &#39;mute all [tracks]&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">unmute_all_tracks</span> <span class="o">=</span> <span class="s">&#39;mute all [tracks]&#39;</span>
+
+<span class="c"># Spec collapses all tracks in file.</span>
+<span class="c"># Default: &#39;collapse all [tracks]&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">collapse_all_tracks</span> <span class="o">=</span> <span class="s">&#39;collapse all [tracks]&#39;</span>
+
+<span class="c"># Spec expands all tracks in file.</span>
+<span class="c"># Default: &#39;expand all [tracks]&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">expand_all_tracks</span> <span class="o">=</span> <span class="s">&#39;expand_all_tracks&#39;</span>
+
+<span class="c"># Spec exports track to preferred file format.</span>
+<span class="c"># Default : &#39;export track&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">expand_all_tracks</span> <span class="o">=</span> <span class="s">&#39;export track&#39;</span>
+
+<span class="c"># Spec exports selection to preferred file format.</span>
+<span class="c"># Default : &#39;export selection&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">export_track</span> <span class="o">=</span> <span class="s">&#39;export selection&#39;</span>
+</pre></div>
+</td></tr></table></div>
+</div>
 <div class="section" id="module-source-code">
 <h2>Module source code<a class="headerlink" href="#module-source-code" title="Permalink to this headline">¶</a></h2>
 <table class="highlighttable"><tr><td class="linenos"><pre>  1
@@ -381,6 +1054,11 @@ translations, for example.</p>
             <ul>
 <li><a class="reference external" href="">Command-module for <strong>Audacity</strong>, an audio-editing application</a><ul>
 <li><a class="reference external" href="#customization">Customization</a></li>
+<li><a class="reference external" href="#configuration-examples">Configuration examples</a><ul>
+<li><a class="reference external" href="#configuration-audacity-en-txt">Configuration &#8220;_audacity-en.txt&#8221;</a></li>
+<li><a class="reference external" href="#configuration-audacity-nl-txt">Configuration &#8220;_audacity-nl.txt&#8221;</a></li>
+</ul>
+</li>
 <li><a class="reference external" href="#module-source-code">Module source code</a></li>
 </ul>
 </li>
@@ -424,7 +1102,7 @@ translations, for example.</p>
     </div>
     <div class="footer">
       &copy; Copyright 2008, Christo Butcher.
-      Last updated on Nov 01, 2008.
+      Last updated on Nov 02, 2008.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
   </body>

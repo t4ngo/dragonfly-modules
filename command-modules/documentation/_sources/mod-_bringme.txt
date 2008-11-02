@@ -45,6 +45,40 @@ Using the configuration above would allow the user to say:
    will be opened showing the local ``C:\`` folder.
 
 
+Configuration examples
+----------------------
+
+Configuration "_bringme-en.txt"
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+   :linenos:
+
+   
+   #--- Targets section -------------------------------------------------------
+   
+   targets.mapping = {
+   
+       # Python-specific targets.
+       '(python | pie) (library | lib)':      website('http://docs.python.org/library/'),
+       "(python | pie) home":                 website("http://www.python.org/"),
+   
+       # Dragonfly-specific targets.
+       "dragonfly page":                      website("http://code.google.com/p/dragonfly/"),
+       "dragonfly modules page":              website("http://code.google.com/p/dragonfly-modules/"),
+       "speech computing":                    website("http://www.speechcomputing.com/forum"),
+       "[natlink] macros":                    folder(r"C:\Program Files\NatLink\MacroSystem"),
+       "dragonfly lib":                       folder(r"C:\Python25\Lib\site-packages\dragonfly"),
+   
+      }
+   
+   #--- Language section ------------------------------------------------------
+   
+   lang.bring_me = 'bring me <target>'
+                       # Command to bring a target; must contain the
+                       #  <target> extra.
+                       # Default: 'bring me <target>'
+
 Module source code
 ------------------
 

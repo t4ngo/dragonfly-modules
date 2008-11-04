@@ -1,0 +1,12 @@
+#
+# Dragonfly config for Microsoft Outlook control
+#
+
+#--- Language section ------------------------------------------------------
+
+lang.go_to_folder = '(folder | show me) <folder>'
+lang.move_to_folder = 'move to <folder>'
+lang.create_new_item = '[create] new <type>'
+lang.sync_folders = '(synchronize | update) (folders | folder list)'
+lang.item_type_mail = '(mail | email)'
+lang.item_type_task = 'task'

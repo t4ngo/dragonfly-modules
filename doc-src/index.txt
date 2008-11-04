@@ -37,6 +37,7 @@ Application-specific control
 
    mod-_firefox
    mod-_word_styles
+   mod-_outlook
    mod-_audacity
 
 Demonstration modules

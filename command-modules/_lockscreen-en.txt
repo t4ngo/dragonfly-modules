@@ -1,0 +1,14 @@
+#
+# Dragonfly configuration file for the lock screen command-module.
+#
+# This file is a command-module for Dragonfly.
+# (c) Copyright 2008 by Christo Butcher
+# Licensed under the LGPL, see <http://www.gnu.org/licenses/>
+#
+
+#--- Language section ------------------------------------------------------
+
+# Command to lock the screen; also puts the microphone to sleep.
+# Default: 'lock screen now now'
+
+lang.lock_screen = 'lock screen now now'

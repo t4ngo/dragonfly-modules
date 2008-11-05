@@ -20,7 +20,7 @@
     <link rel="search" title="Search" href="search.html" />
     <link rel="top" title="Dragonfly-modules v0.1 documentation" href="index.html" />
     <link rel="next" title="Command-module for styles in Microsoft Word" href="mod-_word_styles.html" />
-    <link rel="prev" title="Command-module for direct opening of user-defined targets" href="mod-_bringme.html" />
+    <link rel="prev" title="Command-module for sending keyboard breaks" href="mod-_kbbreak.html" />
   </head>
   <body>
     <div class="related">
@@ -36,7 +36,7 @@
           <a href="mod-_word_styles.html" title="Command-module for styles in Microsoft Word"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="mod-_bringme.html" title="Command-module for direct opening of user-defined targets"
+          <a href="mod-_kbbreak.html" title="Command-module for sending keyboard breaks"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li>
       </ul>
@@ -131,21 +131,24 @@ use.</p>
 60
 61
 62
-63
-64</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+63</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
 <span class="c"># Dragonfly config for Firefox control</span>
 <span class="c">#</span>
 
 <span class="c">#--- Search-related section ------------------------------------------------</span>
 
-<span class="n">search</span><span class="o">.</span><span class="n">keywords</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;wikipedia&#39;</span><span class="p">:</span> <span class="s">&#39;wikipedia&#39;</span><span class="p">}</span>
-                    <span class="c"># Mapping of spoken-forms to Firefox search-</span>
-                    <span class="c">#  keywords.</span>
+<span class="c"># Mapping of spoken-forms to Firefox search-keywords.</span>
+<span class="n">search</span><span class="o">.</span><span class="n">keywords</span> <span class="o">=</span> <span class="p">{</span>
+                   <span class="s">&#39;wikipedia&#39;</span><span class="p">:</span> <span class="s">&#39;wikipedia&#39;</span>
+                  <span class="p">}</span>
 
-<span class="n">search</span><span class="o">.</span><span class="n">searchbar</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;google&#39;</span><span class="p">,</span> <span class="s">&#39;yahoo&#39;</span><span class="p">,</span> <span class="s">&#39;amazon&#39;</span><span class="p">,</span> <span class="s">&#39;answers&#39;</span><span class="p">,</span> <span class="s">&#39;creative commons&#39;</span><span class="p">,</span> <span class="s">&#39;eBay&#39;</span><span class="p">,</span> <span class="s">&#39;wikipedia&#39;</span><span class="p">,</span> <span class="s">&#39;thai&#39;</span><span class="p">]</span>
-                    <span class="c"># Spoken-forms of search engines in the Firefox</span>
-                    <span class="c">#  search-bar; they must be given in the same</span>
-                    <span class="c">#  order here as they are available in Firefox.</span>
+<span class="c"># Spoken-forms of search engines in the Firefox</span>
+<span class="c">#  search-bar; they must be given in the same</span>
+<span class="c">#  order here as they are available in Firefox.</span>
+<span class="n">search</span><span class="o">.</span><span class="n">searchbar</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="s">&#39;google&#39;</span><span class="p">,</span> <span class="s">&#39;yahoo&#39;</span><span class="p">,</span> <span class="s">&#39;amazon&#39;</span><span class="p">,</span> <span class="s">&#39;answers&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;creative commons&#39;</span><span class="p">,</span> <span class="s">&#39;eBay&#39;</span><span class="p">,</span> <span class="s">&#39;wikipedia&#39;</span>
+                   <span class="p">]</span>
 
 
 <span class="c">#--- Language section ------------------------------------------------------</span>
@@ -166,23 +169,18 @@ use.</p>
 <span class="n">lang</span><span class="o">.</span><span class="n">save_page_as</span>          <span class="o">=</span> <span class="s">&#39;save [page | file] as&#39;</span>
 <span class="n">lang</span><span class="o">.</span><span class="n">print_page</span>            <span class="o">=</span> <span class="s">&#39;print [page | file]&#39;</span>
 <span class="n">lang</span><span class="o">.</span><span class="n">show_tab_n</span>            <span class="o">=</span> <span class="s">&#39;show tab &lt;n&gt;&#39;</span>
-<span class="n">lang</span><span class="o">.</span><span class="n">back_n</span>                <span class="o">=</span> <span class="s">&#39;back &lt;n&gt;&#39;</span>
-<span class="n">lang</span><span class="o">.</span><span class="n">forward_n</span>             <span class="o">=</span> <span class="s">&#39;forward &lt;n&gt;&#39;</span>
-<span class="n">lang</span><span class="o">.</span><span class="n">next_tab</span>              <span class="o">=</span> <span class="s">&#39;next tab&#39;</span>
-<span class="n">lang</span><span class="o">.</span><span class="n">next_tab_n</span>            <span class="o">=</span> <span class="s">&#39;next tab &lt;n&gt;&#39;</span>
-<span class="n">lang</span><span class="o">.</span><span class="n">prev_tab</span>              <span class="o">=</span> <span class="s">&#39;(previous | preev) tab&#39;</span>
-<span class="n">lang</span><span class="o">.</span><span class="n">prev_tab_n</span>            <span class="o">=</span> <span class="s">&#39;(previous | preev) tab &lt;n&gt;&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">back</span>                  <span class="o">=</span> <span class="s">&#39;back [&lt;n&gt;]&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">forward</span>               <span class="o">=</span> <span class="s">&#39;forward [&lt;n&gt;]&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">next_tab</span>              <span class="o">=</span> <span class="s">&#39;next tab [&lt;n&gt;]&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">prev_tab</span>              <span class="o">=</span> <span class="s">&#39;(previous | preev) tab [&lt;n&gt;]&#39;</span>
 <span class="n">lang</span><span class="o">.</span><span class="n">normal_size</span>           <span class="o">=</span> <span class="s">&#39;normal text size&#39;</span>
-<span class="n">lang</span><span class="o">.</span><span class="n">smaller_size</span>          <span class="o">=</span> <span class="s">&#39;smaller text size&#39;</span>
-<span class="n">lang</span><span class="o">.</span><span class="n">smaller_size_n</span>        <span class="o">=</span> <span class="s">&#39;smaller text size &lt;n&gt;&#39;</span>
-<span class="n">lang</span><span class="o">.</span><span class="n">bigger_size</span>           <span class="o">=</span> <span class="s">&#39;bigger text size&#39;</span>
-<span class="n">lang</span><span class="o">.</span><span class="n">bigger_size_n</span>         <span class="o">=</span> <span class="s">&#39;bigger text size &lt;n&gt;&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">smaller_size</span>          <span class="o">=</span> <span class="s">&#39;smaller text size [&lt;n&gt;]&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">bigger_size</span>           <span class="o">=</span> <span class="s">&#39;bigger text size [&lt;n&gt;]&#39;</span>
 <span class="n">lang</span><span class="o">.</span><span class="n">submit</span>                <span class="o">=</span> <span class="s">&#39;submit&#39;</span>
 <span class="n">lang</span><span class="o">.</span><span class="n">submit_text</span>           <span class="o">=</span> <span class="s">&#39;submit &lt;text&gt;&#39;</span>
 <span class="n">lang</span><span class="o">.</span><span class="n">find</span>                  <span class="o">=</span> <span class="s">&#39;find&#39;</span>
 <span class="n">lang</span><span class="o">.</span><span class="n">find_text</span>             <span class="o">=</span> <span class="s">&#39;find &lt;text&gt;&#39;</span>
-<span class="n">lang</span><span class="o">.</span><span class="n">find_next</span>             <span class="o">=</span> <span class="s">&#39;find next&#39;</span>
-<span class="n">lang</span><span class="o">.</span><span class="n">find_next_n</span>           <span class="o">=</span> <span class="s">&#39;find next &lt;n&gt;&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">find_next</span>             <span class="o">=</span> <span class="s">&#39;find next [&lt;n&gt;]&#39;</span>
 <span class="n">lang</span><span class="o">.</span><span class="n">link_open</span>             <span class="o">=</span> <span class="s">&#39;[link] &lt;link&gt; [open]&#39;</span>
 <span class="n">lang</span><span class="o">.</span><span class="n">link_select</span>           <span class="o">=</span> <span class="s">&#39;[link] &lt;link&gt; select&#39;</span>
 <span class="n">lang</span><span class="o">.</span><span class="n">link_force</span>            <span class="o">=</span> <span class="s">&#39;[link] &lt;link&gt; force&#39;</span>
@@ -434,18 +432,7 @@ use.</p>
 231
 232
 233
-234
-235
-236
-237
-238
-239
-240
-241
-242
-243
-244
-245</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+234</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
 <span class="c"># This file is a command-module for Dragonfly.</span>
 <span class="c"># (c) Copyright 2008 by Christo Butcher</span>
 <span class="c"># Licensed under the LGPL, see &lt;http://www.gnu.org/licenses/&gt;</span>
@@ -480,14 +467,11 @@ use.</p>
 
 <span class="c">#---------------------------------------------------------------------------</span>
 
-<span class="kn">from</span> <span class="nn">dragonfly.grammar.grammar</span>     <span class="kn">import</span> <span class="n">Grammar</span>
-<span class="kn">from</span> <span class="nn">dragonfly.grammar.context</span>     <span class="kn">import</span> <span class="n">AppContext</span>
-<span class="kn">from</span> <span class="nn">dragonfly.grammar.rule</span>        <span class="kn">import</span> <span class="n">Rule</span>
-<span class="kn">from</span> <span class="nn">dragonfly.grammar.mappingrule</span> <span class="kn">import</span> <span class="n">MappingRule</span>
-<span class="kn">from</span> <span class="nn">dragonfly.grammar.elements</span>    <span class="kn">import</span> <span class="n">Dictation</span><span class="p">,</span> <span class="n">Alternative</span><span class="p">,</span> <span class="n">Choice</span><span class="p">,</span> <span class="n">RuleRef</span>
+<span class="kn">from</span> <span class="nn">dragonfly.all</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Grammar</span><span class="p">,</span> <span class="n">AppContext</span><span class="p">,</span> <span class="n">Rule</span><span class="p">,</span> <span class="n">MappingRule</span><span class="p">,</span>
+                           <span class="n">Dictation</span><span class="p">,</span> <span class="n">Alternative</span><span class="p">,</span> <span class="n">Choice</span><span class="p">,</span> <span class="n">RuleRef</span><span class="p">,</span>
+                           <span class="n">Key</span><span class="p">,</span> <span class="n">Text</span><span class="p">,</span>
+                           <span class="n">Config</span><span class="p">,</span> <span class="n">Section</span><span class="p">,</span> <span class="n">Item</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">dragonfly.grammar.integer_en</span>  <span class="kn">import</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">Digits</span>
-<span class="kn">from</span> <span class="nn">dragonfly.actions.actions</span>     <span class="kn">import</span> <span class="n">Key</span><span class="p">,</span> <span class="n">Text</span>
-<span class="kn">from</span> <span class="nn">dragonfly.config</span>              <span class="kn">import</span> <span class="n">Config</span><span class="p">,</span> <span class="n">Section</span><span class="p">,</span> <span class="n">Item</span>
 
 
 <span class="c">#---------------------------------------------------------------------------</span>
@@ -510,7 +494,6 @@ use.</p>
                                        <span class="s">&quot;creative commons&quot;</span><span class="p">,</span>
                                        <span class="s">&quot;eBay&quot;</span><span class="p">,</span>
                                        <span class="s">&quot;wikipedia&quot;</span><span class="p">,</span>
-                                       <span class="s">&quot;thai&quot;</span><span class="p">,</span>
                                       <span class="p">],</span>
                               <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Spoken-forms of search engines in the Firefox search-bar; they must be given in the same order here as they are available in Firefox.&quot;</span><span class="p">,</span>
                              <span class="p">)</span>
@@ -532,23 +515,18 @@ use.</p>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">save_page_as</span>           <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;save [page | file] as&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">print_page</span>             <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;print [page | file]&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">show_tab_n</span>             <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;show tab &lt;n&gt;&quot;</span><span class="p">)</span>
-<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">back_n</span>                 <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;back &lt;n&gt;&quot;</span><span class="p">)</span>
-<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">forward_n</span>              <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;forward &lt;n&gt;&quot;</span><span class="p">)</span>
-<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">next_tab</span>               <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;next tab&quot;</span><span class="p">)</span>
-<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">next_tab_n</span>             <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;next tab &lt;n&gt;&quot;</span><span class="p">)</span>
-<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">prev_tab</span>               <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;(previous | preev) tab&quot;</span><span class="p">)</span>
-<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">prev_tab_n</span>             <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;(previous | preev) tab &lt;n&gt;&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">back</span>                   <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;back [&lt;n&gt;]&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">forward</span>                <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;forward [&lt;n&gt;]&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">next_tab</span>               <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;next tab [&lt;n&gt;]&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">prev_tab</span>               <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;(previous | preev) tab [&lt;n&gt;]&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">normal_size</span>            <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;normal text size&quot;</span><span class="p">)</span>
-<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">smaller_size</span>           <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;smaller text size&quot;</span><span class="p">)</span>
-<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">smaller_size_n</span>         <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;smaller text size &lt;n&gt;&quot;</span><span class="p">)</span>
-<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">bigger_size</span>            <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;bigger text size&quot;</span><span class="p">)</span>
-<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">bigger_size_n</span>          <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;bigger text size &lt;n&gt;&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">smaller_size</span>           <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;smaller text size [&lt;n&gt;]&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">bigger_size</span>            <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;bigger text size [&lt;n&gt;]&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">submit</span>                 <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;submit&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">submit_text</span>            <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;submit &lt;text&gt;&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">find</span>                   <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;find&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">find_text</span>              <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;find &lt;text&gt;&quot;</span><span class="p">)</span>
-<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">find_next</span>              <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;find next&quot;</span><span class="p">)</span>
-<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">find_next_n</span>            <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;find next &lt;n&gt;&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">find_next</span>              <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;find next [&lt;n&gt;]&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_open</span>              <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;[link] &lt;link&gt; [open]&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_select</span>            <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;[link] &lt;link&gt; select&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_force</span>             <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;[link] &lt;link&gt; force&quot;</span><span class="p">)</span>
@@ -627,26 +605,21 @@ use.</p>
         <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">print_page</span><span class="p">:</span>         <span class="n">Key</span><span class="p">(</span><span class="s">&quot;c-p&quot;</span><span class="p">),</span>
 
         <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">show_tab_n</span><span class="p">:</span>         <span class="n">Key</span><span class="p">(</span><span class="s">&quot;0, </span><span class="si">%(n)d</span><span class="s">, enter&quot;</span><span class="p">),</span>
-        <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">back_n</span><span class="p">:</span>             <span class="n">Key</span><span class="p">(</span><span class="s">&quot;a-left/15:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
-        <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">forward_n</span><span class="p">:</span>          <span class="n">Key</span><span class="p">(</span><span class="s">&quot;a-right/15:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
-        <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">next_tab</span><span class="p">:</span>           <span class="n">Key</span><span class="p">(</span><span class="s">&quot;c-tab&quot;</span><span class="p">),</span>
-        <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">next_tab_n</span><span class="p">:</span>         <span class="n">Key</span><span class="p">(</span><span class="s">&quot;c-tab:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
-        <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">prev_tab</span><span class="p">:</span>           <span class="n">Key</span><span class="p">(</span><span class="s">&quot;cs-tab&quot;</span><span class="p">),</span>
-        <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">prev_tab_n</span><span class="p">:</span>         <span class="n">Key</span><span class="p">(</span><span class="s">&quot;cs-tab:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">back</span><span class="p">:</span>               <span class="n">Key</span><span class="p">(</span><span class="s">&quot;a-left/15:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">forward</span><span class="p">:</span>            <span class="n">Key</span><span class="p">(</span><span class="s">&quot;a-right/15:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">next_tab</span><span class="p">:</span>           <span class="n">Key</span><span class="p">(</span><span class="s">&quot;c-tab:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">prev_tab</span><span class="p">:</span>           <span class="n">Key</span><span class="p">(</span><span class="s">&quot;cs-tab:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
 
         <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">normal_size</span><span class="p">:</span>        <span class="n">Key</span><span class="p">(</span><span class="s">&quot;a-v/20, z/20, r&quot;</span><span class="p">),</span>
-        <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">smaller_size</span><span class="p">:</span>       <span class="n">Key</span><span class="p">(</span><span class="s">&quot;c-minus&quot;</span><span class="p">),</span>
-        <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">smaller_size_n</span><span class="p">:</span>     <span class="n">Key</span><span class="p">(</span><span class="s">&quot;c-minus:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
-        <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">bigger_size</span><span class="p">:</span>        <span class="n">Key</span><span class="p">(</span><span class="s">&quot;cs-equals&quot;</span><span class="p">),</span>
-        <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">bigger_size_n</span><span class="p">:</span>      <span class="n">Key</span><span class="p">(</span><span class="s">&quot;cs-equals:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">smaller_size</span><span class="p">:</span>       <span class="n">Key</span><span class="p">(</span><span class="s">&quot;c-minus:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">bigger_size</span><span class="p">:</span>        <span class="n">Key</span><span class="p">(</span><span class="s">&quot;cs-equals:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
 
         <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">submit</span><span class="p">:</span>             <span class="n">Key</span><span class="p">(</span><span class="s">&quot;enter&quot;</span><span class="p">),</span>
         <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">submit_text</span><span class="p">:</span>        <span class="n">Text</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%(text)s</span><span class="s">&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Key</span><span class="p">(</span><span class="s">&quot;enter&quot;</span><span class="p">),</span>
 
         <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">find</span><span class="p">:</span>               <span class="n">Key</span><span class="p">(</span><span class="s">&quot;c-f&quot;</span><span class="p">),</span>
         <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">find_text</span><span class="p">:</span>          <span class="n">Key</span><span class="p">(</span><span class="s">&quot;c-f&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Text</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%(text)s</span><span class="s">&quot;</span><span class="p">),</span>
-        <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">find_next</span><span class="p">:</span>          <span class="n">Key</span><span class="p">(</span><span class="s">&quot;f3&quot;</span><span class="p">),</span>
-        <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">find_next_n</span><span class="p">:</span>        <span class="n">Key</span><span class="p">(</span><span class="s">&quot;f3/10:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">find_next</span><span class="p">:</span>          <span class="n">Key</span><span class="p">(</span><span class="s">&quot;f3/10:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
 
         <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_open</span><span class="p">:</span>          <span class="n">Key</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%(link)s</span><span class="s">, enter&quot;</span><span class="p">),</span>
         <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_select</span><span class="p">:</span>        <span class="n">Key</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%(link)s</span><span class="s">, shift&quot;</span><span class="p">),</span>
@@ -675,6 +648,9 @@ use.</p>
         <span class="n">Choice</span><span class="p">(</span><span class="s">&quot;keyword&quot;</span><span class="p">,</span> <span class="n">keywords</span><span class="p">),</span>
         <span class="n">Choice</span><span class="p">(</span><span class="s">&quot;searchbar&quot;</span><span class="p">,</span> <span class="n">searchbar</span><span class="p">),</span>
         <span class="p">]</span>
+    <span class="n">defaults</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&quot;n&quot;</span><span class="p">:</span> <span class="mf">1</span><span class="p">,</span>
+        <span class="p">}</span>
 
 
 <span class="c">#---------------------------------------------------------------------------</span>
@@ -714,7 +690,7 @@ use.</p>
 </ul>
 
             <h4>Previous topic</h4>
-            <p class="topless"><a href="mod-_bringme.html" title="previous chapter">Command-module for direct opening of <strong>user-defined targets</strong></a></p>
+            <p class="topless"><a href="mod-_kbbreak.html" title="previous chapter">Command-module for sending <strong>keyboard breaks</strong></a></p>
             <h4>Next topic</h4>
             <p class="topless"><a href="mod-_word_styles.html" title="next chapter">Command-module for styles in <strong>Microsoft Word</strong></a></p>
             <h3>This Page</h3>
@@ -744,14 +720,14 @@ use.</p>
           <a href="mod-_word_styles.html" title="Command-module for styles in Microsoft Word"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="mod-_bringme.html" title="Command-module for direct opening of user-defined targets"
+          <a href="mod-_kbbreak.html" title="Command-module for sending keyboard breaks"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li>
       </ul>
     </div>
     <div class="footer">
       &copy; Copyright 2008, Christo Butcher.
-      Last updated on Nov 04, 2008.
+      Last updated on Nov 05, 2008.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
   </body>

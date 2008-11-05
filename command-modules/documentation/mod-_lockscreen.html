@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Command-module for screen locking &mdash; Dragonfly-modules v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+          URL_ROOT:    '',
+          VERSION:     '0.1',
+          COLLAPSE_MODINDEX: false,
+          FILE_SUFFIX: '.html'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="contents" title="Global table of contents" href="contents.html" />
+    <link rel="index" title="Global index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Dragonfly-modules v0.1 documentation" href="index.html" />
+    <link rel="next" title="Command-module for sending keyboard breaks" href="mod-_kbbreak.html" />
+    <link rel="prev" title="Command-module for direct opening of user-defined targets" href="mod-_bringme.html" />
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="mod-_kbbreak.html" title="Command-module for sending keyboard breaks"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="mod-_bringme.html" title="Command-module for direct opening of user-defined targets"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li>
+      </ul>
+    </div>
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  
+  <div class="section" id="command-module-for-screen-locking">
+<h1>Command-module for <strong>screen locking</strong><a class="headerlink" href="#command-module-for-screen-locking" title="Permalink to this headline">¶</a></h1>
+<p>This module implements a command to lock a computer&#8217;s screen.
+The locking is the same as when the user presses <em>win-L</em>.</p>
+<div class="section" id="configuration-examples">
+<h2>Configuration examples<a class="headerlink" href="#configuration-examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="configuration-lockscreen-en-txt">
+<h3>Configuration &#8220;_lockscreen-en.txt&#8221;<a class="headerlink" href="#configuration-lockscreen-en-txt" title="Permalink to this headline">¶</a></h3>
+<table class="highlighttable"><tr><td class="linenos"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+<span class="c"># Dragonfly configuration file for the lock screen command-module.</span>
+<span class="c">#</span>
+<span class="c"># This file is a command-module for Dragonfly.</span>
+<span class="c"># (c) Copyright 2008 by Christo Butcher</span>
+<span class="c"># Licensed under the LGPL, see &lt;http://www.gnu.org/licenses/&gt;</span>
+<span class="c">#</span>
+
+<span class="c">#--- Language section ------------------------------------------------------</span>
+
+<span class="c"># Command to lock the screen; also puts the microphone to sleep.</span>
+<span class="c"># Default: &#39;lock screen now now&#39;</span>
+
+<span class="n">lang</span><span class="o">.</span><span class="n">lock_screen</span> <span class="o">=</span> <span class="s">&#39;lock screen now now&#39;</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="module-source-code">
+<h2>Module source code<a class="headerlink" href="#module-source-code" title="Permalink to this headline">¶</a></h2>
+<table class="highlighttable"><tr><td class="linenos"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+<span class="c"># This file is a command-module for Dragonfly.</span>
+<span class="c"># (c) Copyright 2008 by Christo Butcher</span>
+<span class="c"># Licensed under the LGPL, see &lt;http://www.gnu.org/licenses/&gt;</span>
+<span class="c">#</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Command-module for **screen locking**</span>
+<span class="sd">=====================================</span>
+
+<span class="sd">This module implements a command to lock a computer&#39;s screen.</span>
+<span class="sd">The locking is the same as when the user presses *win-L*.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+
+<span class="kn">import</span> <span class="nn">ctypes</span>
+<span class="kn">import</span> <span class="nn">natlink</span>
+
+<span class="kn">from</span> <span class="nn">dragonfly.all</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Grammar</span><span class="p">,</span> <span class="n">CompoundRule</span><span class="p">,</span> <span class="n">Config</span><span class="p">,</span> <span class="n">Section</span><span class="p">,</span> <span class="n">Item</span><span class="p">)</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+<span class="c"># Set up this module&#39;s configuration.</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="s">&quot;lock screen&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span>             <span class="o">=</span> <span class="n">Section</span><span class="p">(</span><span class="s">&quot;Language section&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">lock_screen</span> <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;lock screen now now&quot;</span><span class="p">,</span>
+                               <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Command to lock the screen;&quot;</span>
+                                   <span class="s">&quot; also puts the microphone to sleep.&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+<span class="c"># Lock screen rule.</span>
+
+<span class="k">class</span> <span class="nc">LockRule</span><span class="p">(</span><span class="n">CompoundRule</span><span class="p">):</span>
+
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">lock_screen</span>
+
+    <span class="k">def</span> <span class="nf">_process_recognition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">extras</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: locking screen.&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="p">)</span>
+
+        <span class="c"># Put the microphone to sleep.</span>
+        <span class="n">natlink</span><span class="o">.</span><span class="n">setMicState</span><span class="p">(</span><span class="s">&quot;sleeping&quot;</span><span class="p">)</span>
+
+        <span class="c"># Lock screen.</span>
+        <span class="n">success</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">windll</span><span class="o">.</span><span class="n">user32</span><span class="o">.</span><span class="n">LockWorkStation</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: failed to lock screen.&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="p">)</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+<span class="c"># Create and manage this module&#39;s grammar.</span>
+
+<span class="n">grammar</span> <span class="o">=</span> <span class="n">Grammar</span><span class="p">(</span><span class="s">&quot;lock screen&quot;</span><span class="p">)</span>
+<span class="n">grammar</span><span class="o">.</span><span class="n">add_rule</span><span class="p">(</span><span class="n">LockRule</span><span class="p">())</span>
+<span class="n">grammar</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">unload</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">grammar</span>
+    <span class="k">if</span> <span class="n">grammar</span><span class="p">:</span> <span class="n">grammar</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
+    <span class="n">grammar</span> <span class="o">=</span> <span class="bp">None</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3>Table Of Contents</h3>
+            <ul>
+<li><a class="reference external" href="">Command-module for <strong>screen locking</strong></a><ul>
+<li><a class="reference external" href="#configuration-examples">Configuration examples</a><ul>
+<li><a class="reference external" href="#configuration-lockscreen-en-txt">Configuration &#8220;_lockscreen-en.txt&#8221;</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#module-source-code">Module source code</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="mod-_bringme.html" title="previous chapter">Command-module for direct opening of <strong>user-defined targets</strong></a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="mod-_kbbreak.html" title="next chapter">Command-module for sending <strong>keyboard breaks</strong></a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/mod-_lockscreen.txt">Show Source</a></li>
+            </ul>
+            <h3>Quick search</h3>
+            <form class="search" action="search.html" method="get">
+              <input type="text" name="q" size="18" /> <input type="submit" value="Go" />
+              <input type="hidden" name="check_keywords" value="yes" />
+              <input type="hidden" name="area" value="default" />
+            </form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="mod-_kbbreak.html" title="Command-module for sending keyboard breaks"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="mod-_bringme.html" title="Command-module for direct opening of user-defined targets"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li>
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2008, Christo Butcher.
+      Last updated on Nov 05, 2008.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

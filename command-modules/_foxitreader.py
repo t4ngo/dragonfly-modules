@@ -5,8 +5,8 @@
 #
 
 """
-Command-module for **Firefox**
-==============================
+Command-module for **Foxit Reader** PDF viewer
+==============================================
 
 This module offers commands to control `Foxit Reader
 <http://www.foxitsoftware.com/pdf/rd_intro.php>`_, a free

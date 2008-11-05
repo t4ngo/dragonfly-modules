@@ -7,7 +7,11 @@
 #
 
 """
-    This module implements the "keyboard break" command.
+Command-module for sending **keyboard breaks**
+==============================================
+
+This module implements the "keyboard break" command.
+
 """
 
 
@@ -17,27 +21,21 @@ from dragonfly.actions.actions     import Key, Text
 
 
 #---------------------------------------------------------------------------
-# Create this module's grammar and the context under which it'll be active.
-
-global_grammar  = Grammar("global")
-
-
-#---------------------------------------------------------------------------
+# Defined this module's main rule.
 
 global_rule = MappingRule(
     name="global",
     mapping={
-             "keyboard break":          Key("c-c"),
+             "keyboard break": Key("c-c"),
             },
     )
-
-# Add the action rule to the grammar instance.
-global_grammar.add_rule(global_rule)
 
 
 #---------------------------------------------------------------------------
 # Load the grammar instance and define how to unload it.
 
+global_grammar  = Grammar("global")
+global_grammar.add_rule(global_rule)
 global_grammar.load()
 
 # Unload function which will be called by natlink at unload time.

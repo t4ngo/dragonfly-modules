@@ -33,14 +33,11 @@ use.
 
 #---------------------------------------------------------------------------
 
-from dragonfly.grammar.grammar     import Grammar
-from dragonfly.grammar.context     import AppContext
-from dragonfly.grammar.rule        import Rule
-from dragonfly.grammar.mappingrule import MappingRule
-from dragonfly.grammar.elements    import Dictation, Alternative, Choice, RuleRef
+from dragonfly.all import (Grammar, AppContext, Rule, MappingRule,
+                           Dictation, Alternative, Choice, RuleRef,
+                           Key, Text,
+                           Config, Section, Item)
 from dragonfly.grammar.integer_en  import Integer, Digits
-from dragonfly.actions.actions     import Key, Text
-from dragonfly.config              import Config, Section, Item
 
 
 #---------------------------------------------------------------------------
@@ -63,7 +60,6 @@ config.search.searchbar = Item(
                                        "creative commons",
                                        "eBay",
                                        "wikipedia",
-                                       "thai",
                                       ],
                               doc="Spoken-forms of search engines in the Firefox search-bar; they must be given in the same order here as they are available in Firefox.",
                              )
@@ -85,23 +81,18 @@ config.lang.bookmark_page          = Item("bookmark [this] page")
 config.lang.save_page_as           = Item("save [page | file] as")
 config.lang.print_page             = Item("print [page | file]")
 config.lang.show_tab_n             = Item("show tab <n>")
-config.lang.back_n                 = Item("back <n>")
-config.lang.forward_n              = Item("forward <n>")
-config.lang.next_tab               = Item("next tab")
-config.lang.next_tab_n             = Item("next tab <n>")
-config.lang.prev_tab               = Item("(previous | preev) tab")
-config.lang.prev_tab_n             = Item("(previous | preev) tab <n>")
+config.lang.back                   = Item("back [<n>]")
+config.lang.forward                = Item("forward [<n>]")
+config.lang.next_tab               = Item("next tab [<n>]")
+config.lang.prev_tab               = Item("(previous | preev) tab [<n>]")
 config.lang.normal_size            = Item("normal text size")
-config.lang.smaller_size           = Item("smaller text size")
-config.lang.smaller_size_n         = Item("smaller text size <n>")
-config.lang.bigger_size            = Item("bigger text size")
-config.lang.bigger_size_n          = Item("bigger text size <n>")
+config.lang.smaller_size           = Item("smaller text size [<n>]")
+config.lang.bigger_size            = Item("bigger text size [<n>]")
 config.lang.submit                 = Item("submit")
 config.lang.submit_text            = Item("submit <text>")
 config.lang.find                   = Item("find")
 config.lang.find_text              = Item("find <text>")
-config.lang.find_next              = Item("find next")
-config.lang.find_next_n            = Item("find next <n>")
+config.lang.find_next              = Item("find next [<n>]")
 config.lang.link_open              = Item("[link] <link> [open]")
 config.lang.link_select            = Item("[link] <link> select")
 config.lang.link_force             = Item("[link] <link> force")
@@ -180,26 +171,21 @@ class CommandRule(MappingRule):
         config.lang.print_page:         Key("c-p"),
 
         config.lang.show_tab_n:         Key("0, %(n)d, enter"),
-        config.lang.back_n:             Key("a-left/15:%(n)d"),
-        config.lang.forward_n:          Key("a-right/15:%(n)d"),
-        config.lang.next_tab:           Key("c-tab"),
-        config.lang.next_tab_n:         Key("c-tab:%(n)d"),
-        config.lang.prev_tab:           Key("cs-tab"),
-        config.lang.prev_tab_n:         Key("cs-tab:%(n)d"),
+        config.lang.back:               Key("a-left/15:%(n)d"),
+        config.lang.forward:            Key("a-right/15:%(n)d"),
+        config.lang.next_tab:           Key("c-tab:%(n)d"),
+        config.lang.prev_tab:           Key("cs-tab:%(n)d"),
 
         config.lang.normal_size:        Key("a-v/20, z/20, r"),
-        config.lang.smaller_size:       Key("c-minus"),
-        config.lang.smaller_size_n:     Key("c-minus:%(n)d"),
-        config.lang.bigger_size:        Key("cs-equals"),
-        config.lang.bigger_size_n:      Key("cs-equals:%(n)d"),
+        config.lang.smaller_size:       Key("c-minus:%(n)d"),
+        config.lang.bigger_size:        Key("cs-equals:%(n)d"),
 
         config.lang.submit:             Key("enter"),
         config.lang.submit_text:        Text("%(text)s") + Key("enter"),
 
         config.lang.find:               Key("c-f"),
         config.lang.find_text:          Key("c-f") + Text("%(text)s"),
-        config.lang.find_next:          Key("f3"),
-        config.lang.find_next_n:        Key("f3/10:%(n)d"),
+        config.lang.find_next:          Key("f3/10:%(n)d"),
 
         config.lang.link_open:          Key("%(link)s, enter"),
         config.lang.link_select:        Key("%(link)s, shift"),
@@ -228,6 +214,9 @@ class CommandRule(MappingRule):
         Choice("keyword", keywords),
         Choice("searchbar", searchbar),
         ]
+    defaults = {
+        "n": 1,
+        }
 
 
 #---------------------------------------------------------------------------

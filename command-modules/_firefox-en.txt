@@ -4,14 +4,18 @@
 
 #--- Search-related section ------------------------------------------------
 
-search.keywords = {'wikipedia': 'wikipedia'}
-                    # Mapping of spoken-forms to Firefox search-
-                    #  keywords.
+# Mapping of spoken-forms to Firefox search-keywords.
+search.keywords = {
+                   'wikipedia': 'wikipedia'
+                  }
 
-search.searchbar = ['google', 'yahoo', 'amazon', 'answers', 'creative commons', 'eBay', 'wikipedia', 'thai']
-                    # Spoken-forms of search engines in the Firefox
-                    #  search-bar; they must be given in the same
-                    #  order here as they are available in Firefox.
+# Spoken-forms of search engines in the Firefox
+#  search-bar; they must be given in the same
+#  order here as they are available in Firefox.
+search.searchbar = [
+                    'google', 'yahoo', 'amazon', 'answers',
+                    'creative commons', 'eBay', 'wikipedia'
+                   ]
 
 
 #--- Language section ------------------------------------------------------
@@ -32,23 +36,18 @@ lang.bookmark_page         = 'bookmark [this] page'
 lang.save_page_as          = 'save [page | file] as'
 lang.print_page            = 'print [page | file]'
 lang.show_tab_n            = 'show tab <n>'
-lang.back_n                = 'back <n>'
-lang.forward_n             = 'forward <n>'
-lang.next_tab              = 'next tab'
-lang.next_tab_n            = 'next tab <n>'
-lang.prev_tab              = '(previous | preev) tab'
-lang.prev_tab_n            = '(previous | preev) tab <n>'
+lang.back                  = 'back [<n>]'
+lang.forward               = 'forward [<n>]'
+lang.next_tab              = 'next tab [<n>]'
+lang.prev_tab              = '(previous | preev) tab [<n>]'
 lang.normal_size           = 'normal text size'
-lang.smaller_size          = 'smaller text size'
-lang.smaller_size_n        = 'smaller text size <n>'
-lang.bigger_size           = 'bigger text size'
-lang.bigger_size_n         = 'bigger text size <n>'
+lang.smaller_size          = 'smaller text size [<n>]'
+lang.bigger_size           = 'bigger text size [<n>]'
 lang.submit                = 'submit'
 lang.submit_text           = 'submit <text>'
 lang.find                  = 'find'
 lang.find_text             = 'find <text>'
-lang.find_next             = 'find next'
-lang.find_next_n           = 'find next <n>'
+lang.find_next             = 'find next [<n>]'
 lang.link_open             = '[link] <link> [open]'
 lang.link_select           = '[link] <link> select'
 lang.link_force            = '[link] <link> force'

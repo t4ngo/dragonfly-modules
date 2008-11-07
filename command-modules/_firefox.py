@@ -88,11 +88,13 @@ config.lang.prev_tab               = Item("(previous | preev) tab [<n>]")
 config.lang.normal_size            = Item("normal text size")
 config.lang.smaller_size           = Item("smaller text size [<n>]")
 config.lang.bigger_size            = Item("bigger text size [<n>]")
-config.lang.submit                 = Item("submit")
-config.lang.submit_text            = Item("submit <text>")
 config.lang.find                   = Item("find")
 config.lang.find_text              = Item("find <text>")
 config.lang.find_next              = Item("find next [<n>]")
+
+config.lang.submit                 = Item("submit")
+config.lang.submit_text            = Item("submit <text>")
+config.lang.submit_clipboard       = Item("submit clipboard")
 config.lang.link_open              = Item("[link] <link> [open]")
 config.lang.link_select            = Item("[link] <link> select")
 config.lang.link_force             = Item("[link] <link> force")
@@ -103,10 +105,14 @@ config.lang.link_copy_into_tab     = Item("[link] <link> copy into tab")
 config.lang.link_list              = Item("[link] <link> list")
 config.lang.link_submit            = Item("[link] <link> submit")
 config.lang.link_submit_text       = Item("[link] <link> submit <text>")
+config.lang.link_submit_clipboard  = Item("[link] <link> submit clipboard")
 
 config.lang.search_text            = Item("[power] search [for] <text>")
 config.lang.search_keyword_text    = Item("[power] search <keyword> [for] <text>")
 config.lang.search_searchbar_text  = Item("[power] search <searchbar> [for] <text>")
+config.lang.search_clipboard       = Item("[power] search [for] clipboard")
+config.lang.search_keyword_clipboard = Item("[power] search <keyword> [for] clipboard")
+config.lang.search_searchbar_clipboard = Item("[power] search <searchbar> [for] clipboard")
 
 #config.generate_config_file()
 config.load()
@@ -182,6 +188,7 @@ class CommandRule(MappingRule):
 
         config.lang.submit:             Key("enter"),
         config.lang.submit_text:        Text("%(text)s") + Key("enter"),
+        config.lang.submit_clipboard:   Key("c-v, enter"),
 
         config.lang.find:               Key("c-f"),
         config.lang.find_text:          Key("c-f") + Text("%(text)s"),
@@ -198,6 +205,7 @@ class CommandRule(MappingRule):
         config.lang.link_submit:        Key("%(link)s, enter/30, enter"),
         config.lang.link_submit_text:   Key("%(link)s, enter/30")
                                          + Text("%(text)s") + Key("enter"),
+        config.lang.link_submit_clipboard: Key("%(link)s, enter/30, c-v, enter"),
 
         config.lang.search_text:        Key("c-k")
                                          + Text("%(text)s") + Key("enter"),
@@ -206,6 +214,10 @@ class CommandRule(MappingRule):
         config.lang.search_keyword_text: Key("a-d")
                                          + Text("%(keyword)s %(text)s")
                                          + Key("enter"),
+        config.lang.search_clipboard:   Key("c-k, c-v, enter"),
+        config.lang.search_searchbar_clipboard: Key("c-k, c-up:20, c-down:%(searchbar)d, c-v, enter"),
+        config.lang.search_keyword_clipboard: Key("a-d") + Text("%(keyword)s")
+                                         + Key("c-v, enter"),
         }
     extras = [
         link,

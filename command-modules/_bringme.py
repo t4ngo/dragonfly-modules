@@ -60,10 +60,8 @@ import os.path
 import webbrowser
 import subprocess
 
-from dragonfly.grammar.grammar      import Grammar
-from dragonfly.grammar.elements     import Choice
-from dragonfly.grammar.compoundrule import CompoundRule
-from dragonfly.config               import Config, Section, Item
+from dragonfly.all import (Grammar, Choice, CompoundRule,
+                           Config, Section, Item)
 
 
 #---------------------------------------------------------------------------
@@ -105,7 +103,8 @@ config.targets.mapping = Item(
                              )
 config.lang            = Section("Language section")
 config.lang.bring_me   = Item("bring me <target>",
-                              doc="Command to bring a target; must contain the <target> extra.")
+                              doc="Command to bring a target;"
+                                  " must contain the <target> extra.")
 config.load()
 
 

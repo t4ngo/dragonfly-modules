@@ -41,6 +41,7 @@ Application-specific control
    mod-_word_styles
    mod-_outlook
    mod-_foxitreader
+   mod-sharpreader
    mod-_audacity
 
 Demonstration modules

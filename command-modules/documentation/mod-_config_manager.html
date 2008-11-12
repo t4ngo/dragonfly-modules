@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Module source code &mdash; Dragonfly-modules v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+          URL_ROOT:    '',
+          VERSION:     '0.1',
+          COLLAPSE_MODINDEX: false,
+          FILE_SUFFIX: '.html'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="contents" title="Global table of contents" href="contents.html" />
+    <link rel="index" title="Global index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Dragonfly-modules v0.1 documentation" href="index.html" />
+    <link rel="next" title="Command-module for moving and controlling windows" href="mod-_winctrl.html" />
+    <link rel="prev" title="Dragonfly-modules documentation" href="index.html" />
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="mod-_winctrl.html" title="Command-module for moving and controlling windows"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Dragonfly-modules documentation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li>
+      </ul>
+    </div>
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  
+  <div class="section" id="module-source-code">
+<h1>Module source code<a class="headerlink" href="#module-source-code" title="Permalink to this headline">¶</a></h1>
+<table class="highlighttable"><tr><td class="linenos"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+<span class="c"># This file is a command-module for Dragonfly.</span>
+<span class="c"># (c) Copyright 2008 by Christo Butcher</span>
+<span class="c"># Licensed under the LGPL, see &lt;http://www.gnu.org/licenses/&gt;</span>
+<span class="c">#</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">os.path</span>
+<span class="kn">from</span> <span class="nn">dragonfly.all</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Grammar</span><span class="p">,</span> <span class="n">CompoundRule</span><span class="p">,</span> <span class="n">DictList</span><span class="p">,</span> <span class="n">DictListRef</span><span class="p">,</span>
+                           <span class="n">Config</span><span class="p">,</span> <span class="n">Section</span><span class="p">,</span> <span class="n">Item</span><span class="p">)</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+<span class="c"># Set up this module&#39;s configuration.</span>
+
+<span class="n">config</span>                   <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="s">&quot;config manager&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span>              <span class="o">=</span> <span class="n">Section</span><span class="p">(</span><span class="s">&quot;Language section&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">list_configs</span> <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;list configs&quot;</span><span class="p">,</span>
+                                <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Command to ...&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">edit_config</span>  <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;edit &lt;config&gt; (config | configuration)&quot;</span><span class="p">,</span>
+                                <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Command to ...&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+
+<span class="n">config_map</span> <span class="o">=</span> <span class="n">DictList</span><span class="p">(</span><span class="s">&quot;config_map&quot;</span><span class="p">)</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+
+<span class="k">class</span> <span class="nc">ConfigManagerGrammar</span><span class="p">(</span><span class="n">Grammar</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Grammar</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;config manager&quot;</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">process_begin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">executable</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">handle</span><span class="p">):</span>
+        <span class="n">configs</span> <span class="o">=</span> <span class="n">Config</span><span class="o">.</span><span class="n">get_instances</span><span class="p">()</span>
+
+        <span class="c"># Check for modified config files, and if found cause reload.</span>
+        <span class="n">new_config_map</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">configs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">config_path</span><span class="p">):</span> <span class="k">continue</span>
+            <span class="n">new_config_map</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">config_path</span>
+            <span class="n">config_time</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getmtime</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">config_path</span><span class="p">)</span>
+            <span class="n">module_time</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getmtime</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">module_path</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">config_time</span> <span class="o">&gt;=</span> <span class="n">module_time</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s">&quot;reloading config&quot;</span><span class="p">,</span><span class="n">c</span><span class="o">.</span><span class="n">name</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">utime</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">module_path</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+
+        <span class="c"># Refresh the mapping of config names -&gt; config files.</span>
+        <span class="n">config_map</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">new_config_map</span><span class="p">)</span>
+
+<span class="n">grammar</span> <span class="o">=</span> <span class="n">ConfigManagerGrammar</span><span class="p">()</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+
+<span class="k">class</span> <span class="nc">ListConfigsRule</span><span class="p">(</span><span class="n">CompoundRule</span><span class="p">):</span>
+
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">list_configs</span>
+
+    <span class="k">def</span> <span class="nf">_process_recognition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">extras</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Active configuration files:&quot;</span>
+        <span class="n">configs</span> <span class="o">=</span> <span class="n">config_map</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="n">configs</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">config</span> <span class="ow">in</span> <span class="n">configs</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;  - </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">config</span>
+
+<span class="n">grammar</span><span class="o">.</span><span class="n">add_rule</span><span class="p">(</span><span class="n">ListConfigsRule</span><span class="p">())</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+
+<span class="k">class</span> <span class="nc">EditConfigRule</span><span class="p">(</span><span class="n">CompoundRule</span><span class="p">):</span>
+
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">edit_config</span>
+    <span class="n">extras</span> <span class="o">=</span> <span class="p">[</span><span class="n">DictListRef</span><span class="p">(</span><span class="s">&quot;config&quot;</span><span class="p">,</span> <span class="n">config_map</span><span class="p">)]</span>
+
+    <span class="k">def</span> <span class="nf">_process_recognition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">extras</span><span class="p">):</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">extras</span><span class="p">[</span><span class="s">&quot;config&quot;</span><span class="p">]</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">startfile</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+<span class="n">grammar</span><span class="o">.</span><span class="n">add_rule</span><span class="p">(</span><span class="n">EditConfigRule</span><span class="p">())</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+<span class="c"># Load this module&#39;s grammar.</span>
+
+<span class="n">grammar</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">unload</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">grammar</span>
+    <span class="k">if</span> <span class="n">grammar</span><span class="p">:</span> <span class="n">grammar</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
+    <span class="n">grammar</span> <span class="o">=</span> <span class="bp">None</span>
+</pre></div>
+</td></tr></table></div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="index.html" title="previous chapter">Dragonfly-modules documentation</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="mod-_winctrl.html" title="next chapter">Command-module for moving and controlling <strong>windows</strong></a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/mod-_config_manager.txt">Show Source</a></li>
+            </ul>
+            <h3>Quick search</h3>
+            <form class="search" action="search.html" method="get">
+              <input type="text" name="q" size="18" /> <input type="submit" value="Go" />
+              <input type="hidden" name="check_keywords" value="yes" />
+              <input type="hidden" name="area" value="default" />
+            </form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="mod-_winctrl.html" title="Command-module for moving and controlling windows"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Dragonfly-modules documentation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li>
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2008, Christo Butcher.
+      Last updated on Nov 12, 2008.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+  </body>
+</html>

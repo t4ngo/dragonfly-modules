@@ -37,7 +37,6 @@ General desktop activities
    mod-_taskbar
    mod-_bringme
    mod-_lockscreen
-   mod-_variable_format
    mod-_kbbreak
 
 Application-specific control

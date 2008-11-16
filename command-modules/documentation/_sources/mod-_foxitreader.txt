@@ -10,6 +10,8 @@ and lightweight PDF reader.
 Module source code
 ------------------
 
+The most current version of this module can be downloaded from the `repository here <http://dragonfly-modules.googlecode.com/svn/trunk/command-modules/_foxitreader.py>`_.
+
 .. code-block:: python
    :linenos:
 

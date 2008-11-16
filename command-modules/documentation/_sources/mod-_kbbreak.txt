@@ -8,6 +8,8 @@ This module implements the "keyboard break" command.
 Module source code
 ------------------
 
+The most current version of this module can be downloaded from the `repository here <http://dragonfly-modules.googlecode.com/svn/trunk/command-modules/_kbbreak.py>`_.
+
 .. code-block:: python
    :linenos:
 

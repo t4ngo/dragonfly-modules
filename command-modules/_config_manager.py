@@ -5,6 +5,31 @@
 #
 
 """
+Command-module for managing config files of other modules
+=========================================================
+
+This module manages the configuration files used by other 
+active Dragonfly command-modules.  It implements a command 
+for easy opening and editing of the configuration files. 
+It also monitors the files for modifications, and causes 
+the associated command-module to be reloaded if necessary.
+
+Commands
+--------
+
+The following voice commands are available:
+
+Command: **"list configs"**
+    Lists the currently available configuration files.
+    The output is visible in the *Messages from Python Macros*
+    window.
+
+Command: **"edit <config> (config | configuration)"**
+    Opens the given configuration file in the default ``*.txt``
+    editor.  The *<config>* element should be one of the
+    configuration names given by the **"list configs"**
+    command.
+
 """
 
 
@@ -39,7 +64,7 @@ class ConfigManagerGrammar(Grammar):
     def __init__(self):
         Grammar.__init__(self, name="config manager", context=None)
 
-    def process_begin(self, executable, title, handle):
+    def _process_begin(self, executable, title, handle):
         configs = Config.get_instances()
 
         # Check for modified config files, and if found cause reload.

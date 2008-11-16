@@ -80,6 +80,11 @@ def extract_docstring(src_path, dst_path):
             formatter.add_codeblock(content)
 
     formatter.add_subsection("Module source code")
+    location = "http://dragonfly-modules.googlecode.com/svn/trunk/command-modules/%s" % os.path.basename(src_path)
+    download_text = "The most current version of this module can be" \
+                    " downloaded from the `repository here <%s>`_." \
+                    % location
+    formatter.add_textblock(download_text)
     formatter.add_codeblock(open(src_path).read())
 
     f = open(dst_path, "w")

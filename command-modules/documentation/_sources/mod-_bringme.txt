@@ -82,6 +82,8 @@ Configuration "_bringme-en.txt"
 Module source code
 ------------------
 
+The most current version of this module can be downloaded from the `repository here <http://dragonfly-modules.googlecode.com/svn/trunk/command-modules/_bringme.py>`_.
+
 .. code-block:: python
    :linenos:
 

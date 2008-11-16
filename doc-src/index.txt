@@ -19,6 +19,14 @@ Command-modules
 This section lists the command-modules presently hosted by 
 Dragonfly module repository, sorted by category.
 
+Dragonfly management
+^^^^^^^^^^^^^^^^^^^^
+
+.. toctree::
+   :maxdepth: 1
+
+   mod-_config_manager
+
 General desktop activities
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -41,6 +49,7 @@ Application-specific control
    mod-_word_styles
    mod-_outlook
    mod-_foxitreader
+   mod-uedit32
    mod-sharpreader
    mod-_audacity
 

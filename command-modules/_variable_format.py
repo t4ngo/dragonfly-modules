@@ -86,7 +86,7 @@ class UnderscoreUpperHandler(HandlerBase):
         Text(output).execute()
 
 class JavaMethodHandler(HandlerBase):
-    spec = "java method"
+    spec = "Java method"
     def handle_text(self, text):
         words = text.split(" ")
         output = words[0] + "".join(w.capitalize() for w in words[1:])

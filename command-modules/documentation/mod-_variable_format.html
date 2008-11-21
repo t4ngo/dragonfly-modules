@@ -56,6 +56,7 @@ currently supports the following naming styles:</p>
 <li><strong>&#8220;score&#8221;</strong>: <tt class="docutils literal"><span class="pre">big_long_name</span></tt></li>
 <li><strong>&#8220;studley&#8221;</strong>: <tt class="docutils literal"><span class="pre">BigLongName</span></tt></li>
 <li><strong>&#8220;[all] one word&#8221;</strong>: <tt class="docutils literal"><span class="pre">biglongname</span></tt></li>
+<li><strong>&#8220;java method&#8221;</strong>: <tt class="docutils literal"><span class="pre">bigLongName</span></tt></li>
 </ul>
 </blockquote>
 <div class="section" id="command">
@@ -65,8 +66,18 @@ currently supports the following naming styles:</p>
 <dd>Format the dictated words with the given format.</dd>
 </dl>
 </div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<ul class="simple">
+<li>Say <strong>&#8220;score long variable name&#8221;</strong> -&gt; <em>long_variable_name</em></li>
+<li>Say <strong>&#8220;Java method string buffer&#8221;</strong> -&gt; <em>stringBuffer</em></li>
+</ul>
+</blockquote>
+</div>
 <div class="section" id="module-source-code">
 <h2>Module source code<a class="headerlink" href="#module-source-code" title="Permalink to this headline">¶</a></h2>
+<p>The most current version of this module can be downloaded from the <a class="reference external" href="http://dragonfly-modules.googlecode.com/svn/trunk/command-modules/_variable_format.py">repository here</a>.</p>
 <table class="highlighttable"><tr><td class="linenos"><pre>  1
   2
   3
@@ -182,7 +193,22 @@ currently supports the following naming styles:</p>
 113
 114
 115
-116</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
 <span class="c"># This file is a command-module for Dragonfly.</span>
 <span class="c"># (c) Copyright 2008 by Christo Butcher</span>
 <span class="c"># Licensed under the LGPL, see &lt;http://www.gnu.org/licenses/&gt;</span>
@@ -198,12 +224,20 @@ currently supports the following naming styles:</p>
 <span class="sd"> - **&quot;score&quot;**: ``big_long_name``</span>
 <span class="sd"> - **&quot;studley&quot;**: ``BigLongName``</span>
 <span class="sd"> - **&quot;[all] one word&quot;**: ``biglongname``</span>
+<span class="sd"> - **&quot;java method&quot;**: ``bigLongName``</span>
 
 <span class="sd">Command</span>
 <span class="sd">-------</span>
 
 <span class="sd">Command: **&quot;&lt;format&gt; &lt;dictation&gt;&quot;**</span>
 <span class="sd">    Format the dictated words with the given format.</span>
+
+
+<span class="sd">Examples</span>
+<span class="sd">--------</span>
+
+<span class="sd"> - Say **&quot;score long variable name&quot;** -&gt; *long_variable_name*</span>
+<span class="sd"> - Say **&quot;Java method string buffer&quot;** -&gt; *stringBuffer*</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -261,6 +295,13 @@ currently supports the following naming styles:</p>
         <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
         <span class="n">Text</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
 
+<span class="k">class</span> <span class="nc">JavaMethodHandler</span><span class="p">(</span><span class="n">HandlerBase</span><span class="p">):</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="s">&quot;java method&quot;</span>
+    <span class="k">def</span> <span class="nf">handle_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="n">words</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">[</span><span class="mf">1</span><span class="p">:])</span>
+        <span class="n">Text</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+
 
 <span class="c">#---------------------------------------------------------------------------</span>
 <span class="c"># Create the main command rule.</span>
@@ -312,6 +353,7 @@ currently supports the following naming styles:</p>
             <ul>
 <li><a class="reference external" href="">Command-module for <strong>variable name formatting</strong></a><ul>
 <li><a class="reference external" href="#command">Command</a></li>
+<li><a class="reference external" href="#examples">Examples</a></li>
 <li><a class="reference external" href="#module-source-code">Module source code</a></li>
 </ul>
 </li>
@@ -355,7 +397,7 @@ currently supports the following naming styles:</p>
     </div>
     <div class="footer">
       &copy; Copyright 2008, Christo Butcher.
-      Last updated on Nov 12, 2008.
+      Last updated on Nov 21, 2008.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
   </body>

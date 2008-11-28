@@ -70,9 +70,7 @@ from dragonfly.actions.actions     import Key
 class TaskRule(MappingRule):
 
     mapping = {
-               "[open | switch to] task <n>":  Key("enter"),
-#               "[open | switch to] task <n>":  Key("apps/10, escape"),
-#               "enter task <n>":               Key("enter"),
+               "[open | switch to] task <n>":  Key("space"),
                "(menu | pop up) task <n>":     Key("apps"),
                "close task <n>":               Key("apps/10, c"),
                "restore task <n>":             Key("apps/10, r"),

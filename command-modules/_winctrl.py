@@ -40,6 +40,7 @@ Usage examples
 """
 
 
+import time
 from dragonfly.grammar.grammar      import Grammar
 from dragonfly.grammar.elements     import Alternative, RuleRef, \
                                            DictListRef, Dictation, Compound
@@ -60,7 +61,7 @@ config = Config("Window control")
 config.lang                = Section("Language section")
 config.lang.name_win       = Item("name (window | win) <name>",
                                   doc="Command to give the foreground window a name; must contain the <name> extra.")
-config.lang.focus_win      = Item("focus <win_names> | bring <win_names> to [the] (top | foreground)",
+config.lang.focus_win      = Item("focus <win_selector> | bring <win_selector> to [the] (top | foreground)",
                                   doc="Command to bring a named window to the foreground.")
 config.lang.translate_win  = Item("place <win_selector> <position> [on <mon_selector>]",
                                   doc="Command to translate a window.")
@@ -78,6 +79,7 @@ config.lang.top            = Item("top", doc="Word for top side of monitor.")
 config.lang.bottom         = Item("bottom", doc="Word for bottom side of monitor.")
 config.settings            = Section("Settings section")
 config.settings.grid       = Item(10, doc="The number of grid divisions a monitor is divided up into when placing windows.")
+config.settings.defaults   = Item({"fire": "firefox"}, doc="Default window names.")
 #config.generate_config_file()
 config.load()
 
@@ -99,6 +101,68 @@ mon_names_ref = DictListRef("mon_names", mon_names)
 # Populate monitor names.
 for i, m in enumerate(monitors):
     mon_names[str(i+1)] = m
+
+
+#---------------------------------------------------------------------------
+# Default window names.
+
+default_names = config.settings.defaults
+default_names = {
+                 "fire":      "firefox",
+                 "mail":      "outlook",
+                 "outlook":   "outlook",
+                 "you":       "uedit32",
+                }
+for key in default_names.keys():
+    win_names[key] = key
+def get_default_window(name):
+    executable = default_names[name].lower()
+    windows = Window.get_all_windows()
+    for window in windows:
+        if not window.is_visible:
+            continue
+        if window.executable.lower().find(executable) != -1:
+            window.name = name
+            win_names[name] = window
+            return window
+    return None
+
+
+#---------------------------------------------------------------------------
+# Internal window selector rule and element.
+
+class WinSelectorRule(CompoundRule):
+
+    spec = config.lang.win_selector
+    extras = [win_names_ref]
+    exported = False
+
+    def value(self, node):
+        if node.has_child_with_name("win_names"):
+            window = node.get_child_by_name("win_names").value()
+            if not isinstance(window, Window):
+                window = get_default_window(window)
+            return window
+        return Window.get_foreground()
+
+win_selector = RuleRef(WinSelectorRule(), name="win_selector")
+
+
+#---------------------------------------------------------------------------
+# Internal monitor selector rule and element.
+
+class MonSelectorRule(CompoundRule):
+
+    spec = config.lang.mon_selector
+    extras = [mon_names_ref]
+    exported = False
+
+    def value(self, node):
+        if node.has_child_with_name("mon_names"):
+            return node.get_child_by_name("mon_names").value()
+        return None
+
+mon_selector = RuleRef(MonSelectorRule(), name="mon_selector")
 
 
 #---------------------------------------------------------------------------
@@ -125,55 +189,25 @@ grammar.add_rule(NameWinRule())
 class FocusWinRule(CompoundRule):
 
     spec = config.lang.focus_win
-    extras = [win_names_ref]
+    extras = [win_selector]
 
     def _process_recognition(self, node, extras):
-        window = extras["win_names"]
+        window = extras["win_selector"]
+        if not window:
+            self._log.warning("No window with that name found.")
+            return
+        self._log.debug("%s: bringing window '%s' to the foreground."
+                        % (self, window))
         for attempt in range(4):
             try:
                 window.set_foreground()
             except Exception, e:
                 print "failed to set foreground:", e
+                time.sleep(0.2)
             else:
                 break
-        self._log.debug("%s: bringing window '%s' to the foreground."
-                        % (self, window))
 
 grammar.add_rule(FocusWinRule())
-
-
-#---------------------------------------------------------------------------
-# Internal window selector rule and element.
-
-class WinSelectorRule(CompoundRule):
-
-    spec = config.lang.win_selector
-    extras = [win_names_ref]
-    exported = False
-
-    def value(self, node):
-        if node.has_child_with_name("win_names"):
-            return node.get_child_by_name("win_names").value()
-        return Window.get_foreground()
-
-win_selector = RuleRef(WinSelectorRule(), name="win_selector")
-
-
-#---------------------------------------------------------------------------
-# Internal monitor selector rule and element.
-
-class MonSelectorRule(CompoundRule):
-
-    spec = config.lang.mon_selector
-    extras = [mon_names_ref]
-    exported = False
-
-    def value(self, node):
-        if node.has_child_with_name("mon_names"):
-            return node.get_child_by_name("mon_names").value()
-        return None
-
-mon_selector = RuleRef(MonSelectorRule(), name="mon_selector")
 
 
 #---------------------------------------------------------------------------

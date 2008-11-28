@@ -34,63 +34,70 @@ Examples
 
 #---------------------------------------------------------------------------
 
+import dragonfly.engines.engine
+engine = dragonfly.engines.engine.get_engine()
 from dragonfly.all import (Grammar, CompoundRule,
-                           Dictation, Choice, Text)
+                           Dictation, Choice, Key, Text)
 
 
 #---------------------------------------------------------------------------
 
+(normal, no_space) = range(2)
+
 class HandlerBase(object):
+
     spec = None
+    spacing = no_space
+
     def handle_text(self, text):
+        if self.spacing == normal:
+            engine.mimic(["test"])
+            Key("backspace:4").execute()
+        formatted = self.format_text(text)
+        Text(formatted).execute()
+
+    def format_text(self, text):
         pass
 
 
 class UnderscoreHandler(HandlerBase):
     spec = "score"
-    def handle_text(self, text):
-        output = "_".join(text.split(" "))
-        Text(output).execute()
+    def format_text(self, text):
+        return "_".join(text.split(" "))
 
 class CFunctionHandler(HandlerBase):
     spec = "under func"
-    def handle_text(self, text):
-        output = "_".join(text.split(" ")) + "()"
-        Text(output).execute()
+    def format_text(self, text):
+        return "_".join(text.split(" ")) + "()"
 
 class StudleyHandler(HandlerBase):
     spec = "studley"
-    def handle_text(self, text):
+    def format_text(self, text):
         words = [word.capitalize() for word in text.split(" ")]
-        output = "".join(words)
-        Text(output).execute()
+        return "".join(words)
 
 class OneWordHandler(HandlerBase):
     spec = "[all] one word"
-    def handle_text(self, text):
-        output = "".join(text.split(" "))
-        Text(output).execute()
+    def format_text(self, text):
+        return "".join(text.split(" "))
 
 class UpperOneWordHandler(HandlerBase):
     spec = "one word upper"
-    def handle_text(self, text):
+    def format_text(self, text):
         words = [word.upper() for word in text.split(" ")]
-        output = "".join(words)
-        Text(output).execute()
+        return "".join(words)
 
 class UnderscoreUpperHandler(HandlerBase):
     spec = "upper score"
-    def handle_text(self, text):
+    def format_text(self, text):
         words = [word.upper() for word in text.split(" ")]
-        output = "_".join(words)
-        Text(output).execute()
+        return "_".join(words)
 
 class JavaMethodHandler(HandlerBase):
     spec = "Java method"
-    def handle_text(self, text):
+    def format_text(self, text):
         words = text.split(" ")
-        output = words[0] + "".join(w.capitalize() for w in words[1:])
-        Text(output).execute()
+        return words[0] + "".join(w.capitalize() for w in words[1:])
 
 
 #---------------------------------------------------------------------------

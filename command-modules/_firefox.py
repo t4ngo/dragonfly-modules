@@ -97,6 +97,7 @@ config.lang.submit_text            = Item("submit <text>")
 config.lang.submit_clipboard       = Item("submit clipboard")
 config.lang.link_open              = Item("[link] <link> [open]")
 config.lang.link_select            = Item("[link] <link> select")
+config.lang.link_menu              = Item("[link] <link> (menu | pop up)")
 config.lang.link_force             = Item("[link] <link> force")
 config.lang.link_window            = Item("[link] <link> window")
 config.lang.link_tab               = Item("[link] <link> tab")
@@ -106,6 +107,7 @@ config.lang.link_list              = Item("[link] <link> list")
 config.lang.link_submit            = Item("[link] <link> submit")
 config.lang.link_submit_text       = Item("[link] <link> submit <text>")
 config.lang.link_submit_clipboard  = Item("[link] <link> submit clipboard")
+config.lang.link_assign_keyword    = Item("assign [a] keyword to [link] <link>")
 
 config.lang.search_text            = Item("[power] search [for] <text>")
 config.lang.search_keyword_text    = Item("[power] search <keyword> [for] <text>")
@@ -196,6 +198,7 @@ class CommandRule(MappingRule):
 
         config.lang.link_open:          Key("%(link)s, enter"),
         config.lang.link_select:        Key("%(link)s, shift"),
+        config.lang.link_menu:          Key("%(link)s, shift/10, apps"),
         config.lang.link_force:         Key("%(link)s, shift/10, enter"),
         config.lang.link_window:        Key("%(link)s, shift/10, apps/20, w"),
         config.lang.link_tab:           Key("%(link)s, shift/10, apps/20, t"),
@@ -206,6 +209,7 @@ class CommandRule(MappingRule):
         config.lang.link_submit_text:   Key("%(link)s, enter/30")
                                          + Text("%(text)s") + Key("enter"),
         config.lang.link_submit_clipboard: Key("%(link)s, enter/30, c-v, enter"),
+        config.lang.link_assign_keyword: Key("%(link)s, enter/10, apps/20, k"),
 
         config.lang.search_text:        Key("c-k")
                                          + Text("%(text)s") + Key("enter"),

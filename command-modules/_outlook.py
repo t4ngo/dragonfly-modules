@@ -23,9 +23,6 @@ Command: **"move to <folder>"**
 Command: **"[create] new <type>"**
     Creates a new item of the specified type.
 
-Command: **"(folder | show me) <folder>"**
-    Jump straight to the specified folder.
-
 Command: **"(synchronize | update) (folders | folder list)"**
     Update this module's internal list of Outlook folders.
 
@@ -76,7 +73,7 @@ class ControlGrammar(ConnectionGrammar):
         self.folders = DictList("folders")
         ConnectionGrammar.__init__(
             self,
-            name=self.__class__.__name__,
+            name="outlook control",
             context=AppContext(executable="outlook"),
             app_name="Outlook.Application"
            )
@@ -198,6 +195,31 @@ class NewItemRule(CompoundRule):
         item.Display()
 
 grammar.add_rule(NewItemRule())
+
+
+#---------------------------------------------------------------------------
+
+class RetrieveContactsRule(CompoundRule):
+
+    spec = "retrieve Outlook contacts"
+
+    def _process_recognition(self, node, extras):
+        namespace = self.grammar.application.GetNamespace("MAPI")
+        addresses = namespace.AddressLists
+        entries = []
+        for address_list in collection_iter(addresses):
+            print "address list:", address_list.Name
+            for entry in collection_iter(address_list.AddressEntries):
+                print "    entry name: %r" % entry.Name
+                entries.append(entry)
+        names = [e.Name for e in entries]
+        lines = ["    %(name)20r: %(name)r," % {"name": n} for n in names]
+        lines.insert(0, "contacts.names = {")
+        lines.append("    }")
+        output = "\n".join(lines)
+        print output
+
+grammar.add_rule(RetrieveContactsRule())
 
 
 #---------------------------------------------------------------------------

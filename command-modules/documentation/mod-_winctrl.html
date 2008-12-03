@@ -580,7 +580,41 @@ corner of the second display monitor.</li>
 361
 362
 363
-364</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
 <span class="c"># This file is a command-module for Dragonfly.</span>
 <span class="c"># (c) Copyright 2008 by Christo Butcher</span>
 <span class="c"># Licensed under the LGPL, see &lt;http://www.gnu.org/licenses/&gt;</span>
@@ -622,6 +656,7 @@ corner of the second display monitor.</li>
 <span class="sd">&quot;&quot;&quot;</span>
 
 
+<span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">dragonfly.grammar.grammar</span>      <span class="kn">import</span> <span class="n">Grammar</span>
 <span class="kn">from</span> <span class="nn">dragonfly.grammar.elements</span>     <span class="kn">import</span> <span class="n">Alternative</span><span class="p">,</span> <span class="n">RuleRef</span><span class="p">,</span> \
                                            <span class="n">DictListRef</span><span class="p">,</span> <span class="n">Dictation</span><span class="p">,</span> <span class="n">Compound</span>
@@ -642,7 +677,7 @@ corner of the second display monitor.</li>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span>                <span class="o">=</span> <span class="n">Section</span><span class="p">(</span><span class="s">&quot;Language section&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">name_win</span>       <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;name (window | win) &lt;name&gt;&quot;</span><span class="p">,</span>
                                   <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Command to give the foreground window a name; must contain the &lt;name&gt; extra.&quot;</span><span class="p">)</span>
-<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">focus_win</span>      <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;focus &lt;win_names&gt; | bring &lt;win_names&gt; to [the] (top | foreground)&quot;</span><span class="p">,</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">focus_win</span>      <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;focus &lt;win_selector&gt; | bring &lt;win_selector&gt; to [the] (top | foreground)&quot;</span><span class="p">,</span>
                                   <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Command to bring a named window to the foreground.&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">translate_win</span>  <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;place &lt;win_selector&gt; &lt;position&gt; [on &lt;mon_selector&gt;]&quot;</span><span class="p">,</span>
                                   <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Command to translate a window.&quot;</span><span class="p">)</span>
@@ -660,6 +695,7 @@ corner of the second display monitor.</li>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">bottom</span>         <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;bottom&quot;</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Word for bottom side of monitor.&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">settings</span>            <span class="o">=</span> <span class="n">Section</span><span class="p">(</span><span class="s">&quot;Settings section&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">grid</span>       <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="mf">10</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s">&quot;The number of grid divisions a monitor is divided up into when placing windows.&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">defaults</span>   <span class="o">=</span> <span class="n">Item</span><span class="p">({</span><span class="s">&quot;fire&quot;</span><span class="p">:</span> <span class="s">&quot;firefox&quot;</span><span class="p">},</span> <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Default window names.&quot;</span><span class="p">)</span>
 <span class="c">#config.generate_config_file()</span>
 <span class="n">config</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
 
@@ -681,6 +717,68 @@ corner of the second display monitor.</li>
 <span class="c"># Populate monitor names.</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">monitors</span><span class="p">):</span>
     <span class="n">mon_names</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mf">1</span><span class="p">)]</span> <span class="o">=</span> <span class="n">m</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+<span class="c"># Default window names.</span>
+
+<span class="n">default_names</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">defaults</span>
+<span class="n">default_names</span> <span class="o">=</span> <span class="p">{</span>
+                 <span class="s">&quot;fire&quot;</span><span class="p">:</span>      <span class="s">&quot;firefox&quot;</span><span class="p">,</span>
+                 <span class="s">&quot;mail&quot;</span><span class="p">:</span>      <span class="s">&quot;outlook&quot;</span><span class="p">,</span>
+                 <span class="s">&quot;outlook&quot;</span><span class="p">:</span>   <span class="s">&quot;outlook&quot;</span><span class="p">,</span>
+                 <span class="s">&quot;you&quot;</span><span class="p">:</span>       <span class="s">&quot;uedit32&quot;</span><span class="p">,</span>
+                <span class="p">}</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">default_names</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">win_names</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">key</span>
+<span class="k">def</span> <span class="nf">get_default_window</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">executable</span> <span class="o">=</span> <span class="n">default_names</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">windows</span> <span class="o">=</span> <span class="n">Window</span><span class="o">.</span><span class="n">get_all_windows</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">window</span> <span class="ow">in</span> <span class="n">windows</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">window</span><span class="o">.</span><span class="n">is_visible</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">window</span><span class="o">.</span><span class="n">executable</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">executable</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mf">1</span><span class="p">:</span>
+            <span class="n">window</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+            <span class="n">win_names</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">window</span>
+            <span class="k">return</span> <span class="n">window</span>
+    <span class="k">return</span> <span class="bp">None</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+<span class="c"># Internal window selector rule and element.</span>
+
+<span class="k">class</span> <span class="nc">WinSelectorRule</span><span class="p">(</span><span class="n">CompoundRule</span><span class="p">):</span>
+
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">win_selector</span>
+    <span class="n">extras</span> <span class="o">=</span> <span class="p">[</span><span class="n">win_names_ref</span><span class="p">]</span>
+    <span class="n">exported</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">has_child_with_name</span><span class="p">(</span><span class="s">&quot;win_names&quot;</span><span class="p">):</span>
+            <span class="n">window</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">get_child_by_name</span><span class="p">(</span><span class="s">&quot;win_names&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">Window</span><span class="p">):</span>
+                <span class="n">window</span> <span class="o">=</span> <span class="n">get_default_window</span><span class="p">(</span><span class="n">window</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">window</span>
+        <span class="k">return</span> <span class="n">Window</span><span class="o">.</span><span class="n">get_foreground</span><span class="p">()</span>
+
+<span class="n">win_selector</span> <span class="o">=</span> <span class="n">RuleRef</span><span class="p">(</span><span class="n">WinSelectorRule</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;win_selector&quot;</span><span class="p">)</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+<span class="c"># Internal monitor selector rule and element.</span>
+
+<span class="k">class</span> <span class="nc">MonSelectorRule</span><span class="p">(</span><span class="n">CompoundRule</span><span class="p">):</span>
+
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">mon_selector</span>
+    <span class="n">extras</span> <span class="o">=</span> <span class="p">[</span><span class="n">mon_names_ref</span><span class="p">]</span>
+    <span class="n">exported</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">has_child_with_name</span><span class="p">(</span><span class="s">&quot;mon_names&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">get_child_by_name</span><span class="p">(</span><span class="s">&quot;mon_names&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">None</span>
+
+<span class="n">mon_selector</span> <span class="o">=</span> <span class="n">RuleRef</span><span class="p">(</span><span class="n">MonSelectorRule</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;mon_selector&quot;</span><span class="p">)</span>
 
 
 <span class="c">#---------------------------------------------------------------------------</span>
@@ -707,55 +805,25 @@ corner of the second display monitor.</li>
 <span class="k">class</span> <span class="nc">FocusWinRule</span><span class="p">(</span><span class="n">CompoundRule</span><span class="p">):</span>
 
     <span class="n">spec</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">focus_win</span>
-    <span class="n">extras</span> <span class="o">=</span> <span class="p">[</span><span class="n">win_names_ref</span><span class="p">]</span>
+    <span class="n">extras</span> <span class="o">=</span> <span class="p">[</span><span class="n">win_selector</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">_process_recognition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">extras</span><span class="p">):</span>
-        <span class="n">window</span> <span class="o">=</span> <span class="n">extras</span><span class="p">[</span><span class="s">&quot;win_names&quot;</span><span class="p">]</span>
+        <span class="n">window</span> <span class="o">=</span> <span class="n">extras</span><span class="p">[</span><span class="s">&quot;win_selector&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">window</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;No window with that name found.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: bringing window &#39;</span><span class="si">%s</span><span class="s">&#39; to the foreground.&quot;</span>
+                        <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">attempt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mf">4</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">window</span><span class="o">.</span><span class="n">set_foreground</span><span class="p">()</span>
             <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
                 <span class="k">print</span> <span class="s">&quot;failed to set foreground:&quot;</span><span class="p">,</span> <span class="n">e</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">break</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: bringing window &#39;</span><span class="si">%s</span><span class="s">&#39; to the foreground.&quot;</span>
-                        <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">))</span>
 
 <span class="n">grammar</span><span class="o">.</span><span class="n">add_rule</span><span class="p">(</span><span class="n">FocusWinRule</span><span class="p">())</span>
-
-
-<span class="c">#---------------------------------------------------------------------------</span>
-<span class="c"># Internal window selector rule and element.</span>
-
-<span class="k">class</span> <span class="nc">WinSelectorRule</span><span class="p">(</span><span class="n">CompoundRule</span><span class="p">):</span>
-
-    <span class="n">spec</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">win_selector</span>
-    <span class="n">extras</span> <span class="o">=</span> <span class="p">[</span><span class="n">win_names_ref</span><span class="p">]</span>
-    <span class="n">exported</span> <span class="o">=</span> <span class="bp">False</span>
-
-    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">has_child_with_name</span><span class="p">(</span><span class="s">&quot;win_names&quot;</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">get_child_by_name</span><span class="p">(</span><span class="s">&quot;win_names&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">Window</span><span class="o">.</span><span class="n">get_foreground</span><span class="p">()</span>
-
-<span class="n">win_selector</span> <span class="o">=</span> <span class="n">RuleRef</span><span class="p">(</span><span class="n">WinSelectorRule</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;win_selector&quot;</span><span class="p">)</span>
-
-
-<span class="c">#---------------------------------------------------------------------------</span>
-<span class="c"># Internal monitor selector rule and element.</span>
-
-<span class="k">class</span> <span class="nc">MonSelectorRule</span><span class="p">(</span><span class="n">CompoundRule</span><span class="p">):</span>
-
-    <span class="n">spec</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">mon_selector</span>
-    <span class="n">extras</span> <span class="o">=</span> <span class="p">[</span><span class="n">mon_names_ref</span><span class="p">]</span>
-    <span class="n">exported</span> <span class="o">=</span> <span class="bp">False</span>
-
-    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">has_child_with_name</span><span class="p">(</span><span class="s">&quot;mon_names&quot;</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">get_child_by_name</span><span class="p">(</span><span class="s">&quot;mon_names&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">None</span>
-
-<span class="n">mon_selector</span> <span class="o">=</span> <span class="n">RuleRef</span><span class="p">(</span><span class="n">MonSelectorRule</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;mon_selector&quot;</span><span class="p">)</span>
 
 
 <span class="c">#---------------------------------------------------------------------------</span>
@@ -1006,7 +1074,7 @@ corner of the second display monitor.</li>
     </div>
     <div class="footer">
       &copy; Copyright 2008, Christo Butcher.
-      Last updated on Nov 21, 2008.
+      Last updated on Dec 03, 2008.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
   </body>

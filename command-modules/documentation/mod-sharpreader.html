@@ -156,7 +156,14 @@ the number of items.</dd>
 81
 82
 83
-84</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+84
+85
+86
+87
+88
+89
+90
+91</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
 <span class="c"># This file is a command-module for Dragonfly.</span>
 <span class="c"># (c) Copyright 2008 by Christo Butcher</span>
 <span class="c"># Licensed under the LGPL, see &lt;http://www.gnu.org/licenses/&gt;</span>
@@ -215,8 +222,15 @@ the number of items.</dd>
                 <span class="s">&quot;subscribe [[to] [this] feed]&quot;</span><span class="p">:</span>        <span class="n">Key</span><span class="p">(</span><span class="s">&quot;a-u&quot;</span><span class="p">),</span>
                 <span class="s">&quot;paste [feed] address&quot;</span><span class="p">:</span>                <span class="n">Key</span><span class="p">(</span><span class="s">&quot;a-d, c-v, enter&quot;</span><span class="p">),</span>
                 <span class="s">&quot;feeds | feed (list | window | win)&quot;</span><span class="p">:</span>  <span class="n">Key</span><span class="p">(</span><span class="s">&quot;a-d, tab:2, s-tab&quot;</span><span class="p">),</span>
+                <span class="s">&quot;down [&lt;n&gt;] (feed | feeds)&quot;</span><span class="p">:</span>           <span class="n">Key</span><span class="p">(</span><span class="s">&quot;a-d, tab:2, s-tab, down:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
+                <span class="s">&quot;up [&lt;n&gt;] (feed | feeds)&quot;</span><span class="p">:</span>             <span class="n">Key</span><span class="p">(</span><span class="s">&quot;a-d, tab:2, s-tab, up:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
+                <span class="s">&quot;open [item]&quot;</span><span class="p">:</span>                         <span class="n">Key</span><span class="p">(</span><span class="s">&quot;a-d, tab:2, c-s&quot;</span><span class="p">),</span>
                 <span class="s">&quot;newer [&lt;n&gt;]&quot;</span><span class="p">:</span>                         <span class="n">Key</span><span class="p">(</span><span class="s">&quot;a-d, tab:2, up:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
                 <span class="s">&quot;older [&lt;n&gt;]&quot;</span><span class="p">:</span>                         <span class="n">Key</span><span class="p">(</span><span class="s">&quot;a-d, tab:2, down:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
+                <span class="s">&quot;mark all [as] read&quot;</span><span class="p">:</span>                  <span class="n">Key</span><span class="p">(</span><span class="s">&quot;cs-r&quot;</span><span class="p">),</span>
+                <span class="s">&quot;mark all [as] unread&quot;</span><span class="p">:</span>                <span class="n">Key</span><span class="p">(</span><span class="s">&quot;cs-u&quot;</span><span class="p">),</span>
+                <span class="s">&quot;search [bar]&quot;</span><span class="p">:</span>                        <span class="n">Key</span><span class="p">(</span><span class="s">&quot;a-s&quot;</span><span class="p">),</span>
+                <span class="s">&quot;search [for] &lt;text&gt;&quot;</span><span class="p">:</span>                 <span class="n">Key</span><span class="p">(</span><span class="s">&quot;a-s&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Text</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%(text)s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">),</span>
                <span class="p">}</span>
     <span class="n">extras</span>   <span class="o">=</span> <span class="p">[</span>
                 <span class="n">Integer</span><span class="p">(</span><span class="s">&quot;n&quot;</span><span class="p">,</span> <span class="mf">1</span><span class="p">,</span> <span class="mf">20</span><span class="p">),</span>
@@ -297,7 +311,7 @@ the number of items.</dd>
     </div>
     <div class="footer">
       &copy; Copyright 2008, Christo Butcher.
-      Last updated on Nov 21, 2008.
+      Last updated on Dec 03, 2008.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
   </body>

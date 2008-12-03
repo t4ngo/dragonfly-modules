@@ -208,7 +208,14 @@ currently supports the following naming styles:</p>
 128
 129
 130
-131</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+131
+132
+133
+134
+135
+136
+137
+138</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
 <span class="c"># This file is a command-module for Dragonfly.</span>
 <span class="c"># (c) Copyright 2008 by Christo Butcher</span>
 <span class="c"># Licensed under the LGPL, see &lt;http://www.gnu.org/licenses/&gt;</span>
@@ -244,63 +251,70 @@ currently supports the following naming styles:</p>
 
 <span class="c">#---------------------------------------------------------------------------</span>
 
+<span class="kn">import</span> <span class="nn">dragonfly.engines.engine</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">dragonfly</span><span class="o">.</span><span class="n">engines</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">get_engine</span><span class="p">()</span>
 <span class="kn">from</span> <span class="nn">dragonfly.all</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Grammar</span><span class="p">,</span> <span class="n">CompoundRule</span><span class="p">,</span>
-                           <span class="n">Dictation</span><span class="p">,</span> <span class="n">Choice</span><span class="p">,</span> <span class="n">Text</span><span class="p">)</span>
+                           <span class="n">Dictation</span><span class="p">,</span> <span class="n">Choice</span><span class="p">,</span> <span class="n">Key</span><span class="p">,</span> <span class="n">Text</span><span class="p">)</span>
 
 
 <span class="c">#---------------------------------------------------------------------------</span>
 
+<span class="p">(</span><span class="n">normal</span><span class="p">,</span> <span class="n">no_space</span><span class="p">)</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mf">2</span><span class="p">)</span>
+
 <span class="k">class</span> <span class="nc">HandlerBase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
     <span class="n">spec</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">spacing</span> <span class="o">=</span> <span class="n">no_space</span>
+
     <span class="k">def</span> <span class="nf">handle_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">spacing</span> <span class="o">==</span> <span class="n">normal</span><span class="p">:</span>
+            <span class="n">engine</span><span class="o">.</span><span class="n">mimic</span><span class="p">([</span><span class="s">&quot;test&quot;</span><span class="p">])</span>
+            <span class="n">Key</span><span class="p">(</span><span class="s">&quot;backspace:4&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+        <span class="n">formatted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_text</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">Text</span><span class="p">(</span><span class="n">formatted</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">format_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
         <span class="k">pass</span>
 
 
 <span class="k">class</span> <span class="nc">UnderscoreHandler</span><span class="p">(</span><span class="n">HandlerBase</span><span class="p">):</span>
     <span class="n">spec</span> <span class="o">=</span> <span class="s">&quot;score&quot;</span>
-    <span class="k">def</span> <span class="nf">handle_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">))</span>
-        <span class="n">Text</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">format_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">))</span>
 
 <span class="k">class</span> <span class="nc">CFunctionHandler</span><span class="p">(</span><span class="n">HandlerBase</span><span class="p">):</span>
     <span class="n">spec</span> <span class="o">=</span> <span class="s">&quot;under func&quot;</span>
-    <span class="k">def</span> <span class="nf">handle_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">))</span> <span class="o">+</span> <span class="s">&quot;()&quot;</span>
-        <span class="n">Text</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">format_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">))</span> <span class="o">+</span> <span class="s">&quot;()&quot;</span>
 
 <span class="k">class</span> <span class="nc">StudleyHandler</span><span class="p">(</span><span class="n">HandlerBase</span><span class="p">):</span>
     <span class="n">spec</span> <span class="o">=</span> <span class="s">&quot;studley&quot;</span>
-    <span class="k">def</span> <span class="nf">handle_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">format_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
         <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">)]</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
-        <span class="n">Text</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+        <span class="k">return</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
 
 <span class="k">class</span> <span class="nc">OneWordHandler</span><span class="p">(</span><span class="n">HandlerBase</span><span class="p">):</span>
     <span class="n">spec</span> <span class="o">=</span> <span class="s">&quot;[all] one word&quot;</span>
-    <span class="k">def</span> <span class="nf">handle_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">))</span>
-        <span class="n">Text</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">format_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">))</span>
 
 <span class="k">class</span> <span class="nc">UpperOneWordHandler</span><span class="p">(</span><span class="n">HandlerBase</span><span class="p">):</span>
     <span class="n">spec</span> <span class="o">=</span> <span class="s">&quot;one word upper&quot;</span>
-    <span class="k">def</span> <span class="nf">handle_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">format_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
         <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">)]</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
-        <span class="n">Text</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+        <span class="k">return</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
 
 <span class="k">class</span> <span class="nc">UnderscoreUpperHandler</span><span class="p">(</span><span class="n">HandlerBase</span><span class="p">):</span>
     <span class="n">spec</span> <span class="o">=</span> <span class="s">&quot;upper score&quot;</span>
-    <span class="k">def</span> <span class="nf">handle_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">format_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
         <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">)]</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
-        <span class="n">Text</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+        <span class="k">return</span> <span class="s">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
 
 <span class="k">class</span> <span class="nc">JavaMethodHandler</span><span class="p">(</span><span class="n">HandlerBase</span><span class="p">):</span>
-    <span class="n">spec</span> <span class="o">=</span> <span class="s">&quot;java method&quot;</span>
-    <span class="k">def</span> <span class="nf">handle_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="s">&quot;Java method&quot;</span>
+    <span class="k">def</span> <span class="nf">format_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
         <span class="n">words</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">)</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">[</span><span class="mf">1</span><span class="p">:])</span>
-        <span class="n">Text</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">words</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">[</span><span class="mf">1</span><span class="p">:])</span>
 
 
 <span class="c">#---------------------------------------------------------------------------</span>
@@ -397,7 +411,7 @@ currently supports the following naming styles:</p>
     </div>
     <div class="footer">
       &copy; Copyright 2008, Christo Butcher.
-      Last updated on Nov 21, 2008.
+      Last updated on Dec 03, 2008.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
   </body>

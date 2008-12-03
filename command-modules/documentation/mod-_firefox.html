@@ -445,7 +445,11 @@ use.</p>
 243
 244
 245
-246</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+246
+247
+248
+249
+250</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
 <span class="c"># This file is a command-module for Dragonfly.</span>
 <span class="c"># (c) Copyright 2008 by Christo Butcher</span>
 <span class="c"># Licensed under the LGPL, see &lt;http://www.gnu.org/licenses/&gt;</span>
@@ -544,6 +548,7 @@ use.</p>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">submit_clipboard</span>       <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;submit clipboard&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_open</span>              <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;[link] &lt;link&gt; [open]&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_select</span>            <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;[link] &lt;link&gt; select&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_menu</span>              <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;[link] &lt;link&gt; (menu | pop up)&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_force</span>             <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;[link] &lt;link&gt; force&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_window</span>            <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;[link] &lt;link&gt; window&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_tab</span>               <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;[link] &lt;link&gt; tab&quot;</span><span class="p">)</span>
@@ -553,6 +558,7 @@ use.</p>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_submit</span>            <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;[link] &lt;link&gt; submit&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_submit_text</span>       <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;[link] &lt;link&gt; submit &lt;text&gt;&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_submit_clipboard</span>  <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;[link] &lt;link&gt; submit clipboard&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_assign_keyword</span>    <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;assign [a] keyword to [link] &lt;link&gt;&quot;</span><span class="p">)</span>
 
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">search_text</span>            <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;[power] search [for] &lt;text&gt;&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">search_keyword_text</span>    <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;[power] search &lt;keyword&gt; [for] &lt;text&gt;&quot;</span><span class="p">)</span>
@@ -643,6 +649,7 @@ use.</p>
 
         <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_open</span><span class="p">:</span>          <span class="n">Key</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%(link)s</span><span class="s">, enter&quot;</span><span class="p">),</span>
         <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_select</span><span class="p">:</span>        <span class="n">Key</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%(link)s</span><span class="s">, shift&quot;</span><span class="p">),</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_menu</span><span class="p">:</span>          <span class="n">Key</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%(link)s</span><span class="s">, shift/10, apps&quot;</span><span class="p">),</span>
         <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_force</span><span class="p">:</span>         <span class="n">Key</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%(link)s</span><span class="s">, shift/10, enter&quot;</span><span class="p">),</span>
         <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_window</span><span class="p">:</span>        <span class="n">Key</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%(link)s</span><span class="s">, shift/10, apps/20, w&quot;</span><span class="p">),</span>
         <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_tab</span><span class="p">:</span>           <span class="n">Key</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%(link)s</span><span class="s">, shift/10, apps/20, t&quot;</span><span class="p">),</span>
@@ -653,6 +660,7 @@ use.</p>
         <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_submit_text</span><span class="p">:</span>   <span class="n">Key</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%(link)s</span><span class="s">, enter/30&quot;</span><span class="p">)</span>
                                          <span class="o">+</span> <span class="n">Text</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%(text)s</span><span class="s">&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Key</span><span class="p">(</span><span class="s">&quot;enter&quot;</span><span class="p">),</span>
         <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_submit_clipboard</span><span class="p">:</span> <span class="n">Key</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%(link)s</span><span class="s">, enter/30, c-v, enter&quot;</span><span class="p">),</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">link_assign_keyword</span><span class="p">:</span> <span class="n">Key</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%(link)s</span><span class="s">, enter/10, apps/20, k&quot;</span><span class="p">),</span>
 
         <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">search_text</span><span class="p">:</span>        <span class="n">Key</span><span class="p">(</span><span class="s">&quot;c-k&quot;</span><span class="p">)</span>
                                          <span class="o">+</span> <span class="n">Text</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%(text)s</span><span class="s">&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Key</span><span class="p">(</span><span class="s">&quot;enter&quot;</span><span class="p">),</span>
@@ -752,7 +760,7 @@ use.</p>
     </div>
     <div class="footer">
       &copy; Copyright 2008, Christo Butcher.
-      Last updated on Nov 21, 2008.
+      Last updated on Dec 03, 2008.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
   </body>

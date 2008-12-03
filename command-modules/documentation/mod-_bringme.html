@@ -61,6 +61,9 @@ format is described below.</p>
 <dd>Open the specified target.
 The <em>&lt;target&gt;</em> extra in this rule can be any one
 of the targets defined in this module&#8217;s configuration file.</dd>
+<dt>Command: <strong>&#8220;paste me &lt;target&gt;&#8221;</strong></dt>
+<dd>Paste the address of the specified target.
+The <em>&lt;target&gt;</em> extra is the same as for the bring me command.</dd>
 </dl>
 </div>
 <div class="section" id="customization">
@@ -116,12 +119,17 @@ will be opened showing the local <tt class="docutils literal"><span class="pre">
 20
 21
 22
-23</pre></td><td class="code"><div class="highlight"><pre><span class="c">#--- Targets section -------------------------------------------------------</span>
+23
+24
+25
+26
+27
+28</pre></td><td class="code"><div class="highlight"><pre><span class="c">#--- Targets section -------------------------------------------------------</span>
 
 <span class="n">targets</span><span class="o">.</span><span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span>
 
     <span class="c"># Python-specific targets.</span>
-    <span class="s">&#39;(python | pie) (library | lib)&#39;</span><span class="p">:</span>      <span class="n">website</span><span class="p">(</span><span class="s">&#39;http://docs.python.org/library/&#39;</span><span class="p">),</span>
+    <span class="s">&quot;(python | pie) (library | lib)&quot;</span><span class="p">:</span>      <span class="n">website</span><span class="p">(</span><span class="s">&quot;http://docs.python.org/library/&quot;</span><span class="p">),</span>
     <span class="s">&quot;(python | pie) home&quot;</span><span class="p">:</span>                 <span class="n">website</span><span class="p">(</span><span class="s">&quot;http://www.python.org/&quot;</span><span class="p">),</span>
 
     <span class="c"># Dragonfly-specific targets.</span>
@@ -135,10 +143,15 @@ will be opened showing the local <tt class="docutils literal"><span class="pre">
 
 <span class="c">#--- Language section ------------------------------------------------------</span>
 
-<span class="n">lang</span><span class="o">.</span><span class="n">bring_me</span> <span class="o">=</span> <span class="s">&#39;bring me &lt;target&gt;&#39;</span>
+<span class="n">lang</span><span class="o">.</span><span class="n">bring_me</span> <span class="o">=</span> <span class="s">&quot;bring me &lt;target&gt;&quot;</span>
                     <span class="c"># Command to bring a target; must contain the</span>
                     <span class="c">#  &lt;target&gt; extra.</span>
-                    <span class="c"># Default: &#39;bring me &lt;target&gt;&#39;</span>
+                    <span class="c"># Default: &quot;bring me &lt;target&gt;&quot;</span>
+
+<span class="n">lang</span><span class="o">.</span><span class="n">paste_me</span> <span class="o">=</span> <span class="s">&quot;paste me &lt;target&gt;&quot;</span>
+                    <span class="c"># Command to paste the location of a target;</span>
+                    <span class="c">#  must contain the &lt;target&gt; extra.</span>
+                    <span class="c"># Default: &quot;bring me &lt;target&gt;&quot;</span>
 </pre></div>
 </td></tr></table></div>
 </div>
@@ -278,7 +291,29 @@ will be opened showing the local <tt class="docutils literal"><span class="pre">
 131
 132
 133
-134</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
 <span class="c"># This file is a command-module for Dragonfly.</span>
 <span class="c"># (c) Copyright 2008 by Christo Butcher</span>
 <span class="c"># Licensed under the LGPL, see &lt;http://www.gnu.org/licenses/&gt;</span>
@@ -300,6 +335,10 @@ will be opened showing the local <tt class="docutils literal"><span class="pre">
 <span class="sd">    Open the specified target.</span>
 <span class="sd">    The *&lt;target&gt;* extra in this rule can be any one</span>
 <span class="sd">    of the targets defined in this module&#39;s configuration file.</span>
+
+<span class="sd">Command: **&quot;paste me &lt;target&gt;&quot;**</span>
+<span class="sd">    Paste the address of the specified target.</span>
+<span class="sd">    The *&lt;target&gt;* extra is the same as for the bring me command.</span>
 
 <span class="sd">Customization</span>
 <span class="sd">-------------</span>
@@ -341,7 +380,7 @@ will be opened showing the local <tt class="docutils literal"><span class="pre">
 <span class="kn">import</span> <span class="nn">subprocess</span>
 
 <span class="kn">from</span> <span class="nn">dragonfly.all</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Grammar</span><span class="p">,</span> <span class="n">Choice</span><span class="p">,</span> <span class="n">CompoundRule</span><span class="p">,</span>
-                           <span class="n">Config</span><span class="p">,</span> <span class="n">Section</span><span class="p">,</span> <span class="n">Item</span><span class="p">)</span>
+                           <span class="n">Paste</span><span class="p">,</span> <span class="n">Config</span><span class="p">,</span> <span class="n">Section</span><span class="p">,</span> <span class="n">Item</span><span class="p">)</span>
 
 
 <span class="c">#---------------------------------------------------------------------------</span>
@@ -385,6 +424,9 @@ will be opened showing the local <tt class="docutils literal"><span class="pre">
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">bring_me</span>   <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;bring me &lt;target&gt;&quot;</span><span class="p">,</span>
                               <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Command to bring a target;&quot;</span>
                                   <span class="s">&quot; must contain the &lt;target&gt; extra.&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">paste</span>      <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;paste me &lt;target&gt;&quot;</span><span class="p">,</span>
+                              <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Command to paste the location of a target;&quot;</span>
+                                  <span class="s">&quot; must contain the &lt;target&gt; extra.&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
 
 
@@ -403,10 +445,25 @@ will be opened showing the local <tt class="docutils literal"><span class="pre">
 
 
 <span class="c">#---------------------------------------------------------------------------</span>
+<span class="c"># Paste rule.</span>
+
+<span class="k">class</span> <span class="nc">PasteRule</span><span class="p">(</span><span class="n">CompoundRule</span><span class="p">):</span>
+
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">paste</span>
+    <span class="n">extras</span> <span class="o">=</span> <span class="p">[</span><span class="n">Choice</span><span class="p">(</span><span class="s">&quot;target&quot;</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">targets</span><span class="o">.</span><span class="n">mapping</span><span class="p">)]</span>
+
+    <span class="k">def</span> <span class="nf">_process_recognition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">extras</span><span class="p">):</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="n">extras</span><span class="p">[</span><span class="s">&quot;target&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">: pasting target </span><span class="si">%s</span><span class="s">.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">))</span>
+        <span class="n">Paste</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">target</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
 <span class="c"># Create and manage this module&#39;s grammar.</span>
 
 <span class="n">grammar</span> <span class="o">=</span> <span class="n">Grammar</span><span class="p">(</span><span class="s">&quot;bring me&quot;</span><span class="p">)</span>
 <span class="n">grammar</span><span class="o">.</span><span class="n">add_rule</span><span class="p">(</span><span class="n">BringRule</span><span class="p">())</span>
+<span class="n">grammar</span><span class="o">.</span><span class="n">add_rule</span><span class="p">(</span><span class="n">PasteRule</span><span class="p">())</span>
 <span class="n">grammar</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">unload</span><span class="p">():</span>
     <span class="k">global</span> <span class="n">grammar</span>
@@ -474,7 +531,7 @@ will be opened showing the local <tt class="docutils literal"><span class="pre">
     </div>
     <div class="footer">
       &copy; Copyright 2008, Christo Butcher.
-      Last updated on Nov 21, 2008.
+      Last updated on Dec 03, 2008.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
   </body>

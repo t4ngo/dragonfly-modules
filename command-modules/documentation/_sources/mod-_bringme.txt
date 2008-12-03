@@ -15,6 +15,10 @@ Command: **"bring me <target>"**
     The *<target>* extra in this rule can be any one
     of the targets defined in this module's configuration file.
 
+Command: **"paste me <target>"**
+    Paste the address of the specified target.
+    The *<target>* extra is the same as for the bring me command.
+
 Customization
 -------------
 Users should customize this module by editing its configuration 
@@ -60,7 +64,7 @@ Configuration "_bringme-en.txt"
    targets.mapping = {
    
        # Python-specific targets.
-       '(python | pie) (library | lib)':      website('http://docs.python.org/library/'),
+       "(python | pie) (library | lib)":      website("http://docs.python.org/library/"),
        "(python | pie) home":                 website("http://www.python.org/"),
    
        # Dragonfly-specific targets.
@@ -74,10 +78,15 @@ Configuration "_bringme-en.txt"
    
    #--- Language section ------------------------------------------------------
    
-   lang.bring_me = 'bring me <target>'
+   lang.bring_me = "bring me <target>"
                        # Command to bring a target; must contain the
                        #  <target> extra.
-                       # Default: 'bring me <target>'
+                       # Default: "bring me <target>"
+   
+   lang.paste_me = "paste me <target>"
+                       # Command to paste the location of a target;
+                       #  must contain the <target> extra.
+                       # Default: "bring me <target>"
 
 Module source code
 ------------------
@@ -109,6 +118,10 @@ The most current version of this module can be downloaded from the `repository h
        Open the specified target.
        The *<target>* extra in this rule can be any one
        of the targets defined in this module's configuration file.
+   
+   Command: **"paste me <target>"**
+       Paste the address of the specified target.
+       The *<target>* extra is the same as for the bring me command.
    
    Customization
    -------------
@@ -150,7 +163,7 @@ The most current version of this module can be downloaded from the `repository h
    import subprocess
    
    from dragonfly.all import (Grammar, Choice, CompoundRule,
-                              Config, Section, Item)
+                              Paste, Config, Section, Item)
    
    
    #---------------------------------------------------------------------------
@@ -194,6 +207,9 @@ The most current version of this module can be downloaded from the `repository h
    config.lang.bring_me   = Item("bring me <target>",
                                  doc="Command to bring a target;"
                                      " must contain the <target> extra.")
+   config.lang.paste      = Item("paste me <target>",
+                                 doc="Command to paste the location of a target;"
+                                     " must contain the <target> extra.")
    config.load()
    
    
@@ -212,10 +228,25 @@ The most current version of this module can be downloaded from the `repository h
    
    
    #---------------------------------------------------------------------------
+   # Paste rule.
+   
+   class PasteRule(CompoundRule):
+   
+       spec = config.lang.paste
+       extras = [Choice("target", config.targets.mapping)]
+   
+       def _process_recognition(self, node, extras):
+           target = extras["target"]
+           self._log.debug("%s: pasting target %s." % (self, target))
+           Paste(target.target).execute()
+   
+   
+   #---------------------------------------------------------------------------
    # Create and manage this module's grammar.
    
    grammar = Grammar("bring me")
    grammar.add_rule(BringRule())
+   grammar.add_rule(PasteRule())
    grammar.load()
    def unload():
        global grammar

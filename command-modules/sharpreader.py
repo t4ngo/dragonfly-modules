@@ -27,7 +27,7 @@ Command: **"paste [feed] address"**
 Command: **"feeds | feed (list | window | win)"**
     Shift focus to the list of subscribed feeds.
 
-Command: **"older [<n>]"**
+Command: **"newer [<n>]"**
     Move up the list of items.  If *n* is given, move up
     the number of items.
 
@@ -57,6 +57,8 @@ class CommandRule(MappingRule):
                 "subscribe [[to] [this] feed]":        Key("a-u"),
                 "paste [feed] address":                Key("a-d, c-v, enter"),
                 "feeds | feed (list | window | win)":  Key("a-d, tab:2, s-tab"),
+                "down [<n>] (feed | feeds)":           Key("a-d, tab:2, s-tab, down:%(n)d"),
+                "up [<n>] (feed | feeds)":             Key("a-d, tab:2, s-tab, up:%(n)d"),
                 "open [item]":                         Key("a-d, tab:2, c-s"),
                 "newer [<n>]":                         Key("a-d, tab:2, up:%(n)d"),
                 "older [<n>]":                         Key("a-d, tab:2, down:%(n)d"),

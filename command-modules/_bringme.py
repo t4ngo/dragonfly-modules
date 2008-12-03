@@ -21,6 +21,10 @@ Command: **"bring me <target>"**
     The *<target>* extra in this rule can be any one
     of the targets defined in this module's configuration file.
 
+Command: **"paste me <target>"**
+    Paste the address of the specified target.
+    The *<target>* extra is the same as for the bring me command.
+
 Customization
 -------------
 Users should customize this module by editing its configuration 
@@ -61,7 +65,7 @@ import webbrowser
 import subprocess
 
 from dragonfly.all import (Grammar, Choice, CompoundRule,
-                           Config, Section, Item)
+                           Paste, Config, Section, Item)
 
 
 #---------------------------------------------------------------------------
@@ -105,6 +109,9 @@ config.lang            = Section("Language section")
 config.lang.bring_me   = Item("bring me <target>",
                               doc="Command to bring a target;"
                                   " must contain the <target> extra.")
+config.lang.paste      = Item("paste me <target>",
+                              doc="Command to paste the location of a target;"
+                                  " must contain the <target> extra.")
 config.load()
 
 
@@ -123,10 +130,25 @@ class BringRule(CompoundRule):
 
 
 #---------------------------------------------------------------------------
+# Paste rule.
+
+class PasteRule(CompoundRule):
+
+    spec = config.lang.paste
+    extras = [Choice("target", config.targets.mapping)]
+
+    def _process_recognition(self, node, extras):
+        target = extras["target"]
+        self._log.debug("%s: pasting target %s." % (self, target))
+        Paste(target.target).execute()
+
+
+#---------------------------------------------------------------------------
 # Create and manage this module's grammar.
 
 grammar = Grammar("bring me")
 grammar.add_rule(BringRule())
+grammar.add_rule(PasteRule())
 grammar.load()
 def unload():
     global grammar

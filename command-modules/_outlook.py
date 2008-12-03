@@ -31,6 +31,10 @@ Command: **"(synchronize | update) (folders | folder list)"**
 
 #---------------------------------------------------------------------------
 
+import tempfile
+import os
+import os.path
+import subprocess
 from win32com.client                import constants
 from pywintypes                     import com_error
 
@@ -40,7 +44,7 @@ from dragonfly.grammar.elements     import DictListRef, Choice
 from dragonfly.grammar.compoundrule import CompoundRule
 from dragonfly.grammar.list         import DictList
 from dragonfly.config               import Config, Section, Item
-
+from dragonfly.all import Integer
 
 #---------------------------------------------------------------------------
 # Set up this module's configuration.
@@ -48,6 +52,8 @@ from dragonfly.config               import Config, Section, Item
 config = Config("Microsoft Outlook control")
 config.lang                 = Section("Language section")
 config.lang.go_to_folder    = Item("(folder | show me) <folder>")
+config.lang.save_attachments = Item("save attachments")
+config.lang.open_attachment = Item("open attachment <n>")
 config.lang.move_to_folder  = Item("move to <folder>")
 config.lang.create_new_item = Item("[create] new <type>")
 config.lang.sync_folders    = Item("(synchronize | update) (folders | folder list)")
@@ -169,11 +175,87 @@ class MoveToFolderRule(CompoundRule):
         for item in collection_iter(explorer.Selection):
             self._log.debug("%s: moving item %r to folder %r."
                             % (self, item.Subject, folder.Name))
-            print ("%s: moving item %r to folder %r."
-                   % (self, item.Subject, folder.Name))
             item.Move(folder)
 
 grammar.add_rule(MoveToFolderRule())
+
+
+#---------------------------------------------------------------------------
+
+class SaveAttachmentsRule(CompoundRule):
+
+    spec = config.lang.save_attachments
+
+    def _process_recognition(self, node, extras):
+
+        # Get the currently active explorer.
+        explorer = self.grammar.get_active_explorer()
+        if not explorer: return
+
+        # Save the attachments of the selected items.
+        temp_dir = tempfile.mkdtemp()
+        print "temporary directory:", temp_dir
+        for item in collection_iter(explorer.Selection):
+            self._log.debug("%s: saving attachments of item %r."
+                            % (self, item.Subject))
+            for attachment in collection_iter(item.Attachments):
+                print "attachment %r" % attachment.FileName
+                filename = os.path.basename(attachment.FileName)
+                path = os.path.join(temp_dir, filename)
+                attachment.SaveAsFile(path)
+
+        # Open a file browser to the containing directory.
+        subprocess.Popen(["explorer", temp_dir])
+
+grammar.add_rule(SaveAttachmentsRule())
+
+
+#---------------------------------------------------------------------------
+
+class OpenAttachmentRule(CompoundRule):
+
+    spec = config.lang.open_attachment
+    extras = [Integer("n", 1, 10)]
+
+    def _process_recognition(self, node, extras):
+        index = extras["n"]
+
+        # Get the currently active explorer.
+        explorer = self.grammar.get_active_explorer()
+        if not explorer: return
+
+        # Make sure that exactly 1 item is selected.
+        if explorer.Selection.Count < 0:
+            self._log.warning("%s: no selected, not opening." % self)
+            return
+        elif explorer.Selection.Count > 1:
+            self._log.warning("%s: multiple items selected, not opening."
+                              % self)
+            return
+
+        # Retrieve the attachment of the selected item.
+        item = explorer.Selection.Item(1)
+        if not (1 <= index <= item.Attachments.Count):
+            self._log.warning("%s: attachment index %d of item %r"
+                              " out of range (1 <= index <= %d)."
+                        % (self, index, item.Subject,
+                           item.Attachments.Count))
+            return
+
+        attachment = item.Attachments.Item(index)
+        self._log.debug("%s: opening attachment %r of item %r."
+                        % (self, attachment.FileName, item.Subject))
+        filename = os.path.basename(attachment.FileName)
+
+        # Save the attachment to a temporary directory.
+        temp_dir = tempfile.mkdtemp()
+        path = os.path.join(temp_dir, filename)
+        attachment.SaveAsFile(path)
+
+        # Open a file browser to the containing directory.
+        os.startfile(path)
+
+grammar.add_rule(OpenAttachmentRule())
 
 
 #---------------------------------------------------------------------------

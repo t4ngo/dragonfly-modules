@@ -5,6 +5,8 @@
 #--- Language section ------------------------------------------------------
 
 lang.go_to_folder = '(folder | show me) <folder>'
+lang.save_attachments = 'save attachments'
+lang.open_attachment = 'open attachment <n>'
 lang.move_to_folder = 'move to <folder>'
 lang.create_new_item = '[create] new <type>'
 lang.sync_folders = '(synchronize | update) (folders | folder list)'

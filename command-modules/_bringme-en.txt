@@ -4,7 +4,7 @@
 targets.mapping = {
 
     # Python-specific targets.
-    '(python | pie) (library | lib)':      website('http://docs.python.org/library/'),
+    "(python | pie) (library | lib)":      website("http://docs.python.org/library/"),
     "(python | pie) home":                 website("http://www.python.org/"),
 
     # Dragonfly-specific targets.
@@ -18,7 +18,12 @@ targets.mapping = {
 
 #--- Language section ------------------------------------------------------
 
-lang.bring_me = 'bring me <target>'
+lang.bring_me = "bring me <target>"
                     # Command to bring a target; must contain the
                     #  <target> extra.
-                    # Default: 'bring me <target>'
+                    # Default: "bring me <target>"
+
+lang.paste_me = "paste me <target>"
+                    # Command to paste the location of a target;
+                    #  must contain the <target> extra.
+                    # Default: "bring me <target>"

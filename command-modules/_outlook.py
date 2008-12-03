@@ -20,6 +20,12 @@ Command: **"(folder | show me) <folder>"**
 Command: **"move to <folder>"**
     Move the selected item(s) to the specified folder.
 
+Command: **"save attachments"**
+    Save all attachments of selected items.
+
+Command: **"open attachment <n>"**
+    Open attachment number <n> within the selected item.
+
 Command: **"[create] new <type>"**
     Creates a new item of the specified type.
 

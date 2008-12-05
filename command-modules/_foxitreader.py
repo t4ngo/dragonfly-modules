@@ -18,8 +18,7 @@ and lightweight PDF reader.
 #---------------------------------------------------------------------------
 
 from dragonfly.all import (Grammar, AppContext, MappingRule, Dictation,
-                           Key, Text, Config, Section, Item, get_integer)
-Integer = get_integer("en")
+                           Key, Text, Config, Section, Item, Integer)
 
 
 #---------------------------------------------------------------------------

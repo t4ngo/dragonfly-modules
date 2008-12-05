@@ -112,6 +112,7 @@ default_names = {
                  "mail":      "outlook",
                  "outlook":   "outlook",
                  "you":       "uedit32",
+                 "virtual":   "VpxClient",
                 }
 for key in default_names.keys():
     win_names[key] = key

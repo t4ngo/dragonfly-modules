@@ -35,9 +35,8 @@ use.
 
 from dragonfly.all import (Grammar, AppContext, Rule, MappingRule,
                            Dictation, Alternative, Choice, RuleRef,
-                           Key, Text,
+                           Key, Text, Integer, Digits,
                            Config, Section, Item)
-from dragonfly.grammar.integer_en  import Integer, Digits
 
 
 #---------------------------------------------------------------------------

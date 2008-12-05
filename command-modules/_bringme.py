@@ -109,7 +109,7 @@ config.lang            = Section("Language section")
 config.lang.bring_me   = Item("bring me <target>",
                               doc="Command to bring a target;"
                                   " must contain the <target> extra.")
-config.lang.paste      = Item("paste me <target>",
+config.lang.paste_me   = Item("paste me <target>",
                               doc="Command to paste the location of a target;"
                                   " must contain the <target> extra.")
 config.load()
@@ -134,7 +134,7 @@ class BringRule(CompoundRule):
 
 class PasteRule(CompoundRule):
 
-    spec = config.lang.paste
+    spec = config.lang.paste_me
     extras = [Choice("target", config.targets.mapping)]
 
     def _process_recognition(self, node, extras):

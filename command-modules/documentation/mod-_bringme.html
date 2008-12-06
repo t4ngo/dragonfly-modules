@@ -424,7 +424,7 @@ will be opened showing the local <tt class="docutils literal"><span class="pre">
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">bring_me</span>   <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;bring me &lt;target&gt;&quot;</span><span class="p">,</span>
                               <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Command to bring a target;&quot;</span>
                                   <span class="s">&quot; must contain the &lt;target&gt; extra.&quot;</span><span class="p">)</span>
-<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">paste</span>      <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;paste me &lt;target&gt;&quot;</span><span class="p">,</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">paste_me</span>   <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;paste me &lt;target&gt;&quot;</span><span class="p">,</span>
                               <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Command to paste the location of a target;&quot;</span>
                                   <span class="s">&quot; must contain the &lt;target&gt; extra.&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
@@ -449,7 +449,7 @@ will be opened showing the local <tt class="docutils literal"><span class="pre">
 
 <span class="k">class</span> <span class="nc">PasteRule</span><span class="p">(</span><span class="n">CompoundRule</span><span class="p">):</span>
 
-    <span class="n">spec</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">paste</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">paste_me</span>
     <span class="n">extras</span> <span class="o">=</span> <span class="p">[</span><span class="n">Choice</span><span class="p">(</span><span class="s">&quot;target&quot;</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">targets</span><span class="o">.</span><span class="n">mapping</span><span class="p">)]</span>
 
     <span class="k">def</span> <span class="nf">_process_recognition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">extras</span><span class="p">):</span>
@@ -531,7 +531,7 @@ will be opened showing the local <tt class="docutils literal"><span class="pre">
     </div>
     <div class="footer">
       &copy; Copyright 2008, Christo Butcher.
-      Last updated on Dec 03, 2008.
+      Last updated on Dec 06, 2008.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
   </body>

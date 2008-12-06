@@ -35,8 +35,7 @@ The most current version of this module can be downloaded from the `repository h
    #---------------------------------------------------------------------------
    
    from dragonfly.all import (Grammar, AppContext, MappingRule, Dictation,
-                              Key, Text, Config, Section, Item, get_integer)
-   Integer = get_integer("en")
+                              Key, Text, Config, Section, Item, Integer)
    
    
    #---------------------------------------------------------------------------

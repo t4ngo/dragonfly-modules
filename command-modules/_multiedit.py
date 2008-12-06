@@ -30,6 +30,11 @@ Example: **"left 7 words / backspace 3 / insert hello Cap world"**
    the 3 characters before the cursor, and finally insert
    the text "hello World".
 
+Example: **"home / space 4 / down / 43 times"**
+   This command will insert 4 spaces at the beginning of 
+   this and the next 42 lines.  The final "43 times" 
+   repeats everything in front of it that many times.
+
 """
 
 
@@ -108,7 +113,7 @@ class RepeatRule(CompoundRule):
     # Here we define this rule's spoken-form and special elements.
     spec     = "<sequence> [[[and] repeat [that]] <n> times]"
     extras   = [
-                sequence,             # Sequence of actions defined above in.
+                sequence,             # Sequence of actions defined above.
                 Integer("n", 1, 100), # Times to repeat the sequence.
                ]
     defaults = {

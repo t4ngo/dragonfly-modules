@@ -19,7 +19,7 @@
     <link rel="index" title="Global index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="top" title="Dragonfly-modules v0.1 documentation" href="index.html" />
-    <link rel="next" title="Command-module for taskbar and icon tray access" href="mod-_taskbar.html" />
+    <link rel="next" title="Command-module for cursor movement and editing" href="mod-_multiedit.html" />
     <link rel="prev" title="Command-module for managing config files of other modules" href="mod-_config_manager.html" />
   </head>
   <body>
@@ -33,7 +33,7 @@
           <a href="modindex.html" title="Global Module Index"
              accesskey="M">modules</a> |</li>
         <li class="right" >
-          <a href="mod-_taskbar.html" title="Command-module for taskbar and icon tray access"
+          <a href="mod-_multiedit.html" title="Command-module for cursor movement and editing"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="mod-_config_manager.html" title="Command-module for managing config files of other modules"
@@ -614,7 +614,8 @@ corner of the second display monitor.</li>
 395
 396
 397
-398</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+398
+399</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
 <span class="c"># This file is a command-module for Dragonfly.</span>
 <span class="c"># (c) Copyright 2008 by Christo Butcher</span>
 <span class="c"># Licensed under the LGPL, see &lt;http://www.gnu.org/licenses/&gt;</span>
@@ -728,6 +729,7 @@ corner of the second display monitor.</li>
                  <span class="s">&quot;mail&quot;</span><span class="p">:</span>      <span class="s">&quot;outlook&quot;</span><span class="p">,</span>
                  <span class="s">&quot;outlook&quot;</span><span class="p">:</span>   <span class="s">&quot;outlook&quot;</span><span class="p">,</span>
                  <span class="s">&quot;you&quot;</span><span class="p">:</span>       <span class="s">&quot;uedit32&quot;</span><span class="p">,</span>
+                 <span class="s">&quot;virtual&quot;</span><span class="p">:</span>   <span class="s">&quot;VpxClient&quot;</span><span class="p">,</span>
                 <span class="p">}</span>
 <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">default_names</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
     <span class="n">win_names</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">key</span>
@@ -1039,7 +1041,7 @@ corner of the second display monitor.</li>
             <h4>Previous topic</h4>
             <p class="topless"><a href="mod-_config_manager.html" title="previous chapter">Command-module for managing config files of other modules</a></p>
             <h4>Next topic</h4>
-            <p class="topless"><a href="mod-_taskbar.html" title="next chapter">Command-module for <strong>taskbar</strong> and icon tray access</a></p>
+            <p class="topless"><a href="mod-_multiedit.html" title="next chapter">Command-module for cursor movement and <strong>editing</strong></a></p>
             <h3>This Page</h3>
             <ul class="this-page-menu">
               <li><a href="_sources/mod-_winctrl.txt">Show Source</a></li>
@@ -1064,7 +1066,7 @@ corner of the second display monitor.</li>
           <a href="modindex.html" title="Global Module Index"
              accesskey="M">modules</a> |</li>
         <li class="right" >
-          <a href="mod-_taskbar.html" title="Command-module for taskbar and icon tray access"
+          <a href="mod-_multiedit.html" title="Command-module for cursor movement and editing"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="mod-_config_manager.html" title="Command-module for managing config files of other modules"
@@ -1074,7 +1076,7 @@ corner of the second display monitor.</li>
     </div>
     <div class="footer">
       &copy; Copyright 2008, Christo Butcher.
-      Last updated on Dec 03, 2008.
+      Last updated on Dec 06, 2008.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
   </body>

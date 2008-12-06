@@ -34,6 +34,7 @@ General desktop activities
    :maxdepth: 1
 
    mod-_winctrl
+   mod-_multiedit
    mod-_taskbar
    mod-_bringme
    mod-_lockscreen
@@ -62,3 +63,4 @@ Demonstration modules
 
    mod-notepad_foodgroups
    mod-notepad_example
+   mod-_mousehold

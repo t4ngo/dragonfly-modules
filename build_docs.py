@@ -102,7 +102,7 @@ for filename in os.listdir(mod_dir):
     print "command module:", filename
 
     src_path = os.path.join(mod_dir, filename)
-    dst_path = os.path.join(directory, "doc-src", "mod-%s.txt" % base)
+    dst_path = os.path.join(directory, "documentation", "mod-%s.txt" % base)
     extract_docstring(src_path, dst_path)
 
 
@@ -112,7 +112,7 @@ for filename in os.listdir(mod_dir):
 python_binary = sys.executable
 build_binary = r"c:\python25\scripts\sphinx-build-script.py"
 build_type = "html"
-src_dir = os.path.abspath(os.path.join(directory, "doc-src"))
+src_dir = os.path.abspath(os.path.join(directory, "documentation"))
 dst_dir = os.path.abspath(os.path.join(directory, "command-modules", "documentation"))
 
 arguments = [python_binary, build_binary, "-a", "-b", build_type, src_dir, dst_dir]

@@ -85,9 +85,13 @@ from dragonfly.all import (Grammar, CompoundRule, MappingRule,
 # Note that this rule does not execute these actions, it
 #  simply returns them when it's value() method is called.
 #  For example "up 4" will give the value Key("up:4").
+# More information about Key() actions can be found here:
+#  http://dragonfly.googlecode.com/svn/trunk/dragonfly/documentation/actionkey.html
 class KeystrokeRule(MappingRule):
 
     exported = False
+
+                # Spoken-form    ->    ->    ->     Action object
     mapping  = {
                 "up [<n>]":                         Key("up:%(n)d"),
                 "down [<n>]":                       Key("down:%(n)d"),

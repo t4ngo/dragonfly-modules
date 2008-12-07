@@ -314,7 +314,11 @@ the name &#8220;sequence&#8221;.</li>
 192
 193
 194
-195</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+195
+196
+197
+198
+199</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
 <span class="c"># This file is a command-module for Dragonfly.</span>
 <span class="c"># (c) Copyright 2008 by Christo Butcher</span>
 <span class="c"># Licensed under the LGPL, see &lt;http://www.gnu.org/licenses/&gt;</span>
@@ -401,9 +405,13 @@ the name &#8220;sequence&#8221;.</li>
 <span class="c"># Note that this rule does not execute these actions, it</span>
 <span class="c">#  simply returns them when it&#39;s value() method is called.</span>
 <span class="c">#  For example &quot;up 4&quot; will give the value Key(&quot;up:4&quot;).</span>
+<span class="c"># More information about Key() actions can be found here:</span>
+<span class="c">#  http://dragonfly.googlecode.com/svn/trunk/dragonfly/documentation/actionkey.html</span>
 <span class="k">class</span> <span class="nc">KeystrokeRule</span><span class="p">(</span><span class="n">MappingRule</span><span class="p">):</span>
 
     <span class="n">exported</span> <span class="o">=</span> <span class="bp">False</span>
+
+                <span class="c"># Spoken-form    -&gt;    -&gt;    -&gt;     Action object</span>
     <span class="n">mapping</span>  <span class="o">=</span> <span class="p">{</span>
                 <span class="s">&quot;up [&lt;n&gt;]&quot;</span><span class="p">:</span>                         <span class="n">Key</span><span class="p">(</span><span class="s">&quot;up:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
                 <span class="s">&quot;down [&lt;n&gt;]&quot;</span><span class="p">:</span>                       <span class="n">Key</span><span class="p">(</span><span class="s">&quot;down:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>

@@ -68,9 +68,54 @@ the 3 characters before the cursor, and finally insert
 the text &#8220;hello World&#8221;.</dd>
 <dt>Example: <strong>&#8220;home / space 4 / down / 43 times&#8221;</strong></dt>
 <dd>This command will insert 4 spaces at the beginning of
-this and the next 42 lines.  The final &#8220;43 times&#8221;
+of this and the next 42 lines.  The final &#8220;43 times&#8221;
 repeats everything in front of it that many times.</dd>
 </dl>
+</div>
+<div class="section" id="discussion-of-this-module">
+<h2>Discussion of this module<a class="headerlink" href="#discussion-of-this-module" title="Permalink to this headline">¶</a></h2>
+<p>This command-module creates a powerful voice command for
+editing and cursor movement.  This command&#8217;s structure can
+be represented by the following simplified language model:</p>
+<blockquote>
+<ul>
+<li><dl class="first docutils">
+<dt><em>CommandRule</em> &#8211; top-level rule which the user can say</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt><em>repetition</em> &#8211; sequence of actions (name = &#8220;sequence&#8221;)</dt>
+<dd><ul class="first last simple">
+<li><em>KeystrokeRule</em> &#8211; rule that maps a single
+spoken-form to an action</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>optional</em> &#8211; optional specification of repeat count</dt>
+<dd><ul class="first last simple">
+<li><em>integer</em> &#8211; repeat count (name = &#8220;n&#8221;)</li>
+<li><em>literal</em> &#8211; &#8220;times&#8221;</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</blockquote>
+<p>The top-level command rule has a callback method which is
+called when this voice command is recognized.  The logic
+within this callback is very simple:</p>
+<ol class="arabic simple">
+<li>Retrieve the sequence of actions from the element with
+the name &#8220;sequence&#8221;.</li>
+<li>Retrieve the repeat count from the element with the name
+&#8220;n&#8221;.</li>
+<li>Execute the actions the specified number of times.</li>
+</ol>
 </div>
 <div class="section" id="module-source-code">
 <h2>Module source code<a class="headerlink" href="#module-source-code" title="Permalink to this headline">¶</a></h2>
@@ -222,7 +267,54 @@ repeats everything in front of it that many times.</dd>
 145
 146
 147
-148</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
 <span class="c"># This file is a command-module for Dragonfly.</span>
 <span class="c"># (c) Copyright 2008 by Christo Butcher</span>
 <span class="c"># Licensed under the LGPL, see &lt;http://www.gnu.org/licenses/&gt;</span>
@@ -256,8 +348,34 @@ repeats everything in front of it that many times.</dd>
 
 <span class="sd">Example: **&quot;home / space 4 / down / 43 times&quot;**</span>
 <span class="sd">   This command will insert 4 spaces at the beginning of</span>
-<span class="sd">   this and the next 42 lines.  The final &quot;43 times&quot;</span>
+<span class="sd">   of this and the next 42 lines.  The final &quot;43 times&quot;</span>
 <span class="sd">   repeats everything in front of it that many times.</span>
+
+
+<span class="sd">Discussion of this module</span>
+<span class="sd">----------------------------------------------------------------------------</span>
+
+<span class="sd">This command-module creates a powerful voice command for</span>
+<span class="sd">editing and cursor movement.  This command&#39;s structure can</span>
+<span class="sd">be represented by the following simplified language model:</span>
+
+<span class="sd"> - *CommandRule* -- top-level rule which the user can say</span>
+<span class="sd">    - *repetition* -- sequence of actions (name = &quot;sequence&quot;)</span>
+<span class="sd">       - *KeystrokeRule* -- rule that maps a single</span>
+<span class="sd">         spoken-form to an action</span>
+<span class="sd">    - *optional* -- optional specification of repeat count</span>
+<span class="sd">       - *integer* -- repeat count (name = &quot;n&quot;)</span>
+<span class="sd">       - *literal* -- &quot;times&quot;</span>
+
+<span class="sd">The top-level command rule has a callback method which is</span>
+<span class="sd">called when this voice command is recognized.  The logic</span>
+<span class="sd">within this callback is very simple:</span>
+
+<span class="sd">1. Retrieve the sequence of actions from the element with</span>
+<span class="sd">   the name &quot;sequence&quot;.</span>
+<span class="sd">2. Retrieve the repeat count from the element with the name</span>
+<span class="sd">   &quot;n&quot;.</span>
+<span class="sd">3. Execute the actions the specified number of times.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -280,6 +398,9 @@ repeats everything in front of it that many times.</dd>
 <span class="c">#  It is derived from MappingRule, so that its &quot;value&quot; when</span>
 <span class="c">#  processing a recognition will be the right side of the</span>
 <span class="c">#  mapping: an action.</span>
+<span class="c"># Note that this rule does not execute these actions, it</span>
+<span class="c">#  simply returns them when it&#39;s value() method is called.</span>
+<span class="c">#  For example &quot;up 4&quot; will give the value Key(&quot;up:4&quot;).</span>
 <span class="k">class</span> <span class="nc">KeystrokeRule</span><span class="p">(</span><span class="n">MappingRule</span><span class="p">):</span>
 
     <span class="n">exported</span> <span class="o">=</span> <span class="bp">False</span>
@@ -301,11 +422,13 @@ repeats everything in front of it that many times.</dd>
 
                 <span class="s">&quot;space [&lt;n&gt;]&quot;</span><span class="p">:</span>                      <span class="n">Key</span><span class="p">(</span><span class="s">&quot;space:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
                 <span class="s">&quot;enter [&lt;n&gt;]&quot;</span><span class="p">:</span>                      <span class="n">Key</span><span class="p">(</span><span class="s">&quot;enter:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
+                <span class="s">&quot;tab [&lt;n&gt;]&quot;</span><span class="p">:</span>                        <span class="n">Key</span><span class="p">(</span><span class="s">&quot;tab:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
                 <span class="s">&quot;delete [&lt;n&gt;]&quot;</span><span class="p">:</span>                     <span class="n">Key</span><span class="p">(</span><span class="s">&quot;del:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
                 <span class="s">&quot;delete [&lt;n&gt; | this] (line|lines)&quot;</span><span class="p">:</span> <span class="n">Key</span><span class="p">(</span><span class="s">&quot;home, s-down:</span><span class="si">%(n)d</span><span class="s">, del&quot;</span><span class="p">),</span>
                 <span class="s">&quot;backspace [&lt;n&gt;]&quot;</span><span class="p">:</span>                  <span class="n">Key</span><span class="p">(</span><span class="s">&quot;backspace:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
 
                 <span class="s">&quot;insert &lt;text&gt;&quot;</span><span class="p">:</span>                    <span class="n">Text</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%(text)s</span><span class="s">&quot;</span><span class="p">),</span>
+                <span class="s">&quot;paste&quot;</span><span class="p">:</span>                            <span class="n">Key</span><span class="p">(</span><span class="s">&quot;c-v&quot;</span><span class="p">),</span>
                <span class="p">}</span>
     <span class="n">extras</span>   <span class="o">=</span> <span class="p">[</span>
                 <span class="n">Integer</span><span class="p">(</span><span class="s">&quot;n&quot;</span><span class="p">,</span> <span class="mf">1</span><span class="p">,</span> <span class="mf">100</span><span class="p">),</span>
@@ -314,11 +437,19 @@ repeats everything in front of it that many times.</dd>
     <span class="n">defaults</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s">&quot;n&quot;</span><span class="p">:</span> <span class="mf">1</span><span class="p">,</span>
                <span class="p">}</span>
+    <span class="c"># Note: when processing a recognition, the *value* of</span>
+    <span class="c">#  this rule will be an action object from the right side</span>
+    <span class="c">#  of the mapping given above.  This is default behavior</span>
+    <span class="c">#  of the MappingRule class&#39; value() method.  It also</span>
+    <span class="c">#  substitutes any &quot;%(...).&quot; within the action spec</span>
+    <span class="c">#  with the appropriate spoken values.</span>
 
 <span class="c">#---------------------------------------------------------------------------</span>
 <span class="c"># Here we create an element which is the sequence of keystrokes.</span>
 
 <span class="c"># First we create an element that references the keystroke rule.</span>
+<span class="c">#  Note: when processing a recognition, the *value* of this element</span>
+<span class="c">#  will be the value of the referenced rule: an action.</span>
 <span class="n">keystroke</span> <span class="o">=</span> <span class="n">RuleRef</span><span class="p">(</span><span class="n">rule</span><span class="o">=</span><span class="n">KeystrokeRule</span><span class="p">())</span>
 
 <span class="c"># Second we create a repetition of keystroke elements.</span>
@@ -326,12 +457,20 @@ repeats everything in front of it that many times.</dd>
 <span class="c">#  of the keystroke elements.  Note that we give this element</span>
 <span class="c">#  the name &quot;sequence&quot; so that it can be used as an extra in</span>
 <span class="c">#  the rule definition below.</span>
+<span class="c"># Note: when processing a recognition, the *value* of this element</span>
+<span class="c">#  will be a sequence of the contained elements: a sequence of</span>
+<span class="c">#  actions.</span>
 <span class="n">sequence</span> <span class="o">=</span> <span class="n">Repetition</span><span class="p">(</span><span class="n">keystroke</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mf">1</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mf">16</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;sequence&quot;</span><span class="p">)</span>
 
 
 <span class="c">#---------------------------------------------------------------------------</span>
 <span class="c"># Here we define the top-level rule which the user can say.</span>
 
+<span class="c"># This is the rule that actually handles recognitions.</span>
+<span class="c">#  When a recognition occurs, it&#39;s _process_recognition()</span>
+<span class="c">#  method will be called.  It receives information about the</span>
+<span class="c">#  recognition in the &quot;extras&quot; argument: the sequence of</span>
+<span class="c">#  actions and the number of times to repeat them.</span>
 <span class="k">class</span> <span class="nc">RepeatRule</span><span class="p">(</span><span class="n">CompoundRule</span><span class="p">):</span>
 
     <span class="c"># Here we define this rule&#39;s spoken-form and special elements.</span>
@@ -351,8 +490,8 @@ repeats everything in front of it that many times.</dd>
     <span class="c">#     . extras[&quot;sequence&quot;] gives the sequence of actions.</span>
     <span class="c">#     . extras[&quot;n&quot;] gives the repeat count.</span>
     <span class="k">def</span> <span class="nf">_process_recognition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">extras</span><span class="p">):</span>
-        <span class="n">sequence</span> <span class="o">=</span> <span class="n">extras</span><span class="p">[</span><span class="s">&quot;sequence&quot;</span><span class="p">]</span>
-        <span class="n">count</span> <span class="o">=</span> <span class="n">extras</span><span class="p">[</span><span class="s">&quot;n&quot;</span><span class="p">]</span>
+        <span class="n">sequence</span> <span class="o">=</span> <span class="n">extras</span><span class="p">[</span><span class="s">&quot;sequence&quot;</span><span class="p">]</span>   <span class="c"># A sequence of actions.</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="n">extras</span><span class="p">[</span><span class="s">&quot;n&quot;</span><span class="p">]</span>             <span class="c"># An integer repeat count.</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">sequence</span><span class="p">:</span>
                 <span class="n">action</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
@@ -384,6 +523,7 @@ repeats everything in front of it that many times.</dd>
             <ul>
 <li><a class="reference external" href="">Command-module for cursor movement and <strong>editing</strong></a><ul>
 <li><a class="reference external" href="#example-commands">Example commands</a></li>
+<li><a class="reference external" href="#discussion-of-this-module">Discussion of this module</a></li>
 <li><a class="reference external" href="#module-source-code">Module source code</a></li>
 </ul>
 </li>
@@ -427,7 +567,7 @@ repeats everything in front of it that many times.</dd>
     </div>
     <div class="footer">
       &copy; Copyright 2008, Christo Butcher.
-      Last updated on Dec 06, 2008.
+      Last updated on Dec 07, 2008.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
   </body>

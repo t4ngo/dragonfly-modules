@@ -66,7 +66,7 @@ within this callback is very simple:
 
 #---------------------------------------------------------------------------
 
-from dragonfly.all import (Grammar, CompoundRule, MappingRule,
+from dragonfly.all import (Grammar, Rule, CompoundRule, MappingRule,
                            Dictation, RuleRef, Repetition,
                            Key, Text, Integer,
                            Config, Section, Item)
@@ -114,12 +114,21 @@ class KeystrokeRule(MappingRule):
                 "delete [<n>]":                     Key("del:%(n)d"),
                 "delete [<n> | this] (line|lines)": Key("home, s-down:%(n)d, del"),
                 "backspace [<n>]":                  Key("backspace:%(n)d"),
+                "pop up":                           Key("apps"),
 
                 "insert <text>":                    Text("%(text)s"),
-                "paste":                            Key("c-v"),
+                "paste":                            Key("shift:up, c-v"),
+                "duplicate <n>":                    Key("shift:up, c-c, c-v:%(n)d"),
+                "copy":                             Key("shift:up, c-c"),
+                "cut":                              Key("shift:up, c-x"),
+                "[hold] shift":                     Key("shift:down"),
+                "release shift":                    Key("shift:up"),
+                "[hold] control":                   Key("ctrl:down"),
+                "release control":                  Key("ctrl:up"),
+                "release [all]":                    Key("shift:up, ctrl:up"),
                }
     extras   = [
-                Integer("n", 1, 100),
+                RuleRef(name="n", rule=Rule(name="_rule_n", element=Integer("n", 1, 100))),
                 Dictation("text"),
                ]
     defaults = {
@@ -183,6 +192,7 @@ class RepeatRule(CompoundRule):
         for i in range(count):
             for action in sequence:
                 action.execute()
+        Key("shift:up, ctrl:up").execute()
 
 
 #---------------------------------------------------------------------------

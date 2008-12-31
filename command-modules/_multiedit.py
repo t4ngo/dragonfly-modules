@@ -66,6 +66,9 @@ within this callback is very simple:
 
 #---------------------------------------------------------------------------
 
+import pkg_resources
+pkg_resources.require("dragonfly >= 0.6.4rc3.dev_r60")
+
 from dragonfly.all import (Grammar, Rule, CompoundRule, MappingRule,
                            Dictation, RuleRef, Repetition,
                            Key, Text, Integer,

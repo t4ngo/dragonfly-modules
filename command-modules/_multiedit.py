@@ -76,12 +76,22 @@ from dragonfly.all import (Grammar, Rule, CompoundRule, MappingRule,
 
 
 #---------------------------------------------------------------------------
+# Here we globally defined the release action which releases all
+#  modifier-keys used within this grammar.  It is defined here
+#  because this functionality is used in many different places.
+#  Note that it is harmless to release ("...:up") a key multiple
+#  times or when that key is not held down at all.
+
+release = Key("shift:up, ctrl:up")
+
+
+#---------------------------------------------------------------------------
 # Here we define the keystroke rule.
 
 # This rule maps spoken-forms to actions.  Some of these 
 #  include special elements like the number with name "n" 
 #  or the dictation with name "text".  This rule is not 
-#  exported, but is referenced by other elements later on. 
+#  exported, but is referenced by other elements later on.
 #  It is derived from MappingRule, so that its "value" when 
 #  processing a recognition will be the right side of the 
 #  mapping: an action.
@@ -111,24 +121,24 @@ class KeystrokeRule(MappingRule):
                 "doc home":                         Key("c-home"),
                 "doc end":                          Key("c-end"),
 
-                "space [<n>]":                      Key("space:%(n)d"),
-                "enter [<n>]":                      Key("enter:%(n)d"),
-                "tab [<n>]":                        Key("tab:%(n)d"),
-                "delete [<n>]":                     Key("del:%(n)d"),
-                "delete [<n> | this] (line|lines)": Key("home, s-down:%(n)d, del"),
-                "backspace [<n>]":                  Key("backspace:%(n)d"),
-                "pop up":                           Key("apps"),
+                "space [<n>]":                      release + Key("space:%(n)d"),
+                "enter [<n>]":                      release + Key("enter:%(n)d"),
+                "tab [<n>]":                        release + Key("tab:%(n)d"),
+                "delete [<n>]":                     release + Key("del:%(n)d"),
+                "delete [<n> | this] (line|lines)": release + Key("home, s-down:%(n)d, del"),
+                "backspace [<n>]":                  release + Key("backspace:%(n)d"),
+                "pop up":                           release + Key("apps"),
 
-                "insert <text>":                    Text("%(text)s"),
-                "paste":                            Key("shift:up, c-v"),
-                "duplicate <n>":                    Key("shift:up, c-c, c-v:%(n)d"),
-                "copy":                             Key("shift:up, c-c"),
-                "cut":                              Key("shift:up, c-x"),
+                "insert <text>":                    release + Text("%(text)s"),
+                "paste":                            release + Key("c-v"),
+                "duplicate <n>":                    release + Key("c-c, c-v:%(n)d"),
+                "copy":                             release + Key("c-c"),
+                "cut":                              release + Key("c-x"),
                 "[hold] shift":                     Key("shift:down"),
                 "release shift":                    Key("shift:up"),
                 "[hold] control":                   Key("ctrl:down"),
                 "release control":                  Key("ctrl:up"),
-                "release [all]":                    Key("shift:up, ctrl:up"),
+                "release [all]":                    release,
                }
     extras   = [
                 RuleRef(name="n", rule=Rule(name="_rule_n", element=Integer("n", 1, 100))),
@@ -195,7 +205,7 @@ class RepeatRule(CompoundRule):
         for i in range(count):
             for action in sequence:
                 action.execute()
-        Key("shift:up, ctrl:up").execute()
+        release.execute()
 
 
 #---------------------------------------------------------------------------

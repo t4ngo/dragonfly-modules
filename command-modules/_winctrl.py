@@ -79,7 +79,7 @@ config.lang.top            = Item("top", doc="Word for top side of monitor.")
 config.lang.bottom         = Item("bottom", doc="Word for bottom side of monitor.")
 config.settings            = Section("Settings section")
 config.settings.grid       = Item(10, doc="The number of grid divisions a monitor is divided up into when placing windows.")
-config.settings.defaults   = Item({"fire": "firefox"}, doc="Default window names.")
+config.settings.defaults   = Item({"fire": ("firefox", None)}, doc="Default window names.  Maps spoken-forms to (executable, title) pairs.")
 #config.generate_config_file()
 config.load()
 
@@ -104,28 +104,30 @@ for i, m in enumerate(monitors):
 
 
 #---------------------------------------------------------------------------
-# Default window names.
+# Default window names handling.
 
 default_names = config.settings.defaults
-default_names = {
-                 "fire":      "firefox",
-                 "mail":      "outlook",
-                 "outlook":   "outlook",
-                 "you":       "uedit32",
-                 "virtual":   "VpxClient",
-                }
+
+# Pre-populate the win_names mapping with the given default names.
 for key in default_names.keys():
     win_names[key] = key
+
+# Helper function to search for a default-name window.
 def get_default_window(name):
-    executable = default_names[name].lower()
+    executable, title = default_names[name]
+    if executable: executable = executable.lower()
+    if title: title = title.lower()
     windows = Window.get_all_windows()
     for window in windows:
         if not window.is_visible:
             continue
-        if window.executable.lower().find(executable) != -1:
-            window.name = name
-            win_names[name] = window
-            return window
+        elif executable and window.executable.lower().find(executable) == -1:
+            continue
+        elif title and window.title.lower().find(title) == -1:
+            continue
+        window.name = name
+        win_names[name] = window
+        return window
     return None
 
 
@@ -248,17 +250,27 @@ vert_all     = Alternative([vert_expl, vert_frac],   name="vert_all")
 
 #---------------------------------------------------------------------------
 
-class TranslateRule(CompoundRule):
-
-    spec = config.lang.translate_win
-    position = Compound(
-              name="position",
+position_element = Compound(
               spec="   <horz_expl>"              # 1D, horizontal
                    " | <vert_expl>"              # 1D, vertical
                    " | <horz_all> <vert_all>"    # 2D, horizontal-vertical
-                   " | <vert_expl> <horz_all>",  # 2D, vertical-horizontal
+                   " | <vert_expl> <horz_all>"   # 2D, vertical-horizontal
+                   " | <vert_all> <horz_expl>",  # 2D, vertical-horizontal
               extras=[horz_expl, horz_all, vert_expl, vert_all],
              )
+position_rule = Rule(
+                     name="position_rule",
+                     element=position_element,
+                     exported=False,
+                    )
+position = RuleRef(position_rule, name="position")
+
+
+#---------------------------------------------------------------------------
+
+class TranslateRule(CompoundRule):
+
+    spec = config.lang.translate_win
     extras = [
               win_selector,                  # Window selector element
               mon_selector,                  # Monitor selector element
@@ -300,14 +312,6 @@ grammar.add_rule(TranslateRule())
 class ResizeRule(CompoundRule):
 
     spec = config.lang.resize_win
-    position = Compound(
-              name="position",
-              spec="   <horz_expl>"              # 1D
-                   " | <vert_expl>"              # 1D
-                   " | <horz_all> <vert_all>"    # 2D, horizontal-vertical
-                   " | <vert_expl> <horz_all>",  # 2D, vertical-horizontal
-              extras=[horz_expl, horz_all, vert_expl, vert_all],
-             )
     extras = [
               win_selector,                  # Window selector element
               mon_selector,                  # Monitor selector element
@@ -352,14 +356,6 @@ grammar.add_rule(ResizeRule())
 class StretchRule(CompoundRule):
 
     spec = config.lang.stretch_win
-    position = Compound(
-              name="position",
-              spec="   <horz_expl>"              # 1D
-                   " | <vert_expl>"              # 1D
-                   " | <horz_all> <vert_all>"    # 2D, horizontal-vertical
-                   " | <vert_expl> <horz_all>",  # 2D, vertical-horizontal
-              extras=[horz_expl, horz_all, vert_expl, vert_all],
-             )
     extras = [
               win_selector,                  # Window selector element
               position,                      # Position element

@@ -18,8 +18,8 @@ a powerful text and source code editor.
 #---------------------------------------------------------------------------
 
 from dragonfly.all import (Grammar, AppContext, MappingRule,
-                           Dictation, Choice, Key, Text)
-from dragonfly.grammar.integer_en import Integer
+                           Dictation, Choice, IntegerRef, NumberRef,
+                           Key, Text)
 
 
 #---------------------------------------------------------------------------
@@ -81,8 +81,8 @@ class CommandRule(MappingRule):
         "run command":                  Key("c-f9"),
         "run command menu":             Key("f9"),
         "advanced configuration":       Key("a-a, c"),
-        "set tab stop to <int> [spaces]": Key("a-a, c/20, home/20, down:7/10, tab/5:8")
-                                         + Text("%(int)d\t%(int)d\n"),
+        "set tab stop to <1to9> [spaces]": Key("a-a, c/20, home/20, down:7/10, tab/5:8")
+                                         + Text("%(1to9)d\t%(1to9)d\n"),
 
         # Window menu.
         "window <1to9>":                Key("a-w, %(1to9)d"),
@@ -102,9 +102,9 @@ class CommandRule(MappingRule):
     extras = [
               Dictation("dict"),
               Dictation("dict2"),
-              Integer("1to9", 1, 10),
-              Integer("int", 1, 100000),
-              Integer("int2", 1, 100000),
+              IntegerRef("1to9", 1, 10),
+              NumberRef("int"),
+              NumberRef("int2"),
               Choice("zoom",
                     {"75": "7", "100": "1", "page width": "p",
                      "text width": "t", "whole page": "w",

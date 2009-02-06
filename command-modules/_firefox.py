@@ -35,7 +35,7 @@ use.
 
 from dragonfly.all import (Grammar, AppContext, Rule, MappingRule,
                            Dictation, Alternative, Choice, RuleRef,
-                           Key, Text, Integer, Digits,
+                           Key, Text, Integer, Number,
                            Config, Section, Item)
 
 
@@ -132,22 +132,12 @@ searchbar = dict([(n,i) for i,n in enumerate(config.search.searchbar)])
 class LinkRule(Rule):
 
     def __init__(self):
-        element = Alternative(children=(
-            Integer("link_int", 1, 10000),
-            Digits("link_dgt", 1, 7),
-            ))
+        element = Number(zero=True)
         Rule.__init__(self, "link_rule", element, exported=False)
 
     def value(self, node):
-        # Handle link if specified as integer.
-        child = node.get_child_by_name("link_int")
-        if child: digits = tuple(str(child.value()))
-            
-        # Handle link if specified as digits.
-        child = node.get_child_by_name("link_dgt")
-        if child: digits = [str(i) for i in child.value()]
-            
         # Format and return keystrokes to select the link.
+        digits = str(node.children[0].value())
         link_keys = "f6,s-f6," + ",".join(["numpad"+i for i in digits])
         self._log.debug("Link keys: %r" % link_keys)
         return link_keys

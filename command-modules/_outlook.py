@@ -32,6 +32,24 @@ Command: **"[create] new <type>"**
 Command: **"(synchronize | update) (folders | folder list)"**
     Update this module's internal list of Outlook folders.
 
+Command: **"new (email | mail) [to <addresses>]"**
+    Create a new mail item.
+
+Command: **"forward [email | mail] [to <addresses>]"**
+    Forward to a selected mail item.
+
+Commands for responding to a meeting request:
+     - **"accept and send"**
+     - **"accept and edit"**
+     - **"accept without response"**
+     - **"decline and send"**
+     - **"decline and edit"**
+     - **"decline without response"**
+     - **"tentative and send"**
+     - **"tentative and edit"**
+     - **"tentative without response"**
+     - **"check calendar"**
+
 """
 
 
@@ -44,27 +62,46 @@ import subprocess
 from win32com.client                import constants
 from pywintypes                     import com_error
 
-from dragonfly.grammar.grammar      import ConnectionGrammar
-from dragonfly.grammar.context      import AppContext
-from dragonfly.grammar.elements     import DictListRef, Choice
-from dragonfly.grammar.compoundrule import CompoundRule
-from dragonfly.grammar.list         import DictList
-from dragonfly.config               import Config, Section, Item
-from dragonfly.all import Integer
+from dragonfly.all import (ConnectionGrammar, AppContext,
+                           MappingRule, CompoundRule,
+                           RuleRef, DictListRef, Choice,
+                           Integer, DictList,
+                           Config, Section, Item,
+                           Key, Paste, Text)
+
 
 #---------------------------------------------------------------------------
 # Set up this module's configuration.
 
-config = Config("Microsoft Outlook control")
+config = Config("Outlook control")
 config.lang                 = Section("Language section")
 config.lang.go_to_folder    = Item("(folder | show me) <folder>")
+config.lang.move_to_folder  = Item("move to <folder>")
 config.lang.save_attachments = Item("save (attachments | edges)")
 config.lang.open_attachment = Item("open (attachment | edge) <n>")
-config.lang.move_to_folder  = Item("move to <folder>")
 config.lang.create_new_item = Item("[create] new <type>")
 config.lang.sync_folders    = Item("(synchronize | update) (folders | folder list)")
 config.lang.item_type_mail  = Item("(mail | email)")
 config.lang.item_type_task  = Item("task")
+config.lang.new_email       = Item("new (email | mail) [to <addresses>]")
+config.lang.forward_email   = Item("forward [email | mail] [to <addresses>]")
+config.lang.address_and_word = Item("[and]")
+config.lang.meeting_request_actions = Item({
+      "accept and send":             Key("a-a/10, c/10, s, enter"),
+      "accept and edit":             Key("a-a/10, c/10, e, enter"),
+      "accept without response":     Key("a-a/10, c/10, d, enter"),
+      "decline and send":            Key("a-a/10, e/10, s, enter"),
+      "decline and edit":            Key("a-a/10, e/10, e, enter"),
+      "decline without response":    Key("a-a/10, e/10, d, enter"),
+      "tentative and send":          Key("a-a/10, a/10, s, enter"),
+      "tentative and edit":          Key("a-a/10, a/10, e, enter"),
+      "tentative without response":  Key("a-a/10, a/10, d, enter"),
+      "check calendar":              Key("a-a/10, h"),
+     }, namespace={"Key": Key})
+config.contacts             = Section("Contacts section")
+config.contacts.addresses   = Item({
+      "someone": "someone@example.com",
+     })
 #config.generate_config_file()
 config.load()
 
@@ -204,6 +241,7 @@ class SaveAttachmentsRule(CompoundRule):
         for item in collection_iter(explorer.Selection):
             self._log.debug("%s: saving attachments of item %r."
                             % (self, item.Subject))
+
             for attachment in collection_iter(item.Attachments):
                 print "attachment %r" % attachment.FileName
                 filename = os.path.basename(attachment.FileName)
@@ -265,6 +303,33 @@ grammar.add_rule(OpenAttachmentRule())
 
 
 #---------------------------------------------------------------------------
+
+class MeetingRequestRule(MappingRule):
+
+    mapping = config.lang.meeting_request_actions
+
+    def _process_recognition(self, value, extras):
+
+        # Get the currently active explorer.
+        explorer = self.grammar.get_active_explorer()
+        if not explorer: return
+
+        # Save the attachments of the selected items.
+        if explorer.Selection.Count != 1:
+            self._log.warning("%s: cannot accept meeting requests when"
+                              " multiple items are selected.")
+            return
+
+        # Retrieve the item.
+        item = explorer.Selection.Item(1)
+
+        # Perform spoken action on this meeting request.
+        value.execute()
+
+grammar.add_rule(MeetingRequestRule())
+
+
+#---------------------------------------------------------------------------
 # Simple new item rule.
 
 class NewItemRule(CompoundRule):
@@ -272,7 +337,6 @@ class NewItemRule(CompoundRule):
     spec = config.lang.create_new_item
     types = {        # Use delayed constant lookups, because these
                      #  are loaded when the com connection is set up.
-             config.lang.item_type_mail:    "olMailItem",
              config.lang.item_type_task:    "olTaskItem",
             }
     extras = [Choice("type", types)]
@@ -283,6 +347,84 @@ class NewItemRule(CompoundRule):
         item.Display()
 
 grammar.add_rule(NewItemRule())
+
+
+#---------------------------------------------------------------------------
+# Address list rule and element.
+
+class AddressListRule(MappingRule):
+
+    exported = False
+    mapping = config.contacts.addresses
+
+
+class Addresses(CompoundRule):
+
+    exported = False
+    max_names = 3
+    spec = "<name>" \
+           + (" [" + config.lang.address_and_word + " <name>") * (max_names-1) \
+           + "]" * (max_names-1)
+    extras = [RuleRef(name="name", rule=AddressListRule())]
+
+    def value(self, node):
+        children = node.get_children_by_name("name")
+        return [child.value() for child in children]
+
+addresses = RuleRef(name="addresses", rule=Addresses())
+
+
+#---------------------------------------------------------------------------
+# Voice command for creating new (addressed) e-mails.
+
+class NewMailRule(CompoundRule):
+
+    spec = config.lang.new_email
+    extras = [addresses]
+
+    def _process_recognition(self, node, extras):
+        item_type = getattr(constants, "olMailItem")
+        item = self.grammar.application.CreateItem(item_type)
+        item.Display()
+
+        if "addresses" in extras:
+            addresses = extras["addresses"]
+            action = Text("; ".join(addresses) + ";") + Key("tab:2")
+            action.execute()
+
+grammar.add_rule(NewMailRule())
+
+
+#---------------------------------------------------------------------------
+# Voice command for forwarding selected mail items.
+
+class ForwardRule(CompoundRule):
+
+    spec = config.lang.forward_email
+    extras = [addresses]
+
+    def _process_recognition(self, node, extras):
+        # Get the currently active explorer.
+        explorer = self.grammar.get_active_explorer()
+        if not explorer:
+            return
+
+        # Forward to first item of the current selection.
+        for item in collection_iter(explorer.Selection):
+            # Create a forwarded copy and display it.
+            message = item.Forward()
+            message.Display()
+
+            # Insert addresses if given.
+            if "addresses" in extras:
+                addresses = extras["addresses"]
+                action = Text("; ".join(addresses) + ";") + Key("tab:3")
+                action.execute()
+
+            # Only handle the first selected item.
+            break
+
+grammar.add_rule(ForwardRule())
 
 
 #---------------------------------------------------------------------------

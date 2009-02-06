@@ -67,11 +67,11 @@ within this callback is very simple:
 #---------------------------------------------------------------------------
 
 import pkg_resources
-pkg_resources.require("dragonfly >= 0.6.4rc3.dev_r60")
+pkg_resources.require("dragonfly >= 0.6.4rc3.dev_r65")
 
 from dragonfly.all import (Grammar, Rule, CompoundRule, MappingRule,
                            Dictation, RuleRef, Repetition,
-                           Key, Text, Integer,
+                           Key, Text, IntegerRef,
                            Config, Section, Item)
 
 
@@ -141,7 +141,7 @@ class KeystrokeRule(MappingRule):
                 "release [all]":                    release,
                }
     extras   = [
-                RuleRef(name="n", rule=Rule(name="_rule_n", element=Integer("n", 1, 100))),
+                IntegerRef("n", 1, 100),
                 Dictation("text"),
                ]
     defaults = {
@@ -186,11 +186,11 @@ class RepeatRule(CompoundRule):
     # Here we define this rule's spoken-form and special elements.
     spec     = "<sequence> [[[and] repeat [that]] <n> times]"
     extras   = [
-                sequence,             # Sequence of actions defined above.
-                Integer("n", 1, 100), # Times to repeat the sequence.
+                sequence,                 # Sequence of actions defined above.
+                IntegerRef("n", 1, 100),  # Times to repeat the sequence.
                ]
     defaults = {
-                "n": 1,               # Default repeat count.
+                "n": 1,                   # Default repeat count.
                }
 
     # This method gets called when this rule is recognized.

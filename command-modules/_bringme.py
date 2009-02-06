@@ -16,6 +16,7 @@ format is described below.
 
 Commands
 --------
+
 Command: **"bring me <target>"**
     Open the specified target.
     The *<target>* extra in this rule can be any one
@@ -27,6 +28,7 @@ Command: **"paste me <target>"**
 
 Customization
 -------------
+
 Users should customize this module by editing its configuration 
 file.  In this file they should fill the ``targets.mapping`` 
 with their own personal targets.  This target mapping maps *what 
@@ -87,7 +89,21 @@ class website(BringableBase):
 
 class folder(BringableBase):
     def bring_it(self):
-        subprocess.Popen(["explorer", self.target])
+        target = self.target
+        subprocess.Popen(["explorer", target])
+
+class open(BringableBase):
+    def __init__(self, target, verb="open"):
+        self.verb = verb
+        BringableBase.__init__(self, target)
+    def bring_it(self):
+        target = self.target
+        os.startfile(target, self.verb)
+
+class ssh(BringableBase):
+    putty_path = r"C:\Program Files\PuTTY\putty"
+    def bring_it(self):
+        subprocess.Popen([self.putty_path, "-load", self.target])
 
 
 #---------------------------------------------------------------------------
@@ -101,8 +117,10 @@ config.targets.mapping = Item(
                                       },
                               doc="Mapping of spoken targets to bringable targets.",
                               namespace={
-                                         "website": website,
-                                         "folder": folder
+                                         "website":  website,
+                                         "open":     open,
+                                         "folder":   folder,
+                                         "ssh":      ssh,
                                         },
                              )
 config.lang            = Section("Language section")

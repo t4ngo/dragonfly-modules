@@ -31,13 +31,12 @@ Examples
 
 """
 
+import pkg_resources
+pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
 
-#---------------------------------------------------------------------------
-
-import dragonfly.engines.engine
-engine = dragonfly.engines.engine.get_engine()
-from dragonfly.all import (Grammar, CompoundRule,
-                           Dictation, Choice, Key, Text)
+from dragonfly import (get_engine, Grammar, CompoundRule,
+                       Dictation, Choice, Key, Text)
+engine = get_engine()
 
 
 #---------------------------------------------------------------------------

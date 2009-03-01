@@ -63,11 +63,8 @@ within this callback is very simple:
 
 """
 
-
-#---------------------------------------------------------------------------
-
 import pkg_resources
-pkg_resources.require("dragonfly >= 0.6.4rc3.dev_r65")
+pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
 
 from dragonfly import (Grammar, Rule, CompoundRule, MappingRule,
                        Dictation, RuleRef, Repetition,

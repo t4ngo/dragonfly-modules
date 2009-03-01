@@ -19,6 +19,8 @@ translations, for example.
 
 """
 
+import pkg_resources
+pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
 
 from dragonfly import (Grammar, AppContext, MappingRule, Key,
                        Config, Section, Item)

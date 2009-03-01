@@ -7,7 +7,7 @@
 #---------------------------------------------------------------------------
 
 import pkg_resources
-pkg_resources.require("dragonfly >= 0.6.4rc3.dev_r57")
+pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
 
 import os.path
 import string
@@ -15,8 +15,7 @@ import subprocess
 import time
 from urllib import unquote
 from dragonfly import (ConnectionGrammar, AppContext, CompoundRule,
-                       Choice, Window,
-                       Config, Section, Item)
+                       Choice, Window, Config, Section, Item)
 
 
 class SingleFile(object):

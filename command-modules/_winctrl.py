@@ -37,21 +37,17 @@ Usage examples
  - Say **"place Firefox top right on monitor 2"** to relocate
    the window which was previously named "Firefox" to the top right
    corner of the second display monitor.
+
 """
 
+import pkg_resources
+pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
 
 import time
-from dragonfly import (Grammar,
-                       Alternative, RuleRef,
-                       DictListRef, Dictation, Compound,
-                       Integer,
-                       Rule,
-                       CompoundRule,
-                       DictList,
+from dragonfly import (Grammar, Alternative, RuleRef, DictListRef,
+                       Dictation, Compound, Integer, Rule, CompoundRule,
+                       DictList, Window, Rectangle, monitors,
                        Config, Section, Item)
-from dragonfly.windows.window       import Window
-from dragonfly.windows.monitor      import monitors
-from dragonfly.windows.rectangle    import Rectangle
 
 
 #---------------------------------------------------------------------------

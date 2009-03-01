@@ -52,15 +52,15 @@ Commands for responding to a meeting request:
 
 """
 
-
-#---------------------------------------------------------------------------
+import pkg_resources
+pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
 
 import tempfile
 import os
 import os.path
 import subprocess
-from win32com.client                import constants
-from pywintypes                     import com_error
+from win32com.client  import constants
+from pywintypes       import com_error
 
 from dragonfly import (ConnectionGrammar, AppContext, DictListRef, Choice,
                        CompoundRule, MappingRule, DictList, RuleRef,

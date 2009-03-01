@@ -30,13 +30,13 @@ use.
 
 """
 
+import pkg_resources
+pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
 
-#---------------------------------------------------------------------------
-
-from dragonfly.all import (Grammar, AppContext, Rule, MappingRule,
-                           Dictation, Alternative, Choice, RuleRef,
-                           Key, Text, Integer, Number,
-                           Config, Section, Item)
+from dragonfly import (Grammar, AppContext, Rule, MappingRule,
+                       Dictation, Alternative, Choice, RuleRef,
+                       Key, Text, IntegerRef, Number,
+                       Config, Section, Item)
 
 
 #---------------------------------------------------------------------------
@@ -214,7 +214,7 @@ class CommandRule(MappingRule):
         }
     extras = [
         link,
-        Integer("n", 1, 20),
+        IntegerRef("n", 1, 20),
         Dictation("text"),
         Choice("keyword", keywords),
         Choice("searchbar", searchbar),

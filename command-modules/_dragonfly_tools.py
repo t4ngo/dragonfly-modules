@@ -33,15 +33,12 @@ Command: **"edit <config> (config | configuration)"**
 
 """
 
-
-#---------------------------------------------------------------------------
-
 import pkg_resources
-pkg_resources.require("dragonfly >= 0.6.4rc3.dev_r57")
+pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
 
 import os, os.path
-from dragonfly.all import (Grammar, CompoundRule, DictList, DictListRef,
-                           Config, Section, Item)
+from dragonfly import (Grammar, CompoundRule, DictList, DictListRef,
+                       Config, Section, Item)
 
 
 #---------------------------------------------------------------------------

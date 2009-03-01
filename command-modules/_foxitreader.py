@@ -14,11 +14,11 @@ and lightweight PDF reader.
 
 """
 
+import pkg_resources
+pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
 
-#---------------------------------------------------------------------------
-
-from dragonfly.all import (Grammar, AppContext, MappingRule, Dictation,
-                           Key, Text, Config, Section, Item, Integer)
+from dragonfly import (Grammar, AppContext, MappingRule, Dictation,
+                       Key, Text, Config, Section, Item, IntegerRef)
 
 
 #---------------------------------------------------------------------------
@@ -53,8 +53,8 @@ class CommandRule(MappingRule):
                 "print setup":              Key("a-f, r"),
                }
     extras   = [
-                Integer("n", 1, 10),
-                Integer("int", 1, 10000),
+                IntegerRef("n", 1, 10),
+                IntegerRef("int", 1, 10000),
                 Dictation("text"),
                ]
     defaults = {

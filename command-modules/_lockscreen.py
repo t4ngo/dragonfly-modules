@@ -13,13 +13,12 @@ The locking is the same as when the user presses *win-L*.
 
 """
 
-
-#---------------------------------------------------------------------------
+import pkg_resources
+pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
 
 import ctypes
 import natlink
-
-from dragonfly.all import (Grammar, CompoundRule, Config, Section, Item)
+from dragonfly import (Grammar, CompoundRule, Config, Section, Item)
 
 
 #---------------------------------------------------------------------------

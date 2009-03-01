@@ -5,12 +5,13 @@
 #
 
 
-#---------------------------------------------------------------------------
+import pkg_resources
+pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
 
 import win32con
-from ctypes import (pointer, c_ulong)
-from dragonfly.all import (Grammar, CompoundRule, Choice,
-                           Config, Section, Item)
+from ctypes    import (pointer, c_ulong)
+from dragonfly import (Grammar, CompoundRule, Choice,
+                       Config, Section, Item)
 import dragonfly.actions.sendinput as sendinput
 
 

@@ -36,8 +36,8 @@ Command: **"edit <config> (config | configuration)"**
 #---------------------------------------------------------------------------
 
 import os, os.path
-from dragonfly.all import (Grammar, CompoundRule, DictList, DictListRef,
-                           Config, Section, Item)
+from dragonfly import (Grammar, CompoundRule, DictList, DictListRef,
+                       Config, Section, Item)
 
 
 #---------------------------------------------------------------------------

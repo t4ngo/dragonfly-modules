@@ -40,15 +40,11 @@ translations, for example.
 #---------------------------------------------------------------------------
 
 import os.path
-from win32com.client                import Dispatch
-from pywintypes                     import com_error
+from win32com.client  import Dispatch
+from pywintypes       import com_error
 
-from dragonfly.grammar.grammar      import ConnectionGrammar
-from dragonfly.grammar.context      import AppContext
-from dragonfly.grammar.elements     import DictListRef
-from dragonfly.grammar.compoundrule import CompoundRule
-from dragonfly.grammar.list         import DictList
-from dragonfly.config               import Config, Section, Item
+from dragonfly import (ConnectionGrammar, AppContext, DictListRef,
+                       CompoundRule, DictList, Config, Section, Item)
 
 
 #---------------------------------------------------------------------------

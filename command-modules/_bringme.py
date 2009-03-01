@@ -66,8 +66,8 @@ import os.path
 import webbrowser
 import subprocess
 
-from dragonfly.all import (Grammar, Choice, CompoundRule,
-                           Paste, Config, Section, Item)
+from dragonfly import (Grammar, Choice, CompoundRule,
+                       Paste, Config, Section, Item)
 
 
 #---------------------------------------------------------------------------

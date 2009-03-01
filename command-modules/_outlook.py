@@ -62,12 +62,9 @@ import subprocess
 from win32com.client                import constants
 from pywintypes                     import com_error
 
-from dragonfly.all import (ConnectionGrammar, AppContext,
-                           MappingRule, CompoundRule,
-                           RuleRef, DictListRef, Choice,
-                           Integer, DictList,
-                           Config, Section, Item,
-                           Key, Paste, Text)
+from dragonfly import (ConnectionGrammar, AppContext, DictListRef, Choice,
+                       CompoundRule, MappingRule, DictList, RuleRef,
+                       Config, Section, Item, Integer, Key)
 
 
 #---------------------------------------------------------------------------

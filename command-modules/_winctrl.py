@@ -41,17 +41,17 @@ Usage examples
 
 
 import time
-from dragonfly.grammar.grammar      import Grammar
-from dragonfly.grammar.elements     import Alternative, RuleRef, \
-                                           DictListRef, Dictation, Compound
-from dragonfly.grammar.integer_en   import Integer
-from dragonfly.grammar.rule         import Rule
-from dragonfly.grammar.compoundrule import CompoundRule
-from dragonfly.grammar.list         import DictList
+from dragonfly import (Grammar,
+                       Alternative, RuleRef,
+                       DictListRef, Dictation, Compound,
+                       Integer,
+                       Rule,
+                       CompoundRule,
+                       DictList,
+                       Config, Section, Item)
 from dragonfly.windows.window       import Window
 from dragonfly.windows.monitor      import monitors
 from dragonfly.windows.rectangle    import Rectangle
-from dragonfly.config               import Config, Section, Item
 
 
 #---------------------------------------------------------------------------

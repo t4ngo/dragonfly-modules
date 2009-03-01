@@ -20,11 +20,8 @@ translations, for example.
 """
 
 
-from dragonfly.grammar.grammar     import Grammar
-from dragonfly.grammar.context     import AppContext
-from dragonfly.grammar.mappingrule import MappingRule
-from dragonfly.actions.actions     import Key
-from dragonfly.config              import Config, Section, Item
+from dragonfly import (Grammar, AppContext, MappingRule, Key,
+                       Config, Section, Item)
 
 
 #---------------------------------------------------------------------------

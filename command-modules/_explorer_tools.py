@@ -1,4 +1,4 @@
-﻿#
+#
 # This file is a command-module for Dragonfly.
 # (c) Copyright 2008 by Christo Butcher
 # Licensed under the LGPL, see <http://www.gnu.org/licenses/>
@@ -14,9 +14,9 @@ import string
 import subprocess
 import time
 from urllib import unquote
-from dragonfly.all import (ConnectionGrammar, AppContext, CompoundRule,
-                           Choice, Window,
-                           Config, Section, Item)
+from dragonfly import (ConnectionGrammar, AppContext, CompoundRule,
+                       Choice, Window,
+                       Config, Section, Item)
 
 
 class SingleFile(object):

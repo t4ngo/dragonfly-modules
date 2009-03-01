@@ -58,10 +58,7 @@ Several concrete usage examples of the commands described above:
 """
 
 
-from dragonfly.grammar.grammar     import Grammar
-from dragonfly.grammar.mappingrule import MappingRule
-from dragonfly.grammar.integer_en  import Integer
-from dragonfly.actions.actions     import Key
+from dragonfly import (Grammar, MappingRule, Integer, Key)
 
 
 #---------------------------------------------------------------------------

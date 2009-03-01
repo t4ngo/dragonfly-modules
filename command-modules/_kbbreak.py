@@ -15,9 +15,7 @@ This module implements the "keyboard break" command.
 """
 
 
-from dragonfly.grammar.grammar     import Grammar
-from dragonfly.grammar.mappingrule import MappingRule
-from dragonfly.actions.actions     import Key, Text
+from dragonfly import (Grammar, MappingRule, Key, Text)
 
 
 #---------------------------------------------------------------------------

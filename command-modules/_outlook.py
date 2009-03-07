@@ -64,7 +64,7 @@ from pywintypes       import com_error
 
 from dragonfly import (ConnectionGrammar, AppContext, DictListRef, Choice,
                        CompoundRule, MappingRule, DictList, RuleRef,
-                       Config, Section, Item, Integer, Key)
+                       Config, Section, Item, Integer, Key, Text, Pause)
 
 
 #---------------------------------------------------------------------------
@@ -84,15 +84,15 @@ config.lang.new_email       = Item("new (email | mail) [to <addresses>]")
 config.lang.forward_email   = Item("forward [email | mail] [to <addresses>]")
 config.lang.address_and_word = Item("[and]")
 config.lang.meeting_request_actions = Item({
-      "accept and send":             Key("a-a/10, c/10, s, enter"),
-      "accept and edit":             Key("a-a/10, c/10, e, enter"),
-      "accept without response":     Key("a-a/10, c/10, d, enter"),
-      "decline and send":            Key("a-a/10, e/10, s, enter"),
-      "decline and edit":            Key("a-a/10, e/10, e, enter"),
-      "decline without response":    Key("a-a/10, e/10, d, enter"),
-      "tentative and send":          Key("a-a/10, a/10, s, enter"),
-      "tentative and edit":          Key("a-a/10, a/10, e, enter"),
-      "tentative without response":  Key("a-a/10, a/10, d, enter"),
+      "accept and send":             Key("a-a/10, c/20, s/10, enter"),
+      "accept and edit":             Key("a-a/10, c/20, e/10, enter"),
+      "accept without response":     Key("a-a/10, c/20, d/10, enter"),
+      "decline and send":            Key("a-a/10, e/20, s/10, enter"),
+      "decline and edit":            Key("a-a/10, e/20, e/10, enter"),
+      "decline without response":    Key("a-a/10, e/20, d/10, enter"),
+      "tentative and send":          Key("a-a/10, a/20, s/10, enter"),
+      "tentative and edit":          Key("a-a/10, a/20, e/10, enter"),
+      "tentative without response":  Key("a-a/10, a/20, d/10, enter"),
       "check calendar":              Key("a-a/10, h"),
      }, namespace={"Key": Key})
 config.contacts             = Section("Contacts section")
@@ -386,7 +386,7 @@ class NewMailRule(CompoundRule):
 
         if "addresses" in extras:
             addresses = extras["addresses"]
-            action = Text("; ".join(addresses) + ";") + Key("tab:2")
+            action = Pause("100") + Text("; ".join(addresses) + ";") + Key("tab:2")
             action.execute()
 
 grammar.add_rule(NewMailRule())
@@ -415,7 +415,7 @@ class ForwardRule(CompoundRule):
             # Insert addresses if given.
             if "addresses" in extras:
                 addresses = extras["addresses"]
-                action = Text("; ".join(addresses) + ";") + Key("tab:3")
+                action = Pause("100") + Text("; ".join(addresses) + ";") + Key("tab:3")
                 action.execute()
 
             # Only handle the first selected item.

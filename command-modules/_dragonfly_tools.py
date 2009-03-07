@@ -38,6 +38,7 @@ pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
 
 import os, os.path
 from dragonfly import (Grammar, CompoundRule, DictList, DictListRef,
+                       MappingRule, Mimic, Key,
                        Config, Section, Item)
 
 
@@ -53,6 +54,8 @@ config.lang.edit_config  = Item("edit <config> (config | configuration)",
 config.lang.show_dragonfly_version = Item("show dragonfly version",
                                 doc="Command to ...")
 config.lang.update_dragonfly = Item("update dragonfly version",
+                                doc="Command to ...")
+config.lang.reload_natlink   = Item("reload natlink",
                                 doc="Command to ...")
 config.load()
 
@@ -153,6 +156,17 @@ class UpdateDragonflyRule(CompoundRule):
         load_entry_point('setuptools', 'console_scripts', 'easy_install')(["--dry-run", "--upgrade", "dragonfly"])
 
 grammar.add_rule(UpdateDragonflyRule())
+
+
+#---------------------------------------------------------------------------
+
+class StaticRule(MappingRule):
+
+    mapping = {
+               config.lang.reload_natlink: Mimic("focus", "messages") + Key("a-f, r"),
+              }
+
+grammar.add_rule(StaticRule())
 
 
 #---------------------------------------------------------------------------

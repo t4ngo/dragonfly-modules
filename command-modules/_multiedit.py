@@ -120,7 +120,7 @@ class KeystrokeRule(MappingRule):
 
                 "space [<n>]":                      release + Key("space:%(n)d"),
                 "enter [<n>]":                      release + Key("enter:%(n)d"),
-                "tab [<n>]":                        release + Key("tab:%(n)d"),
+                "tab [<n>]":                        Key("tab:%(n)d"),
                 "delete [<n>]":                     release + Key("del:%(n)d"),
                 "delete [<n> | this] (line|lines)": release + Key("home, s-down:%(n)d, del"),
                 "backspace [<n>]":                  release + Key("backspace:%(n)d"),

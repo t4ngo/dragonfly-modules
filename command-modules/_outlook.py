@@ -59,7 +59,7 @@ import tempfile
 import os
 import os.path
 import subprocess
-from win32com.client  import constants
+from win32com.client  import constants, gencache
 from pywintypes       import com_error
 
 from dragonfly import (ConnectionGrammar, AppContext, DictListRef, Choice,
@@ -117,6 +117,7 @@ class ControlGrammar(ConnectionGrammar):
 
     def __init__(self):
         self.folders = DictList("folders")
+        gencache.EnsureDispatch("Outlook.Application")
         ConnectionGrammar.__init__(
             self,
             name="outlook control",

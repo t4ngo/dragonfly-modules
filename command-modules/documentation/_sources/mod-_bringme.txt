@@ -10,6 +10,7 @@ format is described below.
 
 Commands
 --------
+
 Command: **"bring me <target>"**
     Open the specified target.
     The *<target>* extra in this rule can be any one
@@ -21,6 +22,7 @@ Command: **"paste me <target>"**
 
 Customization
 -------------
+
 Users should customize this module by editing its configuration 
 file.  In this file they should fill the ``targets.mapping`` 
 with their own personal targets.  This target mapping maps *what 
@@ -114,6 +116,7 @@ The most current version of this module can be downloaded from the `repository h
    
    Commands
    --------
+   
    Command: **"bring me <target>"**
        Open the specified target.
        The *<target>* extra in this rule can be any one
@@ -125,6 +128,7 @@ The most current version of this module can be downloaded from the `repository h
    
    Customization
    -------------
+   
    Users should customize this module by editing its configuration 
    file.  In this file they should fill the ``targets.mapping`` 
    with their own personal targets.  This target mapping maps *what 
@@ -154,16 +158,16 @@ The most current version of this module can be downloaded from the `repository h
    
    """
    
-   
-   #---------------------------------------------------------------------------
+   import pkg_resources
+   pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
    
    import os
    import os.path
    import webbrowser
    import subprocess
    
-   from dragonfly.all import (Grammar, Choice, CompoundRule,
-                              Paste, Config, Section, Item)
+   from dragonfly import (Grammar, Choice, CompoundRule,
+                          Paste, Config, Section, Item)
    
    
    #---------------------------------------------------------------------------
@@ -185,7 +189,21 @@ The most current version of this module can be downloaded from the `repository h
    
    class folder(BringableBase):
        def bring_it(self):
-           subprocess.Popen(["explorer", self.target])
+           target = self.target
+           subprocess.Popen(["explorer", target])
+   
+   class open(BringableBase):
+       def __init__(self, target, verb="open"):
+           self.verb = verb
+           BringableBase.__init__(self, target)
+       def bring_it(self):
+           target = self.target
+           os.startfile(target, self.verb)
+   
+   class ssh(BringableBase):
+       putty_path = r"C:\Program Files\PuTTY\putty"
+       def bring_it(self):
+           subprocess.Popen([self.putty_path, "-load", self.target])
    
    
    #---------------------------------------------------------------------------
@@ -199,8 +217,10 @@ The most current version of this module can be downloaded from the `repository h
                                          },
                                  doc="Mapping of spoken targets to bringable targets.",
                                  namespace={
-                                            "website": website,
-                                            "folder": folder
+                                            "website":  website,
+                                            "open":     open,
+                                            "folder":   folder,
+                                            "ssh":      ssh,
                                            },
                                 )
    config.lang            = Section("Language section")

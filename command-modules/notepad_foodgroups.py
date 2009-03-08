@@ -1,24 +1,33 @@
 ﻿#
-# This file is a command-module for Dragonfly.
-# (c) Copyright 2008 by Christo Butcher
-# Licensed under the LGPL, see <http://www.gnu.org/licenses/>
+# This file is part of Dragonfly.
+# (c) Copyright 2007, 2008 by Christo Butcher
+# Licensed under the LGPL.
+#
+#   Dragonfly is free software: you can redistribute it and/or modify it 
+#   under the terms of the GNU Lesser General Public License as published 
+#   by the Free Software Foundation, either version 3 of the License, or 
+#   (at your option) any later version.
+#
+#   Dragonfly is distributed in the hope that it will be useful, but 
+#   WITHOUT ANY WARRANTY; without even the implied warranty of 
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+#   Lesser General Public License for more details.
+#
+#   You should have received a copy of the GNU Lesser General Public 
+#   License along with Dragonfly.  If not, see 
+#   <http://www.gnu.org/licenses/>.
 #
 
 """
-Command-module example of **CompoundRule** use
-==============================================
-This module is a simple example of Dragonfly use.  It 
-shows how to use the ``CompoundRule`` class to implement 
-very flexible and spoken-form independent commands.
+    This module demonstrates the use of Dragonfly's CompoundRule class.
+
+    It shows how to use Dragonfly's Grammar, AppContext, and CompoundRule
+    classes.  This module can be activated in the same way as other
+    Natlink macros by placing it in the My Documents\Natlink folder.
 
 """
 
-
-from dragonfly.grammar.grammar       import Grammar
-from dragonfly.grammar.context       import AppContext
-from dragonfly.grammar.compoundrule  import CompoundRule
-from dragonfly.grammar.elements      import Choice, Dictation
-from dragonfly.actions.actions       import Text
+from dragonfly import (Grammar, AppContext, CompoundRule, Choice, Dictation)
 
 
 #---------------------------------------------------------------------------
@@ -54,12 +63,9 @@ class FoodGroupRule(CompoundRule):
     def _process_recognition(self, node, extras):
         days_ago  = extras["time"]
         foodgroup = extras["food"]
-        day_word = (days_ago == 1 and "day" or "days")
-        print "You ate %s %d %s ago." % (foodgroup, days_ago, day_word)
-        Text("You ate %s %d %s ago." % (foodgroup, days_ago, day_word)).execute()
+        print "You ate %s %d days ago." % (foodgroup, days_ago)
         if "opinion" in extras:
             print "You thought it was %s." % (extras["opinion"])
-            Text("You thought it was %s." % (extras["opinion"])).execute()
 
 grammar.add_rule(FoodGroupRule())
 

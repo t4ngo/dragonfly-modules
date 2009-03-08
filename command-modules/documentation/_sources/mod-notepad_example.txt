@@ -1,44 +1,10 @@
 
-Command-module example of **MappingRule** use
-=============================================
-This module is a simple example of Dragonfly use.  It 
-implements several keyboard shortcuts for controlling 
-notepad.  This module is a demonstration of the Dragonfly 
-library.
+This module is a simple example of Dragonfly use.
 
-Grammars, Contexts, and Rules
------------------------------
-Several key concepts of the Dragonfly library are used
-in this module.
-
-*Grammars*
-    Grammars are very important in Dragonfly.  They take 
-    care of the communication between a command-module and 
-    NaturallySpeaking's recognition engine.
-
-    A grammar is in essence a collection of rules.  It 
-    contains the rules, loads them into NaturallySpeaking, 
-    activates them according to the context, and manages 
-    that they process the results of a recognition.
-
-*Contexts*
-    Contexts determined when grammars and rules are 
-    active.  The commands in this module are for notepad, 
-    and the grammar is therefore created with an 
-    application context ``AppContext`` that is only
-    active when notepad is in the foreground.
-
-*Rules*
-    Rules define what can actually be said.  They can be 
-    thought of as distinct command utterances.  Rules are 
-    built up out of elements, and can form fairly complex 
-    structures.  See the Dragonfly documentation for more 
-    details on this topic.
-
-    This module uses a mapping rule ``MappingRule`` which 
-    maps spoken-forms to Dragonfly actions, namely 
-    keystrokes.  This is a common pattern, and the mapping 
-    rule takes care of most implementation details.
+It shows how to use Dragonfly's Grammar, AppContext, and MappingRule
+classes.  This module can be activated in the same way as other
+Natlink macros by placing it in the "My Documents\Natlink folder" or
+"Program Files\NetLink/MacroSystem".
 
 
 Module source code
@@ -50,61 +16,37 @@ The most current version of this module can be downloaded from the `repository h
    :linenos:
 
    #
-   # This file is a command-module for Dragonfly.
-   # (c) Copyright 2008 by Christo Butcher
-   # Licensed under the LGPL, see <http://www.gnu.org/licenses/>
+   # This file is part of Dragonfly.
+   # (c) Copyright 2007, 2008 by Christo Butcher
+   # Licensed under the LGPL.
+   #
+   #   Dragonfly is free software: you can redistribute it and/or modify it 
+   #   under the terms of the GNU Lesser General Public License as published 
+   #   by the Free Software Foundation, either version 3 of the License, or 
+   #   (at your option) any later version.
+   #
+   #   Dragonfly is distributed in the hope that it will be useful, but 
+   #   WITHOUT ANY WARRANTY; without even the implied warranty of 
+   #   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+   #   Lesser General Public License for more details.
+   #
+   #   You should have received a copy of the GNU Lesser General Public 
+   #   License along with Dragonfly.  If not, see 
+   #   <http://www.gnu.org/licenses/>.
    #
    
    """
-   Command-module example of **MappingRule** use
-   =============================================
-   This module is a simple example of Dragonfly use.  It 
-   implements several keyboard shortcuts for controlling 
-   notepad.  This module is a demonstration of the Dragonfly 
-   library.
+       This module is a simple example of Dragonfly use.
    
-   Grammars, Contexts, and Rules
-   -----------------------------
-   Several key concepts of the Dragonfly library are used
-   in this module.
-   
-   *Grammars*
-       Grammars are very important in Dragonfly.  They take 
-       care of the communication between a command-module and 
-       NaturallySpeaking's recognition engine.
-   
-       A grammar is in essence a collection of rules.  It 
-       contains the rules, loads them into NaturallySpeaking, 
-       activates them according to the context, and manages 
-       that they process the results of a recognition.
-   
-   *Contexts*
-       Contexts determined when grammars and rules are 
-       active.  The commands in this module are for notepad, 
-       and the grammar is therefore created with an 
-       application context ``AppContext`` that is only
-       active when notepad is in the foreground.
-   
-   *Rules*
-       Rules define what can actually be said.  They can be 
-       thought of as distinct command utterances.  Rules are 
-       built up out of elements, and can form fairly complex 
-       structures.  See the Dragonfly documentation for more 
-       details on this topic.
-   
-       This module uses a mapping rule ``MappingRule`` which 
-       maps spoken-forms to Dragonfly actions, namely 
-       keystrokes.  This is a common pattern, and the mapping 
-       rule takes care of most implementation details.
+       It shows how to use Dragonfly's Grammar, AppContext, and MappingRule
+       classes.  This module can be activated in the same way as other
+       Natlink macros by placing it in the "My Documents\Natlink folder" or
+       "Program Files\NetLink/MacroSystem".
    
    """
    
-   
-   from dragonfly.grammar.grammar     import Grammar
-   from dragonfly.grammar.context     import AppContext
-   from dragonfly.grammar.mappingrule import MappingRule
-   from dragonfly.grammar.elements    import Dictation
-   from dragonfly.actions.actions     import Key, Text
+   from dragonfly import (Grammar, AppContext, MappingRule, Dictation,
+                          Key, Text)
    
    
    #---------------------------------------------------------------------------

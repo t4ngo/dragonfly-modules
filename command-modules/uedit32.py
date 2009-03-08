@@ -17,9 +17,9 @@ a powerful text and source code editor.
 
 #---------------------------------------------------------------------------
 
-from dragonfly.all import (Grammar, AppContext, MappingRule,
-                           Dictation, Choice, IntegerRef, NumberRef,
-                           Key, Text)
+from dragonfly import (Grammar, AppContext, MappingRule,
+                       Dictation, Choice, IntegerRef, NumberRef,
+                       Key, Text)
 
 
 #---------------------------------------------------------------------------

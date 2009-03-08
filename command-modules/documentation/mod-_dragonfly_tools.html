@@ -1,0 +1,559 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Command-module for managing Dragonfly &mdash; Dragonfly-modules v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Dragonfly-modules v0.1 documentation" href="index.html" />
+    <link rel="next" title="Command-module for moving and controlling windows" href="mod-_winctrl.html" />
+    <link rel="prev" title="Dragonfly-modules documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="mod-_winctrl.html" title="Command-module for moving and controlling windows"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Dragonfly-modules documentation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  
+  <div class="section" id="command-module-for-managing-dragonfly">
+<h1>Command-module for managing <strong>Dragonfly</strong><a class="headerlink" href="#command-module-for-managing-dragonfly" title="Permalink to this headline">¶</a></h1>
+<p>This module manages the configuration files used by other
+active Dragonfly command-modules.  It implements a command
+for easy opening and editing of the configuration files.
+It also monitors the files for modifications, and causes
+the associated command-module to be reloaded if necessary.</p>
+<div class="section" id="commands">
+<h2>Commands<a class="headerlink" href="#commands" title="Permalink to this headline">¶</a></h2>
+<p>The following voice commands are available:</p>
+<dl class="docutils">
+<dt>Command: <strong>&#8220;list configs&#8221;</strong></dt>
+<dd>Lists the currently available configuration files.
+The output is visible in the <em>Messages from Python Macros</em>
+window.</dd>
+<dt>Command: <strong>&#8220;edit &lt;config&gt; (config | configuration)&#8221;</strong></dt>
+<dd>Opens the given configuration file in the default <tt class="docutils literal"><span class="pre">*.txt</span></tt>
+editor.  The <em>&lt;config&gt;</em> element should be one of the
+configuration names given by the <strong>&#8220;list configs&#8221;</strong>
+command.</dd>
+<dt>Command: <strong>&#8220;show dragonfly version&#8221;</strong></dt>
+<dd>Displays the version of the currently active Dragonfly library.</dd>
+<dt>Command: <strong>&#8220;update dragonfly version&#8221;</strong></dt>
+<dd>Updates the Dragonfly library to the newest version available online.</dd>
+<dt>Command: <strong>&#8220;reload natlink&#8221;</strong></dt>
+<dd>Reloads Natlink.</dd>
+</dl>
+</div>
+<div class="section" id="module-source-code">
+<h2>Module source code<a class="headerlink" href="#module-source-code" title="Permalink to this headline">¶</a></h2>
+<p>The most current version of this module can be downloaded from the <a class="reference external" href="http://dragonfly-modules.googlecode.com/svn/trunk/command-modules/_dragonfly_tools.py">repository here</a>.</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+<span class="c"># This file is a command-module for Dragonfly.</span>
+<span class="c"># (c) Copyright 2008 by Christo Butcher</span>
+<span class="c"># Licensed under the LGPL, see &lt;http://www.gnu.org/licenses/&gt;</span>
+<span class="c">#</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Command-module for managing **Dragonfly**</span>
+<span class="sd">============================================================================</span>
+
+<span class="sd">This module manages the configuration files used by other</span>
+<span class="sd">active Dragonfly command-modules.  It implements a command</span>
+<span class="sd">for easy opening and editing of the configuration files.</span>
+<span class="sd">It also monitors the files for modifications, and causes</span>
+<span class="sd">the associated command-module to be reloaded if necessary.</span>
+
+
+<span class="sd">Commands</span>
+<span class="sd">----------------------------------------------------------------------------</span>
+
+<span class="sd">The following voice commands are available:</span>
+
+<span class="sd">Command: **&quot;list configs&quot;**</span>
+<span class="sd">    Lists the currently available configuration files.</span>
+<span class="sd">    The output is visible in the *Messages from Python Macros*</span>
+<span class="sd">    window.</span>
+
+<span class="sd">Command: **&quot;edit &lt;config&gt; (config | configuration)&quot;**</span>
+<span class="sd">    Opens the given configuration file in the default ``*.txt``</span>
+<span class="sd">    editor.  The *&lt;config&gt;* element should be one of the</span>
+<span class="sd">    configuration names given by the **&quot;list configs&quot;**</span>
+<span class="sd">    command.</span>
+
+<span class="sd">Command: **&quot;show dragonfly version&quot;**</span>
+<span class="sd">    Displays the version of the currently active Dragonfly library.</span>
+
+<span class="sd">Command: **&quot;update dragonfly version&quot;**</span>
+<span class="sd">    Updates the Dragonfly library to the newest version available online.</span>
+
+<span class="sd">Command: **&quot;reload natlink&quot;**</span>
+<span class="sd">    Reloads Natlink.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">pkg_resources</span>
+<span class="n">pkg_resources</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="s">&quot;dragonfly &gt;= 0.6.5beta1.dev-r81&quot;</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">os.path</span>
+<span class="kn">from</span> <span class="nn">dragonfly</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Grammar</span><span class="p">,</span> <span class="n">CompoundRule</span><span class="p">,</span> <span class="n">DictList</span><span class="p">,</span> <span class="n">DictListRef</span><span class="p">,</span>
+                       <span class="n">MappingRule</span><span class="p">,</span> <span class="n">Mimic</span><span class="p">,</span> <span class="n">Key</span><span class="p">,</span> <span class="n">FocusWindow</span><span class="p">,</span>
+                       <span class="n">Window</span><span class="p">,</span> <span class="n">Config</span><span class="p">,</span> <span class="n">Section</span><span class="p">,</span> <span class="n">Item</span><span class="p">)</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+<span class="c"># Set up this module&#39;s configuration.</span>
+
+<span class="n">config</span>                   <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="s">&quot;config manager&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span>              <span class="o">=</span> <span class="n">Section</span><span class="p">(</span><span class="s">&quot;Language section&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">list_configs</span> <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;list configs&quot;</span><span class="p">,</span>
+                                <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Command to ...&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">edit_config</span>  <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;edit &lt;config&gt; (config | configuration)&quot;</span><span class="p">,</span>
+                                <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Command to ...&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">show_dragonfly_version</span> <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;show dragonfly version&quot;</span><span class="p">,</span>
+                                <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Command to ...&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">update_dragonfly</span> <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;update dragonfly version&quot;</span><span class="p">,</span>
+                                <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Command to ...&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">reload_natlink</span>   <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;reload natlink&quot;</span><span class="p">,</span>
+                                <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Command to ...&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+
+<span class="n">config_map</span> <span class="o">=</span> <span class="n">DictList</span><span class="p">(</span><span class="s">&quot;config_map&quot;</span><span class="p">)</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+
+<span class="k">class</span> <span class="nc">ConfigManagerGrammar</span><span class="p">(</span><span class="n">Grammar</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Grammar</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;config manager&quot;</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_process_begin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">executable</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">handle</span><span class="p">):</span>
+        <span class="n">configs</span> <span class="o">=</span> <span class="n">Config</span><span class="o">.</span><span class="n">get_instances</span><span class="p">()</span>
+
+        <span class="c"># Check for modified config files, and if found cause reload.</span>
+        <span class="n">new_config_map</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">configs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">config_path</span><span class="p">):</span> <span class="k">continue</span>
+            <span class="n">new_config_map</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">config_path</span>
+            <span class="n">config_time</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getmtime</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">config_path</span><span class="p">)</span>
+            <span class="n">module_time</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getmtime</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">module_path</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">config_time</span> <span class="o">&gt;=</span> <span class="n">module_time</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s">&quot;reloading config&quot;</span><span class="p">,</span><span class="n">c</span><span class="o">.</span><span class="n">name</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">utime</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">module_path</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+
+        <span class="c"># Refresh the mapping of config names -&gt; config files.</span>
+        <span class="n">config_map</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">new_config_map</span><span class="p">)</span>
+
+<span class="n">grammar</span> <span class="o">=</span> <span class="n">ConfigManagerGrammar</span><span class="p">()</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+
+<span class="k">class</span> <span class="nc">ListConfigsRule</span><span class="p">(</span><span class="n">CompoundRule</span><span class="p">):</span>
+
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">list_configs</span>
+
+    <span class="k">def</span> <span class="nf">_process_recognition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">extras</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Active configuration files:&quot;</span>
+        <span class="n">configs</span> <span class="o">=</span> <span class="n">config_map</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="n">configs</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">config</span> <span class="ow">in</span> <span class="n">configs</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;  - </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">config</span>
+
+<span class="n">grammar</span><span class="o">.</span><span class="n">add_rule</span><span class="p">(</span><span class="n">ListConfigsRule</span><span class="p">())</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+
+<span class="k">class</span> <span class="nc">EditConfigRule</span><span class="p">(</span><span class="n">CompoundRule</span><span class="p">):</span>
+
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">edit_config</span>
+    <span class="n">extras</span> <span class="o">=</span> <span class="p">[</span><span class="n">DictListRef</span><span class="p">(</span><span class="s">&quot;config&quot;</span><span class="p">,</span> <span class="n">config_map</span><span class="p">)]</span>
+
+    <span class="k">def</span> <span class="nf">_process_recognition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">extras</span><span class="p">):</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">extras</span><span class="p">[</span><span class="s">&quot;config&quot;</span><span class="p">]</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">startfile</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+<span class="n">grammar</span><span class="o">.</span><span class="n">add_rule</span><span class="p">(</span><span class="n">EditConfigRule</span><span class="p">())</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+
+<span class="k">class</span> <span class="nc">ShowVersionRule</span><span class="p">(</span><span class="n">CompoundRule</span><span class="p">):</span>
+
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">show_dragonfly_version</span>
+
+    <span class="k">def</span> <span class="nf">_process_recognition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">extras</span><span class="p">):</span>
+        <span class="n">dragonfly_dist</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">get_distribution</span><span class="p">(</span><span class="s">&quot;dragonfly&quot;</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&quot;Current Dragonfly version:&quot;</span><span class="p">,</span> <span class="n">dragonfly_dist</span><span class="o">.</span><span class="n">version</span>
+        <span class="kn">import</span> <span class="nn">dragonfly.engines.engine</span>
+        <span class="n">engine</span> <span class="o">=</span> <span class="n">dragonfly</span><span class="o">.</span><span class="n">engines</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">get_engine</span><span class="p">()</span>
+        <span class="k">print</span> <span class="s">&quot;Current language: </span><span class="si">%r</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">engine</span><span class="o">.</span><span class="n">language</span>
+
+<span class="n">grammar</span><span class="o">.</span><span class="n">add_rule</span><span class="p">(</span><span class="n">ShowVersionRule</span><span class="p">())</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+
+<span class="k">class</span> <span class="nc">UpdateDragonflyRule</span><span class="p">(</span><span class="n">CompoundRule</span><span class="p">):</span>
+
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">update_dragonfly</span>
+
+    <span class="k">def</span> <span class="nf">_process_recognition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">extras</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="kn">import</span> <span class="n">load_entry_point</span>
+        <span class="kn">import</span> <span class="nn">sys</span>
+        <span class="k">class</span> <span class="nc">Stream</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+            <span class="n">stream</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
+            <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">pass</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;&quot;</span><span class="p">];</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">Stream</span><span class="p">()</span>
+<span class="c">#        load_entry_point(&#39;setuptools&#39;, &#39;console_scripts&#39;, &#39;easy_install&#39;)([&quot;--verbose&quot;, &quot;--upgrade&quot;, &quot;dragonfly&quot;])</span>
+        <span class="n">load_entry_point</span><span class="p">(</span><span class="s">&#39;setuptools&#39;</span><span class="p">,</span> <span class="s">&#39;console_scripts&#39;</span><span class="p">,</span> <span class="s">&#39;easy_install&#39;</span><span class="p">)([</span><span class="s">&quot;--dry-run&quot;</span><span class="p">,</span> <span class="s">&quot;--upgrade&quot;</span><span class="p">,</span> <span class="s">&quot;dragonfly&quot;</span><span class="p">])</span>
+
+<span class="n">grammar</span><span class="o">.</span><span class="n">add_rule</span><span class="p">(</span><span class="n">UpdateDragonflyRule</span><span class="p">())</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+
+<span class="c">#class FocusWin(ActionBase):</span>
+<span class="c">#</span>
+<span class="c">#    def __init__(self, executable=None, title=None):</span>
+<span class="c">#        self.executable = executable.lower()</span>
+<span class="c">#        self.title = title.lower()</span>
+<span class="c">#        ActionBase.__init__(self)</span>
+<span class="c">#</span>
+<span class="c">#    def _execute(self, data=None):</span>
+<span class="c">#        windows = Window.get_all_windows()</span>
+<span class="c">#        for window in windows:</span>
+<span class="c">#            if not window.is_visible:</span>
+<span class="c">#                continue</span>
+<span class="c">#            if self.executable:</span>
+<span class="c">#                if window.executable.lower().find(self.executable) == -1:</span>
+<span class="c">#                    continue</span>
+<span class="c">#            if self.title:</span>
+<span class="c">#                if window.title.lower().find(self.title) == -1:</span>
+<span class="c">#                    continue</span>
+<span class="c">#            window.set_foreground()</span>
+<span class="c">#            return</span>
+<span class="c">#        raise ActionError(&quot;Failed to find window.&quot;)</span>
+
+
+<span class="k">class</span> <span class="nc">StaticRule</span><span class="p">(</span><span class="n">MappingRule</span><span class="p">):</span>
+
+    <span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span>
+               <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">reload_natlink</span><span class="p">:</span> <span class="n">FocusWindow</span><span class="p">(</span><span class="s">&quot;natspeak&quot;</span><span class="p">,</span> <span class="s">&quot;Messages from Python Macros&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">Key</span><span class="p">(</span><span class="s">&quot;a-f, r&quot;</span><span class="p">),</span>
+              <span class="p">}</span>
+
+<span class="n">grammar</span><span class="o">.</span><span class="n">add_rule</span><span class="p">(</span><span class="n">StaticRule</span><span class="p">())</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+<span class="c"># Load this module&#39;s grammar.</span>
+
+<span class="n">grammar</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">unload</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">grammar</span>
+    <span class="k">if</span> <span class="n">grammar</span><span class="p">:</span> <span class="n">grammar</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
+    <span class="n">grammar</span> <span class="o">=</span> <span class="bp">None</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">Command-module for managing <strong>Dragonfly</strong></a><ul>
+<li><a class="reference external" href="#commands">Commands</a></li>
+<li><a class="reference external" href="#module-source-code">Module source code</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="index.html" title="previous chapter">Dragonfly-modules documentation</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="mod-_winctrl.html" title="next chapter">Command-module for moving and controlling <strong>windows</strong></a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/mod-_dragonfly_tools.txt">Show Source</a></li>
+            </ul>
+          <h3>Quick search</h3>
+            <form class="search" action="search.html" method="get">
+              <input type="text" name="q" size="18" /> <input type="submit" value="Go" />
+              <input type="hidden" name="check_keywords" value="yes" />
+              <input type="hidden" name="area" value="default" />
+            </form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="mod-_winctrl.html" title="Command-module for moving and controlling windows"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Dragonfly-modules documentation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2008, Christo Butcher.
+      Last updated on Mar 08, 2009.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.5.1.
+    </div>
+  </body>
+</html>

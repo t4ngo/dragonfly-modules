@@ -1,6 +1,6 @@
 
-Command-module for managing config files of other modules
-=========================================================
+Command-module for managing **Dragonfly**
+============================================================================
 
 This module manages the configuration files used by other 
 active Dragonfly command-modules.  It implements a command 
@@ -8,8 +8,9 @@ for easy opening and editing of the configuration files.
 It also monitors the files for modifications, and causes 
 the associated command-module to be reloaded if necessary.
 
+
 Commands
---------
+----------------------------------------------------------------------------
 
 The following voice commands are available:
 
@@ -24,11 +25,20 @@ Command: **"edit <config> (config | configuration)"**
     configuration names given by the **"list configs"**
     command.
 
+Command: **"show dragonfly version"**
+    Displays the version of the currently active Dragonfly library.
+
+Command: **"update dragonfly version"**
+    Updates the Dragonfly library to the newest version available online.
+
+Command: **"reload natlink"**
+    Reloads Natlink.
+
 
 Module source code
 ------------------
 
-The most current version of this module can be downloaded from the `repository here <http://dragonfly-modules.googlecode.com/svn/trunk/command-modules/_config_manager.py>`_.
+The most current version of this module can be downloaded from the `repository here <http://dragonfly-modules.googlecode.com/svn/trunk/command-modules/_dragonfly_tools.py>`_.
 
 .. code-block:: python
    :linenos:
@@ -40,8 +50,8 @@ The most current version of this module can be downloaded from the `repository h
    #
    
    """
-   Command-module for managing config files of other modules
-   =========================================================
+   Command-module for managing **Dragonfly**
+   ============================================================================
    
    This module manages the configuration files used by other 
    active Dragonfly command-modules.  It implements a command 
@@ -49,8 +59,9 @@ The most current version of this module can be downloaded from the `repository h
    It also monitors the files for modifications, and causes 
    the associated command-module to be reloaded if necessary.
    
+   
    Commands
-   --------
+   ----------------------------------------------------------------------------
    
    The following voice commands are available:
    
@@ -65,14 +76,24 @@ The most current version of this module can be downloaded from the `repository h
        configuration names given by the **"list configs"**
        command.
    
+   Command: **"show dragonfly version"**
+       Displays the version of the currently active Dragonfly library.
+   
+   Command: **"update dragonfly version"**
+       Updates the Dragonfly library to the newest version available online.
+   
+   Command: **"reload natlink"**
+       Reloads Natlink.
+   
    """
    
-   
-   #---------------------------------------------------------------------------
+   import pkg_resources
+   pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r81")
    
    import os, os.path
-   from dragonfly.all import (Grammar, CompoundRule, DictList, DictListRef,
-                              Config, Section, Item)
+   from dragonfly import (Grammar, CompoundRule, DictList, DictListRef,
+                          MappingRule, Mimic, Key, FocusWindow,
+                          Window, Config, Section, Item)
    
    
    #---------------------------------------------------------------------------
@@ -83,6 +104,12 @@ The most current version of this module can be downloaded from the `repository h
    config.lang.list_configs = Item("list configs",
                                    doc="Command to ...")
    config.lang.edit_config  = Item("edit <config> (config | configuration)",
+                                   doc="Command to ...")
+   config.lang.show_dragonfly_version = Item("show dragonfly version",
+                                   doc="Command to ...")
+   config.lang.update_dragonfly = Item("update dragonfly version",
+                                   doc="Command to ...")
+   config.lang.reload_natlink   = Item("reload natlink",
                                    doc="Command to ...")
    config.load()
    
@@ -147,6 +174,76 @@ The most current version of this module can be downloaded from the `repository h
            os.startfile(path)
    
    grammar.add_rule(EditConfigRule())
+   
+   
+   #---------------------------------------------------------------------------
+   
+   class ShowVersionRule(CompoundRule):
+   
+       spec = config.lang.show_dragonfly_version
+   
+       def _process_recognition(self, node, extras):
+           dragonfly_dist = pkg_resources.get_distribution("dragonfly")
+           print "Current Dragonfly version:", dragonfly_dist.version
+           import dragonfly.engines.engine
+           engine = dragonfly.engines.engine.get_engine()
+           print "Current language: %r" % engine.language
+   
+   grammar.add_rule(ShowVersionRule())
+   
+   
+   #---------------------------------------------------------------------------
+   
+   class UpdateDragonflyRule(CompoundRule):
+   
+       spec = config.lang.update_dragonfly
+   
+       def _process_recognition(self, node, extras):
+           from pkg_resources import load_entry_point
+           import sys
+           class Stream(object):
+               stream = sys.stdout
+               def write(self, data): self.stream.write(data)
+               def flush(self): pass
+           sys.argv = [""]; sys.stdout = Stream()
+   #        load_entry_point('setuptools', 'console_scripts', 'easy_install')(["--verbose", "--upgrade", "dragonfly"])
+           load_entry_point('setuptools', 'console_scripts', 'easy_install')(["--dry-run", "--upgrade", "dragonfly"])
+   
+   grammar.add_rule(UpdateDragonflyRule())
+   
+   
+   #---------------------------------------------------------------------------
+   
+   #class FocusWin(ActionBase):
+   #
+   #    def __init__(self, executable=None, title=None):
+   #        self.executable = executable.lower()
+   #        self.title = title.lower()
+   #        ActionBase.__init__(self)
+   #
+   #    def _execute(self, data=None):
+   #        windows = Window.get_all_windows()
+   #        for window in windows:
+   #            if not window.is_visible:
+   #                continue
+   #            if self.executable:
+   #                if window.executable.lower().find(self.executable) == -1:
+   #                    continue
+   #            if self.title:
+   #                if window.title.lower().find(self.title) == -1:
+   #                    continue
+   #            window.set_foreground()
+   #            return
+   #        raise ActionError("Failed to find window.")
+   
+   
+   class StaticRule(MappingRule):
+   
+       mapping = {
+                  config.lang.reload_natlink: FocusWindow("natspeak", "Messages from Python Macros") + Key("a-f, r"),
+                 }
+   
+   grammar.add_rule(StaticRule())
    
    
    #---------------------------------------------------------------------------

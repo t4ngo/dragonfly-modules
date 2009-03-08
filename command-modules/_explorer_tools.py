@@ -4,7 +4,17 @@
 # Licensed under the LGPL, see <http://www.gnu.org/licenses/>
 #
 
-#---------------------------------------------------------------------------
+"""
+Command-module to control **Windows Explorer**
+============================================================================
+
+This module defines various voice-commands for use with Windows Explorer.
+
+.. note::
+
+   This module is still under development.
+
+"""
 
 import pkg_resources
 pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
@@ -17,6 +27,8 @@ from urllib import unquote
 from dragonfly import (ConnectionGrammar, AppContext, CompoundRule,
                        Choice, Window, Config, Section, Item)
 
+
+#---------------------------------------------------------------------------
 
 class SingleFile(object):
 
@@ -115,6 +127,8 @@ class RenameFile(object):
         arguments = [self.python_path, self.rename_dialog_path, path]
         subprocess.Popen(arguments)
 
+
+#---------------------------------------------------------------------------
 
 commands = [
             SingleFile("open with ultra [edit]",

@@ -25,7 +25,7 @@ Dragonfly management
 .. toctree::
    :maxdepth: 1
 
-   mod-_config_manager
+   mod-_dragonfly_tools
 
 General desktop activities
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -48,6 +48,7 @@ Application-specific control
    :maxdepth: 1
 
    mod-_firefox
+   mod-_explorer_tools
    mod-_word_styles
    mod-_outlook
    mod-_foxitreader

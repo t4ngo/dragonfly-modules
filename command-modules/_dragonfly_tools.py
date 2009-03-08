@@ -5,7 +5,7 @@
 #
 
 """
-Command-module for managing Dragonfly
+Command-module for managing **Dragonfly**
 ============================================================================
 
 This module manages the configuration files used by other 
@@ -30,6 +30,15 @@ Command: **"edit <config> (config | configuration)"**
     editor.  The *<config>* element should be one of the
     configuration names given by the **"list configs"**
     command.
+
+Command: **"show dragonfly version"**
+    Displays the version of the currently active Dragonfly library.
+
+Command: **"update dragonfly version"**
+    Updates the Dragonfly library to the newest version available online.
+
+Command: **"reload natlink"**
+    Reloads Natlink.
 
 """
 

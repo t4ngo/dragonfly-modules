@@ -129,13 +129,23 @@ The most current version of this module can be downloaded from the `repository h
    
    """
    
+   import pkg_resources
+   pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
+   
+   from dragonfly import (Grammar, Rule, CompoundRule, MappingRule,
+                          Dictation, RuleRef, Repetition,
+                          Key, Text, Integer, IntegerRef,
+                          Config, Section, Item)
+   
    
    #---------------------------------------------------------------------------
+   # Here we globally defined the release action which releases all
+   #  modifier-keys used within this grammar.  It is defined here
+   #  because this functionality is used in many different places.
+   #  Note that it is harmless to release ("...:up") a key multiple
+   #  times or when that key is not held down at all.
    
-   from dragonfly.all import (Grammar, CompoundRule, MappingRule,
-                              Dictation, RuleRef, Repetition,
-                              Key, Text, Integer,
-                              Config, Section, Item)
+   release = Key("shift:up, ctrl:up")
    
    
    #---------------------------------------------------------------------------
@@ -144,7 +154,7 @@ The most current version of this module can be downloaded from the `repository h
    # This rule maps spoken-forms to actions.  Some of these 
    #  include special elements like the number with name "n" 
    #  or the dictation with name "text".  This rule is not 
-   #  exported, but is referenced by other elements later on. 
+   #  exported, but is referenced by other elements later on.
    #  It is derived from MappingRule, so that its "value" when 
    #  processing a recognition will be the right side of the 
    #  mapping: an action.
@@ -174,18 +184,27 @@ The most current version of this module can be downloaded from the `repository h
                    "doc home":                         Key("c-home"),
                    "doc end":                          Key("c-end"),
    
-                   "space [<n>]":                      Key("space:%(n)d"),
-                   "enter [<n>]":                      Key("enter:%(n)d"),
+                   "space [<n>]":                      release + Key("space:%(n)d"),
+                   "enter [<n>]":                      release + Key("enter:%(n)d"),
                    "tab [<n>]":                        Key("tab:%(n)d"),
-                   "delete [<n>]":                     Key("del:%(n)d"),
-                   "delete [<n> | this] (line|lines)": Key("home, s-down:%(n)d, del"),
-                   "backspace [<n>]":                  Key("backspace:%(n)d"),
+                   "delete [<n>]":                     release + Key("del:%(n)d"),
+                   "delete [<n> | this] (line|lines)": release + Key("home, s-down:%(n)d, del"),
+                   "backspace [<n>]":                  release + Key("backspace:%(n)d"),
+                   "pop up":                           release + Key("apps"),
    
-                   "insert <text>":                    Text("%(text)s"),
-                   "paste":                            Key("c-v"),
+                   "insert <text>":                    release + Text("%(text)s"),
+                   "paste":                            release + Key("c-v"),
+                   "duplicate <n>":                    release + Key("c-c, c-v:%(n)d"),
+                   "copy":                             release + Key("c-c"),
+                   "cut":                              release + Key("c-x"),
+                   "[hold] shift":                     Key("shift:down"),
+                   "release shift":                    Key("shift:up"),
+                   "[hold] control":                   Key("ctrl:down"),
+                   "release control":                  Key("ctrl:up"),
+                   "release [all]":                    release,
                   }
        extras   = [
-                   Integer("n", 1, 100),
+                   IntegerRef("n", 1, 100),
                    Dictation("text"),
                   ]
        defaults = {
@@ -230,11 +249,11 @@ The most current version of this module can be downloaded from the `repository h
        # Here we define this rule's spoken-form and special elements.
        spec     = "<sequence> [[[and] repeat [that]] <n> times]"
        extras   = [
-                   sequence,             # Sequence of actions defined above.
-                   Integer("n", 1, 100), # Times to repeat the sequence.
+                   sequence,                 # Sequence of actions defined above.
+                   IntegerRef("n", 1, 100),  # Times to repeat the sequence.
                   ]
        defaults = {
-                   "n": 1,               # Default repeat count.
+                   "n": 1,                   # Default repeat count.
                   }
    
        # This method gets called when this rule is recognized.
@@ -249,6 +268,7 @@ The most current version of this module can be downloaded from the `repository h
            for i in range(count):
                for action in sequence:
                    action.execute()
+           release.execute()
    
    
    #---------------------------------------------------------------------------

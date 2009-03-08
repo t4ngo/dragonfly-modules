@@ -2,24 +2,25 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
     <title>Module source code &mdash; Dragonfly-modules v0.1 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-          URL_ROOT:    '',
-          VERSION:     '0.1',
-          COLLAPSE_MODINDEX: false,
-          FILE_SUFFIX: '.html'
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="contents" title="Global table of contents" href="contents.html" />
-    <link rel="index" title="Global index" href="genindex.html" />
+    <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="top" title="Dragonfly-modules v0.1 documentation" href="index.html" />
-    <link rel="prev" title="Command-module example of MappingRule use" href="mod-notepad_example.html" />
+    <link rel="prev" title="Module source code" href="mod-notepad_example.html" /> 
   </head>
   <body>
     <div class="related">
@@ -29,14 +30,11 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
-             accesskey="M">modules</a> |</li>
-        <li class="right" >
-          <a href="mod-notepad_example.html" title="Command-module example of MappingRule use"
+          <a href="mod-notepad_example.html" title="Module source code"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li>
+        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li> 
       </ul>
-    </div>
+    </div>  
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
@@ -46,7 +44,7 @@
   <div class="section" id="module-source-code">
 <h1>Module source code<a class="headerlink" href="#module-source-code" title="Permalink to this headline">¶</a></h1>
 <p>The most current version of this module can be downloaded from the <a class="reference external" href="http://dragonfly-modules.googlecode.com/svn/trunk/command-modules/_mousehold.py">repository here</a>.</p>
-<table class="highlighttable"><tr><td class="linenos"><pre> 1
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><pre> 1
  2
  3
  4
@@ -117,19 +115,21 @@
 69
 70
 71
-72</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+72
+73</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
 <span class="c"># This file is a command-module for Dragonfly.</span>
 <span class="c"># (c) Copyright 2008 by Christo Butcher</span>
 <span class="c"># Licensed under the LGPL, see &lt;http://www.gnu.org/licenses/&gt;</span>
 <span class="c">#</span>
 
 
-<span class="c">#---------------------------------------------------------------------------</span>
+<span class="kn">import</span> <span class="nn">pkg_resources</span>
+<span class="n">pkg_resources</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="s">&quot;dragonfly &gt;= 0.6.5beta1.dev-r76&quot;</span><span class="p">)</span>
 
 <span class="kn">import</span> <span class="nn">win32con</span>
-<span class="kn">from</span> <span class="nn">ctypes</span> <span class="kn">import</span> <span class="p">(</span><span class="n">pointer</span><span class="p">,</span> <span class="n">c_ulong</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">dragonfly.all</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Grammar</span><span class="p">,</span> <span class="n">CompoundRule</span><span class="p">,</span> <span class="n">Choice</span><span class="p">,</span>
-                           <span class="n">Config</span><span class="p">,</span> <span class="n">Section</span><span class="p">,</span> <span class="n">Item</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">ctypes</span>    <span class="kn">import</span> <span class="p">(</span><span class="n">pointer</span><span class="p">,</span> <span class="n">c_ulong</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">dragonfly</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Grammar</span><span class="p">,</span> <span class="n">CompoundRule</span><span class="p">,</span> <span class="n">Choice</span><span class="p">,</span>
+                       <span class="n">Config</span><span class="p">,</span> <span class="n">Section</span><span class="p">,</span> <span class="n">Item</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">dragonfly.actions.sendinput</span> <span class="kn">as</span> <span class="nn">sendinput</span>
 
 
@@ -191,6 +191,7 @@
     <span class="n">grammar</span> <span class="o">=</span> <span class="bp">None</span>
 </pre></div>
 </td></tr></table></div>
+</div>
 
 
           </div>
@@ -199,12 +200,12 @@
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
             <h4>Previous topic</h4>
-            <p class="topless"><a href="mod-notepad_example.html" title="previous chapter">Command-module example of <strong>MappingRule</strong> use</a></p>
+            <p class="topless"><a href="mod-notepad_example.html" title="previous chapter">Module source code</a></p>
             <h3>This Page</h3>
             <ul class="this-page-menu">
               <li><a href="_sources/mod-_mousehold.txt">Show Source</a></li>
             </ul>
-            <h3>Quick search</h3>
+          <h3>Quick search</h3>
             <form class="search" action="search.html" method="get">
               <input type="text" name="q" size="18" /> <input type="submit" value="Go" />
               <input type="hidden" name="check_keywords" value="yes" />
@@ -221,18 +222,15 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
-             accesskey="M">modules</a> |</li>
-        <li class="right" >
-          <a href="mod-notepad_example.html" title="Command-module example of MappingRule use"
+          <a href="mod-notepad_example.html" title="Module source code"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li>
+        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
       &copy; Copyright 2008, Christo Butcher.
-      Last updated on Dec 07, 2008.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+      Last updated on Mar 08, 2009.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.5.1.
     </div>
   </body>
 </html>

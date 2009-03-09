@@ -23,6 +23,9 @@ Command: **"name window <dictation>"**
 Command: **"focus <window name>"** or **"bring <window name> to the foreground"**
     Brings the named window to the foreground.
 
+Command: **"focus title <window title>"**
+    Brings a window with the given word(s) in the title to the foreground.
+
 Command: **"place <window> <position> [on <monitor>]"**
     Relocates the target window to the given position.
 
@@ -47,7 +50,7 @@ import time
 from dragonfly import (Grammar, Alternative, RuleRef, DictListRef,
                        Dictation, Compound, Integer, Rule, CompoundRule,
                        DictList, Window, Rectangle, monitors,
-                       Config, Section, Item)
+                       Config, Section, Item, FocusWindow, ActionError)
 
 
 #---------------------------------------------------------------------------
@@ -59,6 +62,8 @@ config.lang.name_win       = Item("name (window | win) <name>",
                                   doc="Command to give the foreground window a name; must contain the <name> extra.")
 config.lang.focus_win      = Item("focus <win_selector> | bring <win_selector> to [the] (top | foreground)",
                                   doc="Command to bring a named window to the foreground.")
+config.lang.focus_title    = Item("focus title <text>",
+                                  doc="Command to bring a window with the given title to the foreground.")
 config.lang.translate_win  = Item("place <win_selector> <position> [on <mon_selector>]",
                                   doc="Command to translate a window.")
 config.lang.resize_win     = Item("place <win_selector> [from] <position> [to] <position> [on <mon_selector>]",
@@ -208,6 +213,25 @@ class FocusWinRule(CompoundRule):
                 break
 
 grammar.add_rule(FocusWinRule())
+
+
+#---------------------------------------------------------------------------
+# Exported window focusing rule; brings named windows to the foreground.
+
+class FocusTitleRule(CompoundRule):
+
+    spec = config.lang.focus_title
+    extras = [Dictation("text")]
+
+    def _process_recognition(self, node, extras):
+        title = extras["text"]
+        action = FocusWindow(title=title)
+        try:
+            action.execute()
+        except ActionError:
+            self._log.warning("No window with that name found.")
+
+grammar.add_rule(FocusTitleRule())
 
 
 #---------------------------------------------------------------------------

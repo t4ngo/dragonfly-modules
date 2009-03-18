@@ -169,33 +169,11 @@ grammar.add_rule(UpdateDragonflyRule())
 
 #---------------------------------------------------------------------------
 
-#class FocusWin(ActionBase):
-#
-#    def __init__(self, executable=None, title=None):
-#        self.executable = executable.lower()
-#        self.title = title.lower()
-#        ActionBase.__init__(self)
-#
-#    def _execute(self, data=None):
-#        windows = Window.get_all_windows()
-#        for window in windows:
-#            if not window.is_visible:
-#                continue
-#            if self.executable:
-#                if window.executable.lower().find(self.executable) == -1:
-#                    continue
-#            if self.title:
-#                if window.title.lower().find(self.title) == -1:
-#                    continue
-#            window.set_foreground()
-#            return
-#        raise ActionError("Failed to find window.")
-
-
 class StaticRule(MappingRule):
 
     mapping = {
-               config.lang.reload_natlink: FocusWindow("natspeak", "Messages from Python Macros") + Key("a-f, r"),
+               config.lang.reload_natlink: FocusWindow("natspeak", "Messages from Python Macros")
+                                            + Key("a-f, r"),
               }
 
 grammar.add_rule(StaticRule())

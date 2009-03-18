@@ -46,6 +46,7 @@ class CommandRule(MappingRule):
         "open file":                    Key("c-o, s-tab"),
         "open filename <dict>":         Key("c-o") + Text("%(dict)s\n"),
         "close file":                   Key("a-f, c"),
+        "close window <1to9>":          Key("a-w, %(1to9)d/20, a-f, c"),
         "save file":                    Key("c-s"),
         "save file as":                 Key("a-f, a"),
         "save backup":                  Key("a-f, y"),
@@ -56,6 +57,7 @@ class CommandRule(MappingRule):
         "print setup":                  Key("a-f, g, u"),
         "recent files":                 Key("a-f, l"),
         "recent projects":              Key("a-f, k"),
+        "recent project <1to9>":        Key("a-f, k/20, %(1to9)d"),
 
         # Edit menu.
         "copy file path":               Key("a-e, f"),

@@ -53,15 +53,20 @@ record_name = None
 # Define this module's main functionality and rule.
 
 def print_history():
-    print "history", playback_history
+    o = playback_history
+    print ("(%s) %s: %s\n" % (id(o), "playback_history", "recall") + "\n".join(("    - %r" % (item,)) for item in o))
+    o =record_history
+    print ("(%s) %s: %s\n" % (id(o), "record_history", "recall") + "\n".join(("    - %r" % (item,)) for item in o))
 
 def playback_last(n, count):
     # Retrieve playback-action from recognition observer.
-    playback_history.pop()          # Remove playback recognition itself.
+    if playback_history and playback_history.complete: 
+        playback_history.pop()      # Remove playback recognition itself.
     action = playback_history[-n:]  # Retrieve last *n* recognitions.
     action.speed = 10               # Playback at 10x original speed.
 
     # Playback action.
+    import time; time.sleep(1)
     playback_history.unregister()   # Don't record playback.
     try:
         for index in range(count):  # Playback *count* times.
@@ -71,31 +76,32 @@ def playback_last(n, count):
 
 def remember(n, name):
     # Retrieve playback-action from recognition observer and store it.
-    playback_history.pop()          # Remove playback recognition itself.
+    if playback_history and playback_history.complete: 
+        playback_history.pop()      # Remove playback recognition itself.
     action = playback_history[-n:]  # Retrieve last *n* recognitions.
     action.speed = 10               # Playback at 10x original speed.
     memories[str(name)] = action    # Store playback action.
 
 def start_recording(name):
     global record_name
-    record_name = str(name)
-    print "record history", record_history
-    del record_history[:]
-    print "record history", record_history
-    record_history.register()
+    record_name = str(name)         # Remember memory name for later.
+    record_history.register()       # Start recording with *record_history*.
+    del record_history[:]           # Clear record history.
 
 def stop_recording():
-    print "record history", record_history
-    record_history.unregister()
-    if record_history: 
+    global record_name
+    record_history.unregister()     # Stop recording with *record_history*.
+    if record_history and record_history.complete: 
         record_history.pop()        # Remove playback recognition itself.
+    if not record_name:
+        return
     action = record_history[:]
     action.speed = 10               # Playback at 10x original speed.
     memories[record_name] = action  # Store playback action.
+    record_name = None   
 
 def playback_memory(count, memory):
-    print "playback history", playback_history
-    if playback_history: 
+    if playback_history and playback_history.complete:
         playback_history.pop()      # Remove playback recognition itself.
 
     # Playback remembered action.
@@ -145,6 +151,8 @@ grammar.load()                          # Load the grammar.
 
 # Unload function which will be called at unload time.
 def unload():
+    playback_history.unregister()
+    record_history.unregister()
     global grammar
     if grammar: grammar.unload()
     grammar = None

@@ -19,7 +19,7 @@ a powerful text and source code editor.
 
 from dragonfly import (Grammar, AppContext, MappingRule,
                        Dictation, Choice, IntegerRef, NumberRef,
-                       Key, Text)
+                       Key, Text, Repeat)
 
 
 #---------------------------------------------------------------------------
@@ -46,6 +46,7 @@ class CommandRule(MappingRule):
         "open file":                    Key("c-o, s-tab"),
         "open filename <dict>":         Key("c-o") + Text("%(dict)s\n"),
         "close file":                   Key("a-f, c"),
+        "close <1to9> files":           Key("a-f, c") * Repeat(extra="1to9"),
         "close window <1to9>":          Key("a-w, %(1to9)d/20, a-f, c"),
         "save file":                    Key("c-s"),
         "save file as":                 Key("a-f, a"),

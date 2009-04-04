@@ -178,7 +178,7 @@ class NameWinRule(CompoundRule):
     extras = [Dictation("name")]
 
     def _process_recognition(self, node, extras):
-        name = extras["name"]
+        name = str(extras["name"])
         window = Window.get_foreground()
         window.name = name
         win_names[name] = window
@@ -224,7 +224,7 @@ class FocusTitleRule(CompoundRule):
     extras = [Dictation("text")]
 
     def _process_recognition(self, node, extras):
-        title = extras["text"]
+        title = str(extras["text"])
         action = FocusWindow(title=title)
         try:
             action.execute()

@@ -1,0 +1,26 @@
+#
+                    # Dragonfly config for TortoiseSVN
+#
+
+#--- TortoiseSVN configuration ---------------------------------------------
+
+tortoisesvn.path     = 'C:\\Program Files\\TortoiseSVN\\bin\\TortoiseProc.exe'
+tortoisesvn.command  = '(tortoise | subversion) <command>'
+tortoisesvn.actions  = {
+                        "add":         "add",
+                        "checkout":    "checkout",
+                        "commit":      "commit",
+                        "revert":      "revert",
+                        "merge":       "merge",
+                        "delete":      "delete",
+                        "diff":        "diff",
+                        "log":         "log",
+                        "import":      "import",
+                        "update":      "update",
+                        "revert":      "revert",
+                        "ignore":      "ignore",
+                        "rename":      "rename",
+                        "properties":  "properties",
+                        "repository":  "repobrowser",
+                        "edit conflict": "conflicteditor",
+                       }

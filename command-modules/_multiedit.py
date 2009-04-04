@@ -64,12 +64,13 @@ within this callback is very simple:
 """
 
 import pkg_resources
-pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
+pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r99")
 
 from dragonfly import (Grammar, Rule, CompoundRule, MappingRule,
-                       Dictation, RuleRef, Repetition,
-                       Key, Text, Integer, IntegerRef,
+                       Dictation, RuleRef, Repetition, Alternative,
+                       Key, Text, Function, Integer, IntegerRef,
                        Config, Section, Item)
+
 
 
 #---------------------------------------------------------------------------
@@ -80,6 +81,87 @@ from dragonfly import (Grammar, Rule, CompoundRule, MappingRule,
 #  times or when that key is not held down at all.
 
 release = Key("shift:up, ctrl:up")
+
+
+#---------------------------------------------------------------------------
+# Set up this module's configuration.
+
+config            = Config("multi edit")
+config.cmd        = Section("Language section")
+config.cmd.map    = Item(
+    {
+     # Spoken-form    ->    ->    ->     Action object
+     "up [<n>]":                         Key("up:%(n)d"),
+     "down [<n>]":                       Key("down:%(n)d"),
+     "left [<n>]":                       Key("left:%(n)d"),
+     "right [<n>]":                      Key("right:%(n)d"),
+     "page up [<n> up]":                    Key("pgup:%(n)d"),
+     "page down [<n>]":                  Key("pgdown:%(n)d"),
+     "up <n> (page | pages)":            Key("pgup:%(n)d"),
+     "down <n> (page | pages)":          Key("pgdown:%(n)d"),
+     "left <n> (word | words)":          Key("c-left:%(n)d"),
+     "right <n> (word | words)":         Key("c-right:%(n)d"),
+     "home":                             Key("home"),
+     "end":                              Key("end"),
+     "doc home":                         Key("c-home"),
+     "doc end":                          Key("c-end"),
+
+     "space [<n>]":                      release + Key("space:%(n)d"),
+     "enter [<n>]":                      release + Key("enter:%(n)d"),
+     "tab [<n>]":                        Key("tab:%(n)d"),
+     "delete [<n>]":                     release + Key("del:%(n)d"),
+     "delete [<n> | this] (line|lines)": release + Key("home, s-down:%(n)d, del"),
+     "backspace [<n>]":                  release + Key("backspace:%(n)d"),
+     "pop up":                           release + Key("apps"),
+
+     "(insert | say) <text>":            release + Text("%(text)s"),
+     "paste":                            release + Key("c-v"),
+     "duplicate <n>":                    release + Key("c-c, c-v:%(n)d"),
+     "copy":                             release + Key("c-c"),
+     "cut":                              release + Key("c-x"),
+     "[hold] shift":                     Key("shift:down"),
+     "release shift":                    Key("shift:up"),
+     "[hold] control":                   Key("ctrl:down"),
+     "release control":                  Key("ctrl:up"),
+     "release [all]":                    release,
+    },
+    namespace={
+     "Key":   Key,
+     "Text":  Text,
+    }
+)
+namespace = config.load()
+
+#---------------------------------------------------------------------------
+# Here we prepare the list of formatting functions from the config file.
+
+# Retrieve text-formatting functions from this module's config file.
+#  Each of these functions must have a name that starts with "format_".
+format_functions = {}
+for name, function in namespace.items():
+    if name.startswith("format_") and callable(function):
+        spoken_form = function.__doc__.strip()
+
+        # We wrap generation of the Function action in a function so
+        #  that its *function* variable will be local.  Otherwise it
+        #  would change during the next iteration of the namespace loop.
+        def wrap_function(function):
+            def _function(dictation):
+                formatted_text = function(dictation)
+                Text(formatted_text).execute()
+            return Function(_function)
+
+        action = wrap_function(function)
+        format_functions[spoken_form] = action
+
+
+# Here we define the text formatting rule.
+# The contents of this rule were built up from the "format_*"
+#  functions in this module's config file.
+class FormatRule(MappingRule):
+
+    mapping  = format_functions
+    extras   = [Dictation("dictation")]
 
 
 #---------------------------------------------------------------------------
@@ -101,42 +183,7 @@ class KeystrokeRule(MappingRule):
 
     exported = False
 
-                # Spoken-form    ->    ->    ->     Action object
-    mapping  = {
-                "up [<n>]":                         Key("up:%(n)d"),
-                "down [<n>]":                       Key("down:%(n)d"),
-                "left [<n>]":                       Key("left:%(n)d"),
-                "right [<n>]":                      Key("right:%(n)d"),
-                "page up [<n>]":                    Key("pgup:%(n)d"),
-                "page down [<n>]":                  Key("pgdown:%(n)d"),
-                "up <n> (page | pages)":            Key("pgup:%(n)d"),
-                "down <n> (page | pages)":          Key("pgdown:%(n)d"),
-                "left <n> (word | words)":          Key("c-left:%(n)d"),
-                "right <n> (word | words)":         Key("c-right:%(n)d"),
-                "home":                             Key("home"),
-                "end":                              Key("end"),
-                "doc home":                         Key("c-home"),
-                "doc end":                          Key("c-end"),
-
-                "space [<n>]":                      release + Key("space:%(n)d"),
-                "enter [<n>]":                      release + Key("enter:%(n)d"),
-                "tab [<n>]":                        Key("tab:%(n)d"),
-                "delete [<n>]":                     release + Key("del:%(n)d"),
-                "delete [<n> | this] (line|lines)": release + Key("home, s-down:%(n)d, del"),
-                "backspace [<n>]":                  release + Key("backspace:%(n)d"),
-                "pop up":                           release + Key("apps"),
-
-                "insert <text>":                    release + Text("%(text)s"),
-                "paste":                            release + Key("c-v"),
-                "duplicate <n>":                    release + Key("c-c, c-v:%(n)d"),
-                "copy":                             release + Key("c-c"),
-                "cut":                              release + Key("c-x"),
-                "[hold] shift":                     Key("shift:down"),
-                "release shift":                    Key("shift:up"),
-                "[hold] control":                   Key("ctrl:down"),
-                "release control":                  Key("ctrl:up"),
-                "release [all]":                    release,
-               }
+    mapping  = config.cmd.map
     extras   = [
                 IntegerRef("n", 1, 100),
                 Dictation("text"),
@@ -151,6 +198,7 @@ class KeystrokeRule(MappingRule):
     #  substitutes any "%(...)." within the action spec
     #  with the appropriate spoken values.
 
+
 #---------------------------------------------------------------------------
 # Here we create an element which is the sequence of keystrokes.
 
@@ -158,6 +206,8 @@ class KeystrokeRule(MappingRule):
 #  Note: when processing a recognition, the *value* of this element
 #  will be the value of the referenced rule: an action.
 keystroke = RuleRef(rule=KeystrokeRule())
+formatter = RuleRef(rule=FormatRule())
+single_action = Alternative([keystroke, formatter])
 
 # Second we create a repetition of keystroke elements.
 #  This element will match anywhere between 1 and 16 repetitions
@@ -167,7 +217,7 @@ keystroke = RuleRef(rule=KeystrokeRule())
 # Note: when processing a recognition, the *value* of this element
 #  will be a sequence of the contained elements: a sequence of
 #  actions.
-sequence = Repetition(keystroke, min=1, max=16, name="sequence")
+sequence = Repetition(single_action, min=1, max=16, name="sequence")
 
 
 #---------------------------------------------------------------------------

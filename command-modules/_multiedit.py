@@ -138,8 +138,9 @@ namespace = config.load()
 # Retrieve text-formatting functions from this module's config file.
 #  Each of these functions must have a name that starts with "format_".
 format_functions = {}
-for name, function in namespace.items():
-    if name.startswith("format_") and callable(function):
+if namespace:
+    for name, function in namespace.items():
+     if name.startswith("format_") and callable(function):
         spoken_form = function.__doc__.strip()
 
         # We wrap generation of the Function action in a function so
@@ -158,10 +159,14 @@ for name, function in namespace.items():
 # Here we define the text formatting rule.
 # The contents of this rule were built up from the "format_*"
 #  functions in this module's config file.
-class FormatRule(MappingRule):
+if format_functions:
+    class FormatRule(MappingRule):
 
-    mapping  = format_functions
-    extras   = [Dictation("dictation")]
+        mapping  = format_functions
+        extras   = [Dictation("dictation")]
+
+else:
+    FormatRule = None
 
 
 #---------------------------------------------------------------------------
@@ -205,9 +210,11 @@ class KeystrokeRule(MappingRule):
 # First we create an element that references the keystroke rule.
 #  Note: when processing a recognition, the *value* of this element
 #  will be the value of the referenced rule: an action.
-keystroke = RuleRef(rule=KeystrokeRule())
-formatter = RuleRef(rule=FormatRule())
-single_action = Alternative([keystroke, formatter])
+alternatives = []
+alternatives.append(RuleRef(rule=KeystrokeRule()))
+if FormatRule:
+    alternatives.append(RuleRef(rule=FormatRule()))
+single_action = Alternative(alternatives)
 
 # Second we create a repetition of keystroke elements.
 #  This element will match anywhere between 1 and 16 repetitions

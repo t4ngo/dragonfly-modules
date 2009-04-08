@@ -1,14 +1,14 @@
 ﻿#
-# This file is a command-module for Dragonfly.
-# (c) Copyright 2008 by Christo Butcher
-# Licensed under the LGPL, see <http://www.gnu.org/licenses/>
+# This is a config file for Dragonfly's _multiedit.py command-module.
 #
+
+# Pull in all of Dragonfly's action objects so that we can use them here.
 
 from dragonfly import *
 
 
 #---------------------------------------------------------------------------
-# Here we globally defined the release action which releases all
+# Here we define the release action which releases all
 #  modifier-keys used within this grammar.  It is defined here
 #  because this functionality is used in many different places.
 #  Note that it is harmless to release ("...:up") a key multiple

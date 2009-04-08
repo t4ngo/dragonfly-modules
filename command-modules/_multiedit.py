@@ -66,11 +66,7 @@ within this callback is very simple:
 import pkg_resources
 pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r99")
 
-from dragonfly import (Grammar, Rule, CompoundRule, MappingRule,
-                       Dictation, RuleRef, Repetition, Alternative,
-                       Key, Text, Function, Integer, IntegerRef,
-                       Config, Section, Item)
-
+from dragonfly import *
 
 
 #---------------------------------------------------------------------------
@@ -89,13 +85,16 @@ release = Key("shift:up, ctrl:up")
 config            = Config("multi edit")
 config.cmd        = Section("Language section")
 config.cmd.map    = Item(
+    # Here redefine the *default* command map.  If you would like to
+    #  modify it to your personal taste, please *do  not* make changes
+    #  here.  Instead change the *config file* called "_multiedit.txt".
     {
      # Spoken-form    ->    ->    ->     Action object
      "up [<n>]":                         Key("up:%(n)d"),
      "down [<n>]":                       Key("down:%(n)d"),
      "left [<n>]":                       Key("left:%(n)d"),
      "right [<n>]":                      Key("right:%(n)d"),
-     "page up [<n> up]":                    Key("pgup:%(n)d"),
+     "page up [<n>]":                    Key("pgup:%(n)d"),
      "page down [<n>]":                  Key("pgdown:%(n)d"),
      "up <n> (page | pages)":            Key("pgup:%(n)d"),
      "down <n> (page | pages)":          Key("pgdown:%(n)d"),
@@ -114,16 +113,19 @@ config.cmd.map    = Item(
      "backspace [<n>]":                  release + Key("backspace:%(n)d"),
      "pop up":                           release + Key("apps"),
 
-     "(insert | say) <text>":            release + Text("%(text)s"),
      "paste":                            release + Key("c-v"),
      "duplicate <n>":                    release + Key("c-c, c-v:%(n)d"),
      "copy":                             release + Key("c-c"),
      "cut":                              release + Key("c-x"),
+     "select all":                       release + Key("c-a"),
      "[hold] shift":                     Key("shift:down"),
      "release shift":                    Key("shift:up"),
      "[hold] control":                   Key("ctrl:down"),
      "release control":                  Key("ctrl:up"),
      "release [all]":                    release,
+
+     "say <text>":                       release + Text("%(text)s"),
+     "mimic <text>":                     release + Mimic(extra="text"),
     },
     namespace={
      "Key":   Key,

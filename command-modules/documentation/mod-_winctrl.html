@@ -2,26 +2,25 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>Command-module for moving and controlling windows &mdash; Dragonfly-modules v0.1 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
-        VERSION:     '0.1',
-        COLLAPSE_MODINDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+          URL_ROOT:    '',
+          VERSION:     '0.1',
+          COLLAPSE_MODINDEX: false,
+          FILE_SUFFIX: '.html'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="contents" title="Global table of contents" href="contents.html" />
+    <link rel="index" title="Global index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="top" title="Dragonfly-modules v0.1 documentation" href="index.html" />
     <link rel="next" title="Command-module for cursor movement and editing" href="mod-_multiedit.html" />
-    <link rel="prev" title="Command-module for managing Dragonfly" href="mod-_dragonfly_tools.html" /> 
+    <link rel="prev" title="Command-module for managing Dragonfly" href="mod-_dragonfly_tools.html" />
   </head>
   <body>
     <div class="related">
@@ -31,14 +30,17 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
           <a href="mod-_multiedit.html" title="Command-module for cursor movement and editing"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="mod-_dragonfly_tools.html" title="Command-module for managing Dragonfly"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li>
       </ul>
-    </div>  
+    </div>
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
@@ -58,6 +60,8 @@ windows.</p>
 <dd>Assigns the given name to the current foreground window.</dd>
 <dt>Command: <strong>&#8220;focus &lt;window name&gt;&#8221;</strong> or <strong>&#8220;bring &lt;window name&gt; to the foreground&#8221;</strong></dt>
 <dd>Brings the named window to the foreground.</dd>
+<dt>Command: <strong>&#8220;focus title &lt;window title&gt;&#8221;</strong></dt>
+<dd>Brings a window with the given word(s) in the title to the foreground.</dd>
 <dt>Command: <strong>&#8220;place &lt;window&gt; &lt;position&gt; [on &lt;monitor&gt;]&#8221;</strong></dt>
 <dd>Relocates the target window to the given position.</dd>
 <dt>Command: <strong>&#8220;stretch &lt;window&gt; &lt;position&gt;&#8221;</strong></dt>
@@ -80,7 +84,7 @@ corner of the second display monitor.</li>
 <h2>Configuration examples<a class="headerlink" href="#configuration-examples" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="configuration-winctrl-en-txt">
 <h3>Configuration &#8220;_winctrl-en.txt&#8221;<a class="headerlink" href="#configuration-winctrl-en-txt" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><pre> 1
+<table class="highlighttable"><tr><td class="linenos"><pre> 1
  2
  3
  4
@@ -212,11 +216,10 @@ corner of the second display monitor.</li>
 </pre></div>
 </td></tr></table></div>
 </div>
-</div>
 <div class="section" id="module-source-code">
 <h2>Module source code<a class="headerlink" href="#module-source-code" title="Permalink to this headline">¶</a></h2>
 <p>The most current version of this module can be downloaded from the <a class="reference external" href="http://dragonfly-modules.googlecode.com/svn/trunk/command-modules/_winctrl.py">repository here</a>.</p>
-<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><pre>  1
+<table class="highlighttable"><tr><td class="linenos"><pre>  1
   2
   3
   4
@@ -607,7 +610,31 @@ corner of the second display monitor.</li>
 389
 390
 391
-392</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
 <span class="c"># This file is a command-module for Dragonfly.</span>
 <span class="c"># (c) Copyright 2008 by Christo Butcher</span>
 <span class="c"># Licensed under the LGPL, see &lt;http://www.gnu.org/licenses/&gt;</span>
@@ -631,6 +658,9 @@ corner of the second display monitor.</li>
 
 <span class="sd">Command: **&quot;focus &lt;window name&gt;&quot;** or **&quot;bring &lt;window name&gt; to the foreground&quot;**</span>
 <span class="sd">    Brings the named window to the foreground.</span>
+
+<span class="sd">Command: **&quot;focus title &lt;window title&gt;&quot;**</span>
+<span class="sd">    Brings a window with the given word(s) in the title to the foreground.</span>
 
 <span class="sd">Command: **&quot;place &lt;window&gt; &lt;position&gt; [on &lt;monitor&gt;]&quot;**</span>
 <span class="sd">    Relocates the target window to the given position.</span>
@@ -656,7 +686,7 @@ corner of the second display monitor.</li>
 <span class="kn">from</span> <span class="nn">dragonfly</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Grammar</span><span class="p">,</span> <span class="n">Alternative</span><span class="p">,</span> <span class="n">RuleRef</span><span class="p">,</span> <span class="n">DictListRef</span><span class="p">,</span>
                        <span class="n">Dictation</span><span class="p">,</span> <span class="n">Compound</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">Rule</span><span class="p">,</span> <span class="n">CompoundRule</span><span class="p">,</span>
                        <span class="n">DictList</span><span class="p">,</span> <span class="n">Window</span><span class="p">,</span> <span class="n">Rectangle</span><span class="p">,</span> <span class="n">monitors</span><span class="p">,</span>
-                       <span class="n">Config</span><span class="p">,</span> <span class="n">Section</span><span class="p">,</span> <span class="n">Item</span><span class="p">)</span>
+                       <span class="n">Config</span><span class="p">,</span> <span class="n">Section</span><span class="p">,</span> <span class="n">Item</span><span class="p">,</span> <span class="n">FocusWindow</span><span class="p">,</span> <span class="n">ActionError</span><span class="p">)</span>
 
 
 <span class="c">#---------------------------------------------------------------------------</span>
@@ -668,6 +698,8 @@ corner of the second display monitor.</li>
                                   <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Command to give the foreground window a name; must contain the &lt;name&gt; extra.&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">focus_win</span>      <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;focus &lt;win_selector&gt; | bring &lt;win_selector&gt; to [the] (top | foreground)&quot;</span><span class="p">,</span>
                                   <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Command to bring a named window to the foreground.&quot;</span><span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">focus_title</span>    <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;focus title &lt;text&gt;&quot;</span><span class="p">,</span>
+                                  <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Command to bring a window with the given title to the foreground.&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">translate_win</span>  <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;place &lt;win_selector&gt; &lt;position&gt; [on &lt;mon_selector&gt;]&quot;</span><span class="p">,</span>
                                   <span class="n">doc</span><span class="o">=</span><span class="s">&quot;Command to translate a window.&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">resize_win</span>     <span class="o">=</span> <span class="n">Item</span><span class="p">(</span><span class="s">&quot;place &lt;win_selector&gt; [from] &lt;position&gt; [to] &lt;position&gt; [on &lt;mon_selector&gt;]&quot;</span><span class="p">,</span>
@@ -782,7 +814,7 @@ corner of the second display monitor.</li>
     <span class="n">extras</span> <span class="o">=</span> <span class="p">[</span><span class="n">Dictation</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">)]</span>
 
     <span class="k">def</span> <span class="nf">_process_recognition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">extras</span><span class="p">):</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">extras</span><span class="p">[</span><span class="s">&quot;name&quot;</span><span class="p">]</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">extras</span><span class="p">[</span><span class="s">&quot;name&quot;</span><span class="p">])</span>
         <span class="n">window</span> <span class="o">=</span> <span class="n">Window</span><span class="o">.</span><span class="n">get_foreground</span><span class="p">()</span>
         <span class="n">window</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="n">win_names</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">window</span>
@@ -817,6 +849,25 @@ corner of the second display monitor.</li>
                 <span class="k">break</span>
 
 <span class="n">grammar</span><span class="o">.</span><span class="n">add_rule</span><span class="p">(</span><span class="n">FocusWinRule</span><span class="p">())</span>
+
+
+<span class="c">#---------------------------------------------------------------------------</span>
+<span class="c"># Exported window focusing rule; brings named windows to the foreground.</span>
+
+<span class="k">class</span> <span class="nc">FocusTitleRule</span><span class="p">(</span><span class="n">CompoundRule</span><span class="p">):</span>
+
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">focus_title</span>
+    <span class="n">extras</span> <span class="o">=</span> <span class="p">[</span><span class="n">Dictation</span><span class="p">(</span><span class="s">&quot;text&quot;</span><span class="p">)]</span>
+
+    <span class="k">def</span> <span class="nf">_process_recognition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">extras</span><span class="p">):</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">extras</span><span class="p">[</span><span class="s">&quot;text&quot;</span><span class="p">])</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">FocusWindow</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">action</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">ActionError</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;No window with that name found.&quot;</span><span class="p">)</span>
+
+<span class="n">grammar</span><span class="o">.</span><span class="n">add_rule</span><span class="p">(</span><span class="n">FocusTitleRule</span><span class="p">())</span>
 
 
 <span class="c">#---------------------------------------------------------------------------</span>
@@ -1002,7 +1053,6 @@ corner of the second display monitor.</li>
 </pre></div>
 </td></tr></table></div>
 </div>
-</div>
 
 
           </div>
@@ -1010,7 +1060,7 @@ corner of the second display monitor.</li>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-            <h3><a href="index.html">Table Of Contents</a></h3>
+            <h3>Table Of Contents</h3>
             <ul>
 <li><a class="reference external" href="">Command-module for moving and controlling <strong>windows</strong></a><ul>
 <li><a class="reference external" href="#commands">Commands</a></li>
@@ -1032,7 +1082,7 @@ corner of the second display monitor.</li>
             <ul class="this-page-menu">
               <li><a href="_sources/mod-_winctrl.txt">Show Source</a></li>
             </ul>
-          <h3>Quick search</h3>
+            <h3>Quick search</h3>
             <form class="search" action="search.html" method="get">
               <input type="text" name="q" size="18" /> <input type="submit" value="Go" />
               <input type="hidden" name="check_keywords" value="yes" />
@@ -1049,18 +1099,21 @@ corner of the second display monitor.</li>
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
           <a href="mod-_multiedit.html" title="Command-module for cursor movement and editing"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="mod-_dragonfly_tools.html" title="Command-module for managing Dragonfly"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li>
       </ul>
     </div>
     <div class="footer">
       &copy; Copyright 2008, Christo Butcher.
-      Last updated on Mar 08, 2009.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.5.1.
+      Last updated on Apr 08, 2009.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
   </body>
 </html>

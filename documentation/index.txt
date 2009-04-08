@@ -35,10 +35,10 @@ General desktop activities
 
    mod-_winctrl
    mod-_multiedit
+   mod-_cmdmemory
    mod-_taskbar
    mod-_bringme
    mod-_lockscreen
-   mod-_variable_format
    mod-_kbbreak
 
 Application-specific control
@@ -48,11 +48,12 @@ Application-specific control
    :maxdepth: 1
 
    mod-_firefox
+   mod-uedit32
    mod-_explorer_tools
    mod-_word_styles
    mod-_outlook
    mod-_foxitreader
-   mod-uedit32
+   mod-_tortoisesvn
    mod-sharpreader
    mod-_audacity
 

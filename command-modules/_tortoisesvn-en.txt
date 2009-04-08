@@ -4,8 +4,9 @@
 
 #--- TortoiseSVN configuration ---------------------------------------------
 
-tortoisesvn.path     = 'C:\\Program Files\\TortoiseSVN\\bin\\TortoiseProc.exe'
-tortoisesvn.command  = '(tortoise | subversion) <command>'
+tortoisesvn.path     = "C:\\Program Files\\TortoiseSVN\\bin\\TortoiseProc.exe"
+tortoisesvn.command  = "(tortoise | subversion) <command>"
+tortoisesvn.global_command = "(tortoise | subversion) <command> <predef>"
 tortoisesvn.actions  = {
                         "add":         "add",
                         "checkout":    "checkout",

@@ -2,26 +2,25 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>Command-module for screen locking &mdash; Dragonfly-modules v0.1 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
-        VERSION:     '0.1',
-        COLLAPSE_MODINDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+          URL_ROOT:    '',
+          VERSION:     '0.1',
+          COLLAPSE_MODINDEX: false,
+          FILE_SUFFIX: '.html'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="contents" title="Global table of contents" href="contents.html" />
+    <link rel="index" title="Global index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="top" title="Dragonfly-modules v0.1 documentation" href="index.html" />
-    <link rel="next" title="Command-module for variable name formatting" href="mod-_variable_format.html" />
-    <link rel="prev" title="Command-module for direct opening of user-defined targets" href="mod-_bringme.html" /> 
+    <link rel="next" title="Command-module for sending keyboard breaks" href="mod-_kbbreak.html" />
+    <link rel="prev" title="Command-module for direct opening of user-defined targets" href="mod-_bringme.html" />
   </head>
   <body>
     <div class="related">
@@ -31,14 +30,17 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="mod-_variable_format.html" title="Command-module for variable name formatting"
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="mod-_kbbreak.html" title="Command-module for sending keyboard breaks"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="mod-_bringme.html" title="Command-module for direct opening of user-defined targets"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li>
       </ul>
-    </div>  
+    </div>
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
@@ -53,7 +55,7 @@ The locking is the same as when the user presses <em>win-L</em>.</p>
 <h2>Configuration examples<a class="headerlink" href="#configuration-examples" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="configuration-lockscreen-en-txt">
 <h3>Configuration &#8220;_lockscreen-en.txt&#8221;<a class="headerlink" href="#configuration-lockscreen-en-txt" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><pre> 1
+<table class="highlighttable"><tr><td class="linenos"><pre> 1
  2
  3
  4
@@ -83,11 +85,10 @@ The locking is the same as when the user presses <em>win-L</em>.</p>
 </pre></div>
 </td></tr></table></div>
 </div>
-</div>
 <div class="section" id="module-source-code">
 <h2>Module source code<a class="headerlink" href="#module-source-code" title="Permalink to this headline">¶</a></h2>
 <p>The most current version of this module can be downloaded from the <a class="reference external" href="http://dragonfly-modules.googlecode.com/svn/trunk/command-modules/_lockscreen.py">repository here</a>.</p>
-<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><pre> 1
+<table class="highlighttable"><tr><td class="linenos"><pre> 1
  2
  3
  4
@@ -215,7 +216,6 @@ The locking is the same as when the user presses <em>win-L</em>.</p>
 </pre></div>
 </td></tr></table></div>
 </div>
-</div>
 
 
           </div>
@@ -223,7 +223,7 @@ The locking is the same as when the user presses <em>win-L</em>.</p>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-            <h3><a href="index.html">Table Of Contents</a></h3>
+            <h3>Table Of Contents</h3>
             <ul>
 <li><a class="reference external" href="">Command-module for <strong>screen locking</strong></a><ul>
 <li><a class="reference external" href="#configuration-examples">Configuration examples</a><ul>
@@ -238,12 +238,12 @@ The locking is the same as when the user presses <em>win-L</em>.</p>
             <h4>Previous topic</h4>
             <p class="topless"><a href="mod-_bringme.html" title="previous chapter">Command-module for direct opening of <strong>user-defined targets</strong></a></p>
             <h4>Next topic</h4>
-            <p class="topless"><a href="mod-_variable_format.html" title="next chapter">Command-module for <strong>variable name formatting</strong></a></p>
+            <p class="topless"><a href="mod-_kbbreak.html" title="next chapter">Command-module for sending <strong>keyboard breaks</strong></a></p>
             <h3>This Page</h3>
             <ul class="this-page-menu">
               <li><a href="_sources/mod-_lockscreen.txt">Show Source</a></li>
             </ul>
-          <h3>Quick search</h3>
+            <h3>Quick search</h3>
             <form class="search" action="search.html" method="get">
               <input type="text" name="q" size="18" /> <input type="submit" value="Go" />
               <input type="hidden" name="check_keywords" value="yes" />
@@ -260,18 +260,21 @@ The locking is the same as when the user presses <em>win-L</em>.</p>
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="mod-_variable_format.html" title="Command-module for variable name formatting"
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="mod-_kbbreak.html" title="Command-module for sending keyboard breaks"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="mod-_bringme.html" title="Command-module for direct opening of user-defined targets"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li>
       </ul>
     </div>
     <div class="footer">
       &copy; Copyright 2008, Christo Butcher.
-      Last updated on Mar 08, 2009.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.5.1.
+      Last updated on Apr 08, 2009.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
   </body>
 </html>

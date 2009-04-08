@@ -38,7 +38,7 @@ from dragonfly import (Grammar, ConnectionGrammar, AppContext, CompoundRule,
 config                     = Config("TortoiseSVN")
 config.tortoisesvn         = Section("TortoiseSVN configuration")
 config.tortoisesvn.path    = Item(r'C:\Program Files\TortoiseSVN\bin\TortoiseProc.exe')
-config.tortoisesvn.command = Item("(tortoise | subversion) <command> [<predef>]")
+config.tortoisesvn.command = Item("(tortoise | subversion) <command>")
 config.tortoisesvn.global_command = Item("(tortoise | subversion) <command> <predef>")
 config.tortoisesvn.actions = Item({
                                    "add":         "add",

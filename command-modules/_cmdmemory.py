@@ -5,17 +5,50 @@
 #
 
 """
-Command-module for command memory
+Command-module for **command memory**
 ============================================================================
 
-...
+This module offers voice-commands for *remembering* and *repeating* 
+previous recognitions.  This works just as well for *text* recognitions 
+(such as "hello world!") and *command*
+
+
+Commands
+----------------------------------------------------------------------------
+
+The following voice commands are available:
+
+Command: **"repeat [last] [<n>] (commands | command) [<count> times]"**
+    Repeats the *<n>* most recent recognitions.  If *<count>* is also 
+    spoken, the series of recognitions is repeated that many times.
+
+Command: **"remember [last] [<n>] (commands | command) as <name>"**
+    Remembers the *<n>* most recent recognitions under the name *<name>*.
+    The remember of recognitions can be repeated by simply saying
+    **"<name>"**.
+
+Command: **"start recording <name>"**
+    Starts remembering recognitions and stores them under the name *<name>*.
+    The user must speak **"stop recording"** later.  After that all the
+    recognitions heard between start and stop commands can be repeated by
+    simply saying **"<name>"**.
+
+Command: **"stop recording"**
+    Stops remembering recognitions.
+
+Command: **"<memory> [<count> times]"**
+    Please back the series of recognitions previously remembered under 
+    the spoken *<name>*.  If *<count>* is also spoken, the series of 
+    recognitions is repeated that many times.
 
 """
 
 import pkg_resources
-pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r97")
-
-import inspect
+try:
+    import pkg_resources
+    pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r97")
+except ImportError:
+    pass
 
 from dragonfly import *
 

@@ -6,7 +6,7 @@
 
 """
 Command-module for **Firefox**
-==============================
+============================================================================
 
 This module offers direct control of the `Firefox 
 <http://www.mozilla.com/en-US/firefox/>`_ web browser.  It 
@@ -19,8 +19,16 @@ search bar and Firefox's keyword searching.  It also
 allows single-utterance submitting of text into form text 
 fields.
 
+Installation
+----------------------------------------------------------------------------
+
+If you are using DNS and Natlink, simply place this file in you Natlink 
+macros directory.  It will then be automatically loaded by Natlink when 
+you next toggle your microphone or restart Natlink.
+
 Customization
--------------
+----------------------------------------------------------------------------
+
 Users should customize this module by editing its 
 configuration file.  In this file they should edit the 
 ``search.searchbar`` and ``search.keywords`` settings to 
@@ -30,13 +38,16 @@ use.
 
 """
 
-import pkg_resources
-pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
+try:
+    import pkg_resources
+    pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
+except ImportError:
+    pass
 
 from dragonfly import (Grammar, AppContext, Rule, MappingRule, CompoundRule,
                        Sequence, Dictation, Alternative, Compound,
                        Repetition, Choice, RuleRef, IntegerRef, Number,
-                       Key, Text, WaitWindow, Pause,
+                       Key, Text, WaitWindow, Pause, Mouse,
                        Config, Section, Item)
 
 #---------------------------------------------------------------------------
@@ -225,6 +236,9 @@ class CommandRule(MappingRule):
         config.lang.search_searchbar_clipboard: Key("c-k, c-up:20, c-down:%(searchbar)d, c-v, enter"),
         config.lang.search_keyword_clipboard: Key("a-d") + Text("%(keyword)s")
                                          + Key("c-v, enter"),
+
+        "Feature freeze": Mouse("(-15,0.6)/25, middle/25, <0,15>/100, <0,5>/100, <0,5>/100"),
+
         }
     extras = [
         link,

@@ -15,6 +15,14 @@ It also monitors the files for modifications, and causes
 the associated command-module to be reloaded if necessary.
 
 
+Installation
+----------------------------------------------------------------------------
+
+If you are using DNS and Natlink, simply place this file in you Natlink 
+macros directory.  It will then be automatically loaded by Natlink when 
+you next toggle your microphone or restart Natlink.
+
+
 Commands
 ----------------------------------------------------------------------------
 
@@ -42,8 +50,11 @@ Command: **"reload natlink"**
 
 """
 
-import pkg_resources
-pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r81")
+try:
+    import pkg_resources
+    pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r81")
+except ImportError:
+    pass
 
 import os, os.path
 from dragonfly import (Grammar, CompoundRule, DictList, DictListRef,

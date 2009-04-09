@@ -6,7 +6,7 @@
 
 """
 Command-module for direct opening of **user-defined targets**
-=============================================================
+============================================================================
 
 This module offers very easy and direct opening of user-
 defined targets.  User define their own targets in the 
@@ -14,8 +14,15 @@ configuration file, and then have instant access to them
 by saying "bring me <target>".  The configuration file 
 format is described below.
 
+Installation
+----------------------------------------------------------------------------
+
+If you are using DNS and Natlink, simply place this file in you Natlink 
+macros directory.  It will then be automatically loaded by Natlink when 
+you next toggle your microphone or restart Natlink.
+
 Commands
---------
+----------------------------------------------------------------------------
 
 Command: **"bring me <target>"**
     Open the specified target.
@@ -27,7 +34,7 @@ Command: **"paste me <target>"**
     The *<target>* extra is the same as for the bring me command.
 
 Customization
--------------
+----------------------------------------------------------------------------
 
 Users should customize this module by editing its configuration 
 file.  In this file they should fill the ``targets.mapping`` 
@@ -58,8 +65,11 @@ Using the configuration above would allow the user to say:
 
 """
 
-import pkg_resources
-pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
+try:
+    import pkg_resources
+    pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
+except ImportError:
+    pass
 
 import os
 import os.path

@@ -6,16 +6,26 @@
 
 """
 Command-module for **Foxit Reader** PDF viewer
-==============================================
+============================================================================
 
 This module offers commands to control `Foxit Reader
 <http://www.foxitsoftware.com/pdf/rd_intro.php>`_, a free
 and lightweight PDF reader.
 
+Installation
+----------------------------------------------------------------------------
+
+If you are using DNS and Natlink, simply place this file in you Natlink 
+macros directory.  It will then be automatically loaded by Natlink when 
+you next toggle your microphone or restart Natlink.
+
 """
 
-import pkg_resources
-pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
+try:
+    import pkg_resources
+    pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
+except ImportError:
+    pass
 
 from dragonfly import (Grammar, AppContext, MappingRule, Dictation,
                        Key, Text, Config, Section, Item, IntegerRef)

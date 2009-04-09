@@ -14,10 +14,20 @@ This module defines various voice-commands for use with Windows Explorer.
 
    This module is still under development.
 
+Installation
+----------------------------------------------------------------------------
+
+If you are using DNS and Natlink, simply place this file in you Natlink 
+macros directory.  It will then be automatically loaded by Natlink when 
+you next toggle your microphone or restart Natlink.
+
 """
 
-import pkg_resources
-pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
+try:
+    import pkg_resources
+    pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
+except ImportError:
+    pass
 
 import os.path
 import string

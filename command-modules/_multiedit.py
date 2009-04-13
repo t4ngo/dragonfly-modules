@@ -88,8 +88,8 @@ release = Key("shift:up, ctrl:up")
 config            = Config("multi edit")
 config.cmd        = Section("Language section")
 config.cmd.map    = Item(
-    # Here redefine the *default* command map.  If you would like to
-    #  modify it to your personal taste, please *do  not* make changes
+    # Here we define the *default* command map.  If you would like to
+    #  modify it to your personal taste, please *do not* make changes
     #  here.  Instead change the *config file* called "_multiedit.txt".
     {
      # Spoken-form    ->    ->    ->     Action object

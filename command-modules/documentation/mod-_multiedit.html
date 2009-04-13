@@ -2,25 +2,26 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
     <title>Command-module for cursor movement and editing &mdash; Dragonfly-modules v0.1 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-          URL_ROOT:    '',
-          VERSION:     '0.1',
-          COLLAPSE_MODINDEX: false,
-          FILE_SUFFIX: '.html'
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="contents" title="Global table of contents" href="contents.html" />
-    <link rel="index" title="Global index" href="genindex.html" />
+    <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="top" title="Dragonfly-modules v0.1 documentation" href="index.html" />
     <link rel="next" title="Command-module for command memory" href="mod-_cmdmemory.html" />
-    <link rel="prev" title="Command-module for moving and controlling windows" href="mod-_winctrl.html" />
+    <link rel="prev" title="Command-module for moving and controlling windows" href="mod-_winctrl.html" /> 
   </head>
   <body>
     <div class="related">
@@ -30,17 +31,14 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
-             accesskey="M">modules</a> |</li>
-        <li class="right" >
           <a href="mod-_cmdmemory.html" title="Command-module for command memory"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="mod-_winctrl.html" title="Command-module for moving and controlling windows"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li>
+        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li> 
       </ul>
-    </div>
+    </div>  
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
@@ -121,7 +119,7 @@ the name &#8220;sequence&#8221;.</li>
 <h2>Configuration examples<a class="headerlink" href="#configuration-examples" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="configuration-multiedit-en-txt">
 <h3>Configuration &#8220;_multiedit-en.txt&#8221;<a class="headerlink" href="#configuration-multiedit-en-txt" title="Permalink to this headline">¶</a></h3>
-<table class="highlighttable"><tr><td class="linenos"><pre>  1
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><pre>  1
   2
   3
   4
@@ -235,8 +233,13 @@ the name &#8220;sequence&#8221;.</li>
 112
 113
 114
-115</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+115
+116
+117
+118</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
 <span class="c"># This is a config file for Dragonfly&#39;s _multiedit.py command-module.</span>
+<span class="c">#  To use this config, you must rename this file to _multiedit.txt and</span>
+<span class="c">#  place it in the same directory as the _multiedit.py file.</span>
 <span class="c">#</span>
 
 <span class="c"># Pull in all of Dragonfly&#39;s action objects so that we can use them here.</span>
@@ -260,6 +263,7 @@ the name &#8220;sequence&#8221;.</li>
 
 <span class="n">cmd</span><span class="o">.</span><span class="n">map</span> <span class="o">=</span> <span class="p">{</span>
            <span class="c"># Spoken-form    -&gt;    -&gt;    -&gt;     Action object</span>
+
            <span class="s">&quot;up [&lt;n&gt;]&quot;</span><span class="p">:</span>                         <span class="n">Key</span><span class="p">(</span><span class="s">&quot;up:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
            <span class="s">&quot;down [&lt;n&gt;]&quot;</span><span class="p">:</span>                       <span class="n">Key</span><span class="p">(</span><span class="s">&quot;down:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
            <span class="s">&quot;left [&lt;n&gt;]&quot;</span><span class="p">:</span>                       <span class="n">Key</span><span class="p">(</span><span class="s">&quot;left:</span><span class="si">%(n)d</span><span class="s">&quot;</span><span class="p">),</span>
@@ -353,10 +357,11 @@ the name &#8220;sequence&#8221;.</li>
 </pre></div>
 </td></tr></table></div>
 </div>
+</div>
 <div class="section" id="module-source-code">
 <h2>Module source code<a class="headerlink" href="#module-source-code" title="Permalink to this headline">¶</a></h2>
 <p>The most current version of this module can be downloaded from the <a class="reference external" href="http://dragonfly-modules.googlecode.com/svn/trunk/command-modules/_multiedit.py">repository here</a>.</p>
-<table class="highlighttable"><tr><td class="linenos"><pre>  1
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><pre>  1
   2
   3
   4
@@ -633,7 +638,10 @@ the name &#8220;sequence&#8221;.</li>
 275
 276
 277
-278</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
+278
+279
+280
+281</pre></td><td class="code"><div class="highlight"><pre><span class="c">#</span>
 <span class="c"># This file is a command-module for Dragonfly.</span>
 <span class="c"># (c) Copyright 2008 by Christo Butcher</span>
 <span class="c"># Licensed under the LGPL, see &lt;http://www.gnu.org/licenses/&gt;</span>
@@ -698,8 +706,11 @@ the name &#8220;sequence&#8221;.</li>
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">pkg_resources</span>
-<span class="n">pkg_resources</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="s">&quot;dragonfly &gt;= 0.6.5beta1.dev-r99&quot;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">pkg_resources</span>
+    <span class="n">pkg_resources</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="s">&quot;dragonfly &gt;= 0.6.5beta1.dev-r99&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">pass</span>
 
 <span class="kn">from</span> <span class="nn">dragonfly</span> <span class="kn">import</span> <span class="o">*</span>
 
@@ -720,8 +731,8 @@ the name &#8220;sequence&#8221;.</li>
 <span class="n">config</span>            <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="s">&quot;multi edit&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">cmd</span>        <span class="o">=</span> <span class="n">Section</span><span class="p">(</span><span class="s">&quot;Language section&quot;</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">map</span>    <span class="o">=</span> <span class="n">Item</span><span class="p">(</span>
-    <span class="c"># Here redefine the *default* command map.  If you would like to</span>
-    <span class="c">#  modify it to your personal taste, please *do  not* make changes</span>
+    <span class="c"># Here we define the *default* command map.  If you would like to</span>
+    <span class="c">#  modify it to your personal taste, please *do not* make changes</span>
     <span class="c">#  here.  Instead change the *config file* called &quot;_multiedit.txt&quot;.</span>
     <span class="p">{</span>
      <span class="c"># Spoken-form    -&gt;    -&gt;    -&gt;     Action object</span>
@@ -914,6 +925,7 @@ the name &#8220;sequence&#8221;.</li>
 </pre></div>
 </td></tr></table></div>
 </div>
+</div>
 
 
           </div>
@@ -921,7 +933,7 @@ the name &#8220;sequence&#8221;.</li>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-            <h3>Table Of Contents</h3>
+            <h3><a href="index.html">Table Of Contents</a></h3>
             <ul>
 <li><a class="reference external" href="">Command-module for cursor movement and <strong>editing</strong></a><ul>
 <li><a class="reference external" href="#example-commands">Example commands</a></li>
@@ -938,12 +950,12 @@ the name &#8220;sequence&#8221;.</li>
             <h4>Previous topic</h4>
             <p class="topless"><a href="mod-_winctrl.html" title="previous chapter">Command-module for moving and controlling <strong>windows</strong></a></p>
             <h4>Next topic</h4>
-            <p class="topless"><a href="mod-_cmdmemory.html" title="next chapter">Command-module for command memory</a></p>
+            <p class="topless"><a href="mod-_cmdmemory.html" title="next chapter">Command-module for <strong>command memory</strong></a></p>
             <h3>This Page</h3>
             <ul class="this-page-menu">
               <li><a href="_sources/mod-_multiedit.txt">Show Source</a></li>
             </ul>
-            <h3>Quick search</h3>
+          <h3>Quick search</h3>
             <form class="search" action="search.html" method="get">
               <input type="text" name="q" size="18" /> <input type="submit" value="Go" />
               <input type="hidden" name="check_keywords" value="yes" />
@@ -960,21 +972,18 @@ the name &#8220;sequence&#8221;.</li>
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
-             accesskey="M">modules</a> |</li>
-        <li class="right" >
           <a href="mod-_cmdmemory.html" title="Command-module for command memory"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="mod-_winctrl.html" title="Command-module for moving and controlling windows"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li>
+        <li><a href="index.html">Dragonfly-modules v0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
       &copy; Copyright 2008, Christo Butcher.
-      Last updated on Apr 08, 2009.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+      Last updated on Apr 10, 2009.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.5.1.
     </div>
   </body>
 </html>

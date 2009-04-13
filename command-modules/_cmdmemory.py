@@ -37,13 +37,12 @@ Command: **"stop recording"**
     Stops remembering recognitions.
 
 Command: **"<memory> [<count> times]"**
-    Please back the series of recognitions previously remembered under 
+    Plays back the series of recognitions previously remembered under 
     the spoken *<name>*.  If *<count>* is also spoken, the series of 
     recognitions is repeated that many times.
 
 """
 
-import pkg_resources
 try:
     import pkg_resources
     pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r97")
@@ -76,7 +75,10 @@ memories_ref = DictListRef("memory", memories)
 
 # Recognition observer for retrieving recently heard recognitions.
 playback_history = PlaybackHistory()
-playback_history.register()
+try:
+    playback_history.register()
+except Exception, e:
+    print "Warning, failed to register playback_history: %s" % e
 
 record_history = PlaybackHistory()
 record_name = None

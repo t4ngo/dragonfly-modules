@@ -67,6 +67,8 @@ Configuration "_multiedit-en.txt"
 
    ﻿#
    # This is a config file for Dragonfly's _multiedit.py command-module.
+   #  To use this config, you must rename this file to _multiedit.txt and
+   #  place it in the same directory as the _multiedit.py file.
    #
    
    # Pull in all of Dragonfly's action objects so that we can use them here.
@@ -90,6 +92,7 @@ Configuration "_multiedit-en.txt"
    
    cmd.map = {
               # Spoken-form    ->    ->    ->     Action object
+   
               "up [<n>]":                         Key("up:%(n)d"),
               "down [<n>]":                       Key("down:%(n)d"),
               "left [<n>]":                       Key("left:%(n)d"),
@@ -254,8 +257,11 @@ The most current version of this module can be downloaded from the `repository h
    
    """
    
-   import pkg_resources
-   pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r99")
+   try:
+       import pkg_resources
+       pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r99")
+   except ImportError:
+       pass
    
    from dragonfly import *
    
@@ -276,8 +282,8 @@ The most current version of this module can be downloaded from the `repository h
    config            = Config("multi edit")
    config.cmd        = Section("Language section")
    config.cmd.map    = Item(
-       # Here redefine the *default* command map.  If you would like to
-       #  modify it to your personal taste, please *do  not* make changes
+       # Here we define the *default* command map.  If you would like to
+       #  modify it to your personal taste, please *do not* make changes
        #  here.  Instead change the *config file* called "_multiedit.txt".
        {
         # Spoken-form    ->    ->    ->     Action object

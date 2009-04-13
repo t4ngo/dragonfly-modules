@@ -1,5 +1,7 @@
 ﻿#
 # This is a config file for Dragonfly's _multiedit.py command-module.
+#  To use this config, you must rename this file to _multiedit.txt and
+#  place it in the same directory as the _multiedit.py file.
 #
 
 # Pull in all of Dragonfly's action objects so that we can use them here.
@@ -23,6 +25,7 @@ release = Key("shift:up, ctrl:up")
 
 cmd.map = {
            # Spoken-form    ->    ->    ->     Action object
+
            "up [<n>]":                         Key("up:%(n)d"),
            "down [<n>]":                       Key("down:%(n)d"),
            "left [<n>]":                       Key("left:%(n)d"),

@@ -181,8 +181,8 @@ class UpdateDragonflyRule(CompoundRule):
             def write(self, data): self.stream.write(data)
             def flush(self): pass
         sys.argv = [""]; sys.stdout = Stream()
-#        load_entry_point('setuptools', 'console_scripts', 'easy_install')(["--verbose", "--upgrade", "dragonfly"])
-        load_entry_point('setuptools', 'console_scripts', 'easy_install')(["--dry-run", "--upgrade", "dragonfly"])
+        load_entry_point('setuptools', 'console_scripts', 'easy_install')(["--verbose", "--upgrade", "dragonfly"])
+#        load_entry_point('setuptools', 'console_scripts', 'easy_install')(["--dry-run", "--upgrade", "dragonfly"])
 
 grammar.add_rule(UpdateDragonflyRule())
 

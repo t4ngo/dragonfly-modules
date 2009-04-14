@@ -98,8 +98,9 @@ class ConfigManagerGrammar(Grammar):
         # Check for modified config files, and if found cause reload.
         new_config_map = {}
         for c in configs:
-            if not os.path.isfile(c.config_path): continue
-            new_config_map[c.name] = c.config_path
+            new_config_map[c.name] = c
+            if not os.path.isfile(c.config_path):
+                continue
             config_time = os.path.getmtime(c.config_path)
             module_time = os.path.getmtime(c.module_path)
             if config_time >= module_time:
@@ -136,7 +137,15 @@ class EditConfigRule(CompoundRule):
     extras = [DictListRef("config", config_map)]
 
     def _process_recognition(self, node, extras):
-        path = extras["config"]
+        config_instance = extras["config"]
+        path = config_instance.config_path
+        if not os.path.isfile(path):
+            try:
+                config_instance.generate_config_file(path)
+            except Exception, e:
+                self._log.warning("Failed to create new config file %r: %s"
+                                  % (path, e))
+                return
         os.startfile(path)
 
 grammar.add_rule(EditConfigRule())

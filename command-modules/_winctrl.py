@@ -323,7 +323,7 @@ class TranslateRule(CompoundRule):
 
         # Translate and move window.
         pos.translate(dx, dy)
-        window.set_position(pos)
+        window.move(pos, animate="spline")
 
 grammar.add_rule(TranslateRule())
 
@@ -367,7 +367,7 @@ class ResizeRule(CompoundRule):
 
         # Move window.
         pos = Rectangle(x1, y1, x2-x1, y2-y1)
-        window.set_position(pos)
+        window.move(pos, animate="spline")
 
 grammar.add_rule(ResizeRule())
 
@@ -402,7 +402,7 @@ class StretchRule(CompoundRule):
 
         # Move window.
         pos = Rectangle(x1, y1, x2-x1, y2-y1)
-        window.set_position(pos)
+        window.move(pos, animate="spline")
 
 grammar.add_rule(StretchRule())
 

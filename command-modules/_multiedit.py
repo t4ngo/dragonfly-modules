@@ -197,6 +197,7 @@ class KeystrokeRule(MappingRule):
     extras   = [
                 IntegerRef("n", 1, 100),
                 Dictation("text"),
+                Dictation("text2"),
                ]
     defaults = {
                 "n": 1,

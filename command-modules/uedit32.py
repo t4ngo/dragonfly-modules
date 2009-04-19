@@ -83,6 +83,7 @@ class CommandRule(MappingRule):
         # Advanced menu.
         "run command":                  Key("c-f9"),
         "run command in window <1to9>": Key("c-s, a-w, %(1to9)d/40, c-f9"),
+        "run [command] in window <1to9>": Key("c-s, a-w, %(1to9)d/40, c-f9"),
         "run command menu":             Key("f9"),
         "advanced configuration":       Key("a-a, c"),
         "set tab stop to <1to9> [spaces]": Key("a-a, c/20, home/20, down:7/10, tab/5:8")

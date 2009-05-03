@@ -60,7 +60,7 @@ Several concrete usage examples of the commands described above:
 import pkg_resources
 pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
 
-from dragonfly import (Grammar, MappingRule, Integer, Key)
+from dragonfly import *
 
 
 #---------------------------------------------------------------------------
@@ -76,7 +76,7 @@ class TaskRule(MappingRule):
                "(minimize | min) task <n>":    Key("apps/10, n"),
                "(maximize | max) task <n>":    Key("apps/10, x"),
               }
-    extras  = [Integer("n", 1, 12)]
+    extras  = [IntegerRef("n", 1, 12)]
 
     def _process_recognition(self, value, extras):
         count = extras["n"] - 1
@@ -93,12 +93,11 @@ class IconRule(MappingRule):
                "[open] icon <n>":              Key("enter"),
                "(menu | pop up) icon <n>":     Key("apps"),
               }
-    extras  = [Integer("n", 1, 12)]
+    extras  = [IntegerRef("n", 1, 12)]
 
     def _process_recognition(self, value, extras):
         count = extras["n"] - 1
         action = Key("w-b/10, right:%d/10" % count) + value
-        print "executing", action
         action.execute()
 
 

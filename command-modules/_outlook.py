@@ -61,10 +61,7 @@ import os.path
 import subprocess
 from win32com.client  import constants, gencache
 from pywintypes       import com_error
-
-from dragonfly import (ConnectionGrammar, AppContext, DictListRef, Choice,
-                       CompoundRule, MappingRule, DictList, RuleRef,
-                       Config, Section, Item, Integer, Key, Text, Pause)
+from dragonfly        import *
 
 
 #---------------------------------------------------------------------------

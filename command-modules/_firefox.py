@@ -44,11 +44,8 @@ try:
 except ImportError:
     pass
 
-from dragonfly import (Grammar, AppContext, Rule, MappingRule, CompoundRule,
-                       Sequence, Dictation, Alternative, Compound,
-                       Repetition, Choice, RuleRef, IntegerRef, Number,
-                       Key, Text, WaitWindow, Pause, Mouse,
-                       Config, Section, Item)
+from dragonfly import *
+
 
 #---------------------------------------------------------------------------
 # Set up this module's configuration.
@@ -236,9 +233,6 @@ class CommandRule(MappingRule):
         config.lang.search_searchbar_clipboard: Key("c-k, c-up:20, c-down:%(searchbar)d, c-v, enter"),
         config.lang.search_keyword_clipboard: Key("a-d") + Text("%(keyword)s")
                                          + Key("c-v, enter"),
-
-        "Feature freeze": Mouse("(-15,0.6)/25, middle/25, <0,15>/100, <0,5>/100, <0,5>/100"),
-
         }
     extras = [
         link,
@@ -250,6 +244,79 @@ class CommandRule(MappingRule):
     defaults = {
         "n": 1,
         }
+
+
+#---------------------------------------------------------------------------
+# Create the command rule for sliding.
+
+slide_directions = {
+                    "up":    (0,-1),
+                    "down":  (0,+1),
+                   }
+slide_speeds     = {
+                    "1":     10,
+                    "2":     20,
+                    "3":     30,
+                    "4":     40,
+                   }
+slide_default_speed = 15
+slide_start_spec = "(-15,0.6)"
+
+slide_grammar = None
+
+def start_sliding(direction, speed):
+    offset_x = direction[0] * speed
+    offset_y = direction[1] * speed
+    offset_spec = "<%d,%d>" % (offset_x, offset_y)
+    action = Key("escape")
+    action.execute()
+    action = Mouse("%s/25, middle/25, %s" % (slide_start_spec, offset_spec))
+    action.execute()
+
+    global slide_grammar
+    if not slide_grammar:
+        slide_grammar = Grammar("Firefox slide grammar")
+        slide_grammar.add_rule(SlideControlRule())
+        slide_grammar.load()
+        slide_grammar.set_exclusive(True)
+
+def stop_sliding():
+    action = Key("escape")
+    action.execute()
+
+    global slide_grammar
+    if slide_grammar:
+        slide_grammar.set_exclusive(False)
+        slide_grammar.unload()
+        slide_grammar = None
+
+class SlideStartRule(MappingRule):
+
+    mapping  = {
+                "slide <direction> [<speed>]":  Function(start_sliding),
+               }
+    extras   = [
+                Choice("direction", slide_directions),
+                Choice("speed", slide_speeds),
+               ]
+    defaults = {
+                "speed": slide_default_speed,
+               }
+
+
+class SlideControlRule(MappingRule):
+
+    mapping  = {
+                "[slide] <direction> [<speed>]":  Function(start_sliding),
+                "[slide] stop":                   Function(stop_sliding),
+               }
+    extras   = [
+                Choice("direction", slide_directions),
+                Choice("speed", slide_speeds),
+               ]
+    defaults = {
+                "speed": slide_default_speed,
+               }
 
 
 #---------------------------------------------------------------------------
@@ -276,6 +343,7 @@ class TabifyRule(CompoundRule):
 context = AppContext(executable="firefox")
 grammar = Grammar("firefox_general", context=context)
 grammar.add_rule(CommandRule())
+grammar.add_rule(SlideStartRule())
 grammar.add_rule(TabifyRule())
 grammar.load()
 

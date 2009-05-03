@@ -47,10 +47,7 @@ import pkg_resources
 pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r76")
 
 import time
-from dragonfly import (Grammar, Alternative, RuleRef, DictListRef,
-                       Dictation, Compound, Integer, Rule, CompoundRule,
-                       DictList, Window, Rectangle, monitors,
-                       Config, Section, Item, FocusWindow, ActionError)
+from dragonfly import *
 
 
 #---------------------------------------------------------------------------
@@ -70,6 +67,8 @@ config.lang.resize_win     = Item("place <win_selector> [from] <position> [to] <
                                   doc="Command to move and resize a window.")
 config.lang.stretch_win    = Item("stretch <win_selector> [to] <position>",
                                   doc="Command to stretch a window.")
+config.lang.place_win_fraction = Item("place <win_selector> <position> <screen_fraction>",
+                                  doc="Command to place a window according to a screen fraction.")
 config.lang.win_selector   = Item("window | win | [window] <win_names>",
                                   doc="Partial command for specifying a window; must contain the <win_names> extra.")
 config.lang.mon_selector   = Item("(this | current) monitor | [monitor] <mon_names>",
@@ -78,6 +77,12 @@ config.lang.left           = Item("left", doc="Word for left side of monitor.")
 config.lang.right          = Item("right", doc="Word for right side of monitor.")
 config.lang.top            = Item("top", doc="Word for top side of monitor.")
 config.lang.bottom         = Item("bottom", doc="Word for bottom side of monitor.")
+config.lang.screen_fractions = Item({
+                                     "half":     0.5,
+                                     "third":    0.33,
+                                     "quarter":  0.25,
+                                    },
+                                    doc="Fractions of the screen")
 config.settings            = Section("Settings section")
 config.settings.grid       = Item(10, doc="The number of grid divisions a monitor is divided up into when placing windows.")
 config.settings.defaults   = Item({"fire": ("firefox", None)}, doc="Default window names.  Maps spoken-forms to (executable, title) pairs.")
@@ -407,7 +412,54 @@ class StretchRule(CompoundRule):
 grammar.add_rule(StretchRule())
 
 
+#---------------------------------------------------------------------------
 
+screen_fraction = Choice("screen_fraction", config.lang.screen_fractions)
+
+class PlaceFractionRule(CompoundRule):
+
+    spec = config.lang.place_win_fraction
+    extras = [
+              win_selector,                  # Window selector element
+              position,                      # Position element
+              screen_fraction,               # Screen fraction element
+             ]
+
+    def _process_recognition(self, node, extras):
+        # Determine which window to place.
+        window = extras["win_selector"]
+        pos = window.get_position()
+        monitor = window.get_containing_monitor().rectangle
+
+        # Determine screen fraction.
+        fraction = extras["screen_fraction"]
+
+        # Determine horizontal positioning.
+        child = node.get_child_by_name("horz")
+        if child:
+            dx = monitor.dx * fraction
+            x1 = monitor.x1 + child.value() * (monitor.dx - dx)
+        else:
+            dx = monitor.dx
+            x1 = monitor.x1
+
+        # Determine vertical positioning.
+        child = node.get_child_by_name("vert")
+        if child:
+            dy = monitor.dy * fraction
+            y1 = monitor.y1 + child.value() * (monitor.dy - dy)
+        else:
+            dy = monitor.dy
+            y1 = monitor.y1
+
+        # Move window.
+        pos = Rectangle(x1, y1, dx, dy)
+        window.move(pos, animate="spline")
+
+grammar.add_rule(PlaceFractionRule())
+
+
+#---------------------------------------------------------------------------
 
 grammar.load()
 def unload():
